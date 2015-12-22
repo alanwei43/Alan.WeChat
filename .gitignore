@@ -194,3 +194,8 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# Alan
+WeChat.Example/App_Data/Config.json
+*/Config.json
+*.csproj.csdat

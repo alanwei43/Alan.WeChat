@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/Api/WebHub.ashx");
+        xhr.setRequestHeader("Content-Type", "application/xml");
+
+        xhr.send("<xml><ToUserName><![CDATA[gh_3209e49c0c17]]></ToUserName> <FromUserName><![CDATA[oLntxs52aj9suPa5XxqWPKmpB4zs]]></FromUserName> <CreateTime>1450780525</CreateTime> <MsgType><![CDATA[event]]></MsgType> <Event><![CDATA[subscribe]]></Event> <EventKey><![CDATA[]]></EventKey> </xml>");
+    </script>
+</body>
+</html>

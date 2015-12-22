@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A4C664EA-1550-4B60-81B3-DE25CCD6B8B1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WeChat.Core</RootNamespace>
+    <AssemblyName>WeChat.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Release\WeChat.Core.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Alan.Utils, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Alan.Utils.1.1.4.0\lib\net40\Alan.Utils.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\ApiBase.cs" />
+    <Compile Include="Api\CreateMenus.cs" />
+    <Compile Include="Api\DeleteMenus.cs" />
+    <Compile Include="Api\QueryMenusModel.cs" />
+    <Compile Include="Api\WeChatUserInfo.cs" />
+    <Compile Include="Api\CreateMenusModel.cs" />
+    <Compile Include="Api\QueryMenus.cs" />
+    <Compile Include="Log\LogUtils.cs" />
+    <Compile Include="Log\TraceLog.cs" />
+    <Compile Include="Messages\Events\EventBase.cs" />
+    <Compile Include="Messages\Events\ClickMenuRequest.cs" />
+    <Compile Include="Messages\Events\PositionRequest.cs" />
+    <Compile Include="Messages\Events\ScanQrRequest.cs" />
+    <Compile Include="Messages\Normal\ImageRequest.cs" />
+    <Compile Include="Messages\Normal\ImageResponse.cs" />
+    <Compile Include="Messages\MessageTypes.cs" />
+    <Compile Include="Messages\Middleware.cs" />
+    <Compile Include="Messages\MiddlewareInput.cs" />
+    <Compile Include="Messages\MiddlewareParameter.cs" />
+    <Compile Include="Messages\MiddlewareOutput.cs" />
+    <Compile Include="Messages\ModelBase.cs" />
+    <Compile Include="Messages\Normal\NewsResponse.cs" />
+    <Compile Include="Messages\Normal\NormalBase.cs" />
+    <Compile Include="Messages\Normal\PositionRequest.cs" />
+    <Compile Include="Messages\RequestBase.cs" />
+    <Compile Include="Messages\ResponseBase.cs" />
+    <Compile Include="Messages\Normal\TextRequest.cs" />
+    <Compile Include="Messages\Normal\TextResponse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Api\AccessToken.cs" />
+    <Compile Include="Utils\CacheUtils.cs" />
+    <Compile Include="Utils\Configurations.cs" />
+    <Compile Include="Log\ILog.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
