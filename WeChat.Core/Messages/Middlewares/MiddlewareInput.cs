@@ -1,6 +1,6 @@
 ﻿using Alan.Utils.ExtensionMethods;
 
-namespace WeChat.Core.Messages
+namespace WeChat.Core.Messages.Middlewares
 {
     public class MiddlewareInput
     {

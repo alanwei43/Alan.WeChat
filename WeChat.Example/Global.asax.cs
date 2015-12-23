@@ -8,6 +8,7 @@ using Alan.Utils.ExtensionMethods;
 using WeChat.Core.Api;
 using WeChat.Core.Log;
 using WeChat.Core.Messages;
+using WeChat.Core.Messages.Middlewares;
 using WeChat.Core.Messages.Normal;
 using WeChat.Core.Utils;
 using WeChat.Example.Library;

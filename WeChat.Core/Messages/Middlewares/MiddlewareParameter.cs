@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WeChat.Core.Messages
+namespace WeChat.Core.Messages.Middlewares
 {
     /// <summary>
     /// 中间件输入

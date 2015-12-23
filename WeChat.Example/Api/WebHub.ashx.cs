@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using WeChat.Core.Log;
 using WeChat.Core.Messages;
+using WeChat.Core.Messages.Middlewares;
 using WeChat.Example.Library;
 
 namespace WeChat.Example.Api

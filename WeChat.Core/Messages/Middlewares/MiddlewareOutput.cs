@@ -1,4 +1,4 @@
-﻿namespace WeChat.Core.Messages
+﻿namespace WeChat.Core.Messages.Middlewares
 {
     public class MiddlewareOutput
     {
