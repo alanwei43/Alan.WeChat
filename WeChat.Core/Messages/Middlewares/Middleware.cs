@@ -92,7 +92,6 @@ namespace WeChat.Core.Messages.Middlewares
             return GlobalEndFilters.Count - 1;
         }
 
-
         #endregion
 
         /// <summary>

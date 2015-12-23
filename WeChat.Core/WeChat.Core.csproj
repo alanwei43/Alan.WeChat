@@ -51,13 +51,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\ApiBase.cs" />
-    <Compile Include="Api\CreateMenus.cs" />
-    <Compile Include="Api\DeleteMenus.cs" />
-    <Compile Include="Api\QueryContents.cs" />
-    <Compile Include="Api\QueryMenusModel.cs" />
+    <Compile Include="Api\ContensManage\ContentsBaseModel.cs" />
+    <Compile Include="Api\ContensManage\MediumContentsModel.cs" />
+    <Compile Include="Api\ContensManage\NewsContentsModel.cs" />
+    <Compile Include="Api\ContensManage\QueryContentsCount.cs" />
+    <Compile Include="Api\MenuManage\CreateMenus.cs" />
+    <Compile Include="Api\MenuManage\DeleteMenus.cs" />
+    <Compile Include="Api\ContensManage\QueryContents.cs" />
+    <Compile Include="Api\MenuManage\QueryMenusModel.cs" />
     <Compile Include="Api\WeChatUserInfo.cs" />
-    <Compile Include="Api\CreateMenusModel.cs" />
-    <Compile Include="Api\QueryMenus.cs" />
+    <Compile Include="Api\MenuManage\CreateMenusModel.cs" />
+    <Compile Include="Api\MenuManage\QueryMenus.cs" />
     <Compile Include="Log\LogUtils.cs" />
     <Compile Include="Log\TraceLog.cs" />
     <Compile Include="Messages\Events\EventBase.cs" />

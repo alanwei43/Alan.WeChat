@@ -85,6 +85,7 @@
     </Content>
     <Content Include="Api\WebHub.ashx" />
     <Content Include="App_Data\Config.json" />
+    <Content Include="App_Data\menus.json" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

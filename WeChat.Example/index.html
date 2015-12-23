@@ -7,7 +7,7 @@
 <body>
     <script>
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/Api/WebHub.ashx");
+        xhr.open("GET", "/Api/WebHub.ashx");
         xhr.setRequestHeader("Content-Type", "application/xml");
 
         xhr.send("<xml><ToUserName><![CDATA[gh_3209e49c0c17]]></ToUserName> <FromUserName><![CDATA[oLntxs52aj9suPa5XxqWPKmpB4zs]]></FromUserName> <CreateTime>1450838719</CreateTime> <MsgType><![CDATA[event]]></MsgType> <Event><![CDATA[CLICK]]></Event> <EventKey><![CDATA[hehe]]></EventKey> </xml>");

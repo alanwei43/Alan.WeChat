@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Alan.Utils.ExtensionMethods;
 using WeChat.Core.Api;
+using WeChat.Core.Api.ContensManage;
+using WeChat.Core.Api.MenuManage;
 using WeChat.Core.Log;
 using WeChat.Core.Messages;
 using WeChat.Core.Messages.Middlewares;
@@ -20,10 +23,12 @@ namespace WeChat.Example.Api
         {
             var req = context.Request;
             var rep = context.Response;
+            var svr = context.Server;
 
             if (req.HttpMethod.ToUpper() == "GET")
             {
-                var resp = QueryContents.Get();
+                var response = CreateMenus.Create(System.IO.File.ReadAllText(svr.MapPath("~/App_Data/menus.json")));
+                rep.Write(response.ExToJson());
                 rep.Write(req["echostr"]);
                 return;
             }

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace WeChat.Core.Api
+namespace WeChat.Core.Api.MenuManage
 {
     public class DeleteMenus : ApiBase
     {
@@ -22,7 +19,7 @@ namespace WeChat.Core.Api
             return url;
         }
 
-        public async static Task<DeleteMenus> GetAsync()
+        public async static Task<DeleteMenus> DeleteAsync()
         {
             var deleteMenu = new DeleteMenus();
             var response = await deleteMenu.SendRequestAsync<DeleteMenus>();

@@ -62,8 +62,11 @@ namespace WeChat.Core.Api
             WebRequest req = WebRequest.Create(this.GetApiUrl());
 
             if (this.ReqMethod.ToUpper() == "POST")
+            {
+                req.Method = "POST";
                 using (StreamWriter writer = new StreamWriter(req.GetRequestStream()))
                     writer.Write(this.ReqData);
+            }
 
             using (var rep = req.GetResponse())
             {

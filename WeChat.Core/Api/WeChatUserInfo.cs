@@ -11,7 +11,7 @@ namespace WeChat.Core.Api
     /// </summary>
     public class WeChatUserInfo : ApiBase
     {
-        public WeChatUserInfo() { }
+        //public WeChatUserInfo() { }
 
         public WeChatUserInfo(string openId)
         {

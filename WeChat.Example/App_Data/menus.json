@@ -1,0 +1,29 @@
+﻿{
+    "button": [
+        {
+            "name": "众筹项目",
+            "type": "click",
+            "key": "projects"
+        },
+        {
+            "name": "帮助",
+            "sub_button": [
+                {
+                    "type": "click",
+                    "name": "自闭症儿童",
+                    "key": "project_47"
+                },
+                {
+                    "type": "click",
+                    "name": "阿尔兹海默症",
+                    "key": "project_46"
+                },
+                {
+                    "type": "click",
+                    "name": "众筹介绍",
+                    "key": "project_intro"
+                }
+            ]
+        }
+    ]
+}

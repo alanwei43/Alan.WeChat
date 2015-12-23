@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Alan.Utils.ExtensionMethods;
-using WeChat.Core.Api;
 
-namespace WeChat.Core.Api
+namespace WeChat.Core.Api.MenuManage
 {
     /// <summary>
     /// 自定义菜单创建接口
@@ -40,11 +36,35 @@ namespace WeChat.Core.Api
         /// </summary>
         /// <param name="createMenusWrapper"></param>
         /// <returns></returns>
-        public async static Task<CreateMenus> GetAsync(CreateMenusWrapperModel createMenusWrapper)
+        public async static Task<CreateMenus> CreateAsync(CreateMenusWrapperModel createMenusWrapper)
         {
             var create = new CreateMenus(createMenusWrapper);
             var response = await create.SendRequestAsync<CreateMenus>();
             return response;
+        }
+
+        /// <summary>
+        /// 创建菜单
+        /// </summary>
+        /// <param name="createMenusWrapper"></param>
+        /// <returns></returns>
+        public static CreateMenus Create(CreateMenusWrapperModel createMenusWrapper)
+        {
+            var create = new CreateMenus(createMenusWrapper);
+            var response = create.SendRequest<CreateMenus>();
+            return response;
+        }
+
+        /// <summary>
+        /// 创建菜单
+        /// </summary>
+        /// <param name="menus">菜单JSON数据</param>
+        /// <returns></returns>
+        public static CreateMenus Create(string menus)
+        {
+            var menu = new CreateMenus();
+            menu.ReqData = menus;
+            return menu.SendRequest<CreateMenus>();
         }
 
     }
