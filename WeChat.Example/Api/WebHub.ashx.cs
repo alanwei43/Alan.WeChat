@@ -27,8 +27,6 @@ namespace WeChat.Example.Api
 
             if (req.HttpMethod.ToUpper() == "GET")
             {
-                var response = CreateMenus.Create(System.IO.File.ReadAllText(svr.MapPath("~/App_Data/menus.json")));
-                rep.Write(response.ExToJson());
                 rep.Write(req["echostr"]);
                 return;
             }

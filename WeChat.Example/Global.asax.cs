@@ -6,6 +6,7 @@ using System.Web.Security;
 using System.Web.SessionState;
 using Alan.Utils.ExtensionMethods;
 using WeChat.Core.Api;
+using WeChat.Core.Api.MenuManage;
 using WeChat.Core.Log;
 using WeChat.Core.Messages;
 using WeChat.Core.Messages.Middlewares;
@@ -123,6 +124,18 @@ namespace WeChat.Example
                 };
 
                 middleware.SetResponseModel(repModel);
+            });
+            CreateMenus.Create(new CreateMenusWrapperModel()
+            {
+                 button = new List<CreateBaseMenuModel>
+                 {
+                     new CreateLinkMenuModel("", ""),
+                     new CreateMenuHasSubModel("", new List<CreateMenuModel>()
+                     {
+                         new CreateLinkMenuModel("", "")
+                     })
+                      
+                 }
             });
 
             #endregion

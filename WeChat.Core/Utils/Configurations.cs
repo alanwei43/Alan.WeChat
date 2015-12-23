@@ -14,15 +14,15 @@ namespace WeChat.Core.Utils
     {
 
         #region 单例
-        protected static string ConfigPath
+        public static string ConfigPath
         {
             get
             {
-                var configPath = System.Web.Configuration.WebConfigurationManager.AppSettings["/Configuration/Path"];
-                if (String.IsNullOrWhiteSpace(configPath)) configPath = "~/App_Data/Config.json";
+                var configPath = System.Web.Configuration.WebConfigurationManager.AppSettings["/WeChat/Configuration/Path"];
 
                 if (configPath.StartsWith("~"))
                     return System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json");
+
                 return configPath;
             }
         }

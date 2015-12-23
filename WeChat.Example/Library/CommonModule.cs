@@ -58,7 +58,7 @@ namespace WeChat.Example.Library
 
             LogUtils.Current.WriteWithOutId(
                 category: "/Request/Start",
-                note: String.Format("{0} \n\r {1} \n\r {2}", DateTime.Now, app.Request.HttpMethod, app.Request.RawUrl));
+                note: String.Format("{0} \n\r {1} \n\r {2} \n\r {3}", DateTime.Now, app.Request.UserHostAddress, app.Request.HttpMethod, app.Request.RawUrl));
 
         }
 
