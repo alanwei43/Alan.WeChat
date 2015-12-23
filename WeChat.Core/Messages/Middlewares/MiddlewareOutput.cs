@@ -10,7 +10,7 @@
         /// <summary>
         /// 输出
         /// </summary>
-        public string Response { get; set; }
+        public string Response { get { return ResponseModel.ToXml(); }  }
 
     }
 }

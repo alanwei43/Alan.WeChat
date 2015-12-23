@@ -7,13 +7,18 @@ namespace WeChat.Core.Messages
         /// <summary>
         /// 原始请求输入
         /// </summary>
-        public string Request { get; set; }
+        public string Request { get; private set; }
 
         /// <summary>
         /// 请求类型
         /// </summary>
-        public RequestBase RequestBaseModel { get; set; }
+        public RequestBase RequestBaseModel { get; private set; }
 
+        public MiddlewareInput(string req, RequestBase model)
+        {
+            this.Request = req;
+            this.RequestBaseModel = model;
+        }
 
         /// <summary>
         /// 获取请求类型

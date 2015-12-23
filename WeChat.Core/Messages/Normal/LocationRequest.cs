@@ -3,7 +3,7 @@
 namespace WeChat.Core.Messages.Normal
 {
     [XmlRoot("xml")]
-    public class PositionRequest : NormalBase
+    public class LocationRequest : NormalBase
     {
         /// <summary>
         /// 地理位置维度

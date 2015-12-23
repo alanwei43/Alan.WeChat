@@ -23,36 +23,17 @@ namespace WeChat.Example
 
 
             #region Middleware Inject
-            Middleware.Inject(parameter =>
-            {
-                if (parameter.Input.RequestBaseModel.MsgType == Configurations.Current.MessageType.Text)
-                {
-                    var textRequest = parameter.Input.GetRequestModel<TextRequest>();
-                    parameter.Output.ResponseModel = new TextResponse()
-                    {
-                        FromUserName = textRequest.ToUserName,
-                        ToUserName = textRequest.FromUserName,
-                        Content = textRequest.Content + " - demo",
-                        MsgType = textRequest.MsgType
-                    };
-                    parameter.Output.Response = parameter.Output.ResponseModel.ToXml();
-                }
-                return parameter;
-            });
 
-            Middleware.Inject(parameter =>
-            {
-                if (parameter.Input.RequestBaseModel.MsgType == Configurations.Current.MessageType.Image)
-                {
-                    LogUtils.Current.WriteWithOutId(category: "/Message/Image/Input", note: parameter.Input.Request);
-                    var imageRequest = parameter.Input.GetRequestModel<ImageRequest>();
-                    LogUtils.Current.WriteWithOutId(category: "/Message/Image/Request", note: imageRequest.ExToJson());
 
-                    var repModel = new NewsResponse()
-                    {
-                        FromUserName = parameter.Input.RequestBaseModel.ToUserName,
-                        ToUserName = parameter.Input.RequestBaseModel.FromUserName,
-                        Articles = new List<NewsResponse.ArticleItem>() {
+            Middleware.ImageFilters.Inject((req, middleware) =>
+            {
+                LogUtils.Current.WriteWithOutId(category: "/Message/Image/Input", note: middleware.Input.Request);
+
+                var repModel = new NewsResponse()
+                {
+                    FromUserName = req.ToUserName,
+                    ToUserName = req.FromUserName,
+                    Articles = new List<NewsResponse.ArticleItem>() {
                           new NewsResponse.ArticleItem()
                           {
                               Description = "Hello world.",
@@ -68,70 +49,37 @@ namespace WeChat.Example
                               Url = "http://fishlove.yupen.cn/custom/index.html"
                           }
                      }
-                    };
-                    var xml = repModel.ToXml();
+                };
 
-                    LogUtils.Current.WriteWithOutId(category: "/Message/Image/Response", note: xml);
-
-                    parameter.Output.ResponseModel = repModel;
-                    parameter.Output.Response = repModel.ToXml();
-                }
-
-                if (parameter.Input.RequestBaseModel.MsgType == Configurations.Current.MessageType.Event)
-                {
-                    var eb = parameter.Input.GetRequestModel<EventBase>();
-                    LogUtils.Current.WriteWithOutId(category: "/Message/Request/Event", note: eb.ExToJson());
-
-                    var repModel = new NewsResponse()
-                    {
-                        FromUserName = parameter.Input.RequestBaseModel.ToUserName,
-                        ToUserName = parameter.Input.RequestBaseModel.FromUserName,
-                        Articles = new List<NewsResponse.ArticleItem>() {
-                          new NewsResponse.ArticleItem()
-                          {
-                              Description = "Hello world.",
-                              PicUrl = "http://yupen.cn/images/logo.jpg",
-                              Title = "余盆财富",
-                              Url = "http://www.yupen.cn/"
-                          },
-                          new NewsResponse.ArticleItem()
-                          {
-                              Description = "Hello world.",
-                              PicUrl = "http://yupen.cn/images/logo.jpg",
-                              Title = "余盆财富1",
-                              Url = "http://www.yupen.cn/custom/index.html"
-                          }
-                     }
-                    };
-                    parameter.Output.ResponseModel = repModel;
-                    parameter.Output.Response = repModel.ToXml();
-                }
-
-                return parameter;
+                LogUtils.Current.WriteWithOutId(category: "/Message/Image/Response", note: repModel.ToXml());
+                middleware.SetResponseModel(repModel);
             });
 
-            Middleware.Inject(parameter =>
+            Middleware.ClickFilters.Inject((click, middleware) =>
             {
-                if (parameter.Input.RequestBaseModel.MsgType == Configurations.Current.MessageType.Event)
+                var user = WeChatUserInfo.Get(click.FromUserName);
+                var textResponse = new TextResponse()
                 {
-                    var eventModel = parameter.Input.GetRequestModel<EventBase>();
-                    if (eventModel.Event == "subscribe")
+                    Content = String.Format("Welcome {0}. you have clicked {1}.", user.NickName, click.EventKey),
+                    FromUserName = click.ToUserName,
+                    ToUserName = click.FromUserName,
+                    MsgType = Configurations.Current.MessageType.Text
+                };
 
-                    {
-                        var user = WeChatUserInfo.Get(eventModel.FromUserName);
-                        var textResponse = new TextResponse()
-                        {
-                            Content = String.Format("Welcome {0}.", user.NickName),
-                            FromUserName = eventModel.ToUserName,
-                            ToUserName = eventModel.FromUserName,
-                            MsgType = Configurations.Current.MessageType.Text
-                        };
-                        parameter.Output.ResponseModel = textResponse;
-                        parameter.Output.Response = textResponse.ToXml();
+                middleware.SetResponseModel(textResponse);
+            });
 
-                    }
-                }
-                return parameter;
+            Middleware.TextFilters.Inject((textRequest, middleware) =>
+            {
+                var repModel = new TextResponse()
+                {
+                    FromUserName = textRequest.ToUserName,
+                    ToUserName = textRequest.FromUserName,
+                    Content = textRequest.Content + " - inject text filter",
+                    MsgType = textRequest.MsgType
+                };
+
+                middleware.SetResponseModel(repModel);
             });
 
             #endregion
