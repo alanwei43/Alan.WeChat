@@ -19,12 +19,31 @@ namespace WeChat.Core.Messages.Middlewares
             _filters = new List<Action<TRequest, MiddlewareParameter>>();
         }
 
+        /// <summary>
+        /// 移除
+        /// </summary>
+        /// <param name="index"></param>
+        public void Remove(int index)
+        {
+            this._filters.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// 注入过滤器
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public int Inject(Action<TRequest, MiddlewareParameter> filter)
         {
             _filters.Add(filter);
             return _filters.Count - 1;
         }
 
+        /// <summary>
+        /// 执行过滤器
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="middleware"></param>
         public void Execute(TRequest req, MiddlewareParameter middleware)
         {
             this._filters.ForEach(filter => filter(req, middleware));

@@ -53,6 +53,7 @@
     <Compile Include="Api\ApiBase.cs" />
     <Compile Include="Api\CreateMenus.cs" />
     <Compile Include="Api\DeleteMenus.cs" />
+    <Compile Include="Api\QueryContents.cs" />
     <Compile Include="Api\QueryMenusModel.cs" />
     <Compile Include="Api\WeChatUserInfo.cs" />
     <Compile Include="Api\CreateMenusModel.cs" />

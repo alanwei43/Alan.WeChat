@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WeChat.Core.Api;
 using WeChat.Core.Log;
 using WeChat.Core.Messages;
 using WeChat.Core.Messages.Middlewares;
@@ -22,7 +23,7 @@ namespace WeChat.Example.Api
 
             if (req.HttpMethod.ToUpper() == "GET")
             {
-                rep.Write(MyConfig.Current.SqlConnection);
+                var resp = QueryContents.Get();
                 rep.Write(req["echostr"]);
                 return;
             }

@@ -25,6 +25,11 @@ namespace WeChat.Example
 
             #region Middleware Inject
 
+            Middleware.InjectGlobalPreFilter(middleware =>
+            {
+                //记录请求数据
+                LogUtils.Current.WriteWithOutId(category: "/Message/Request/Data", note: middleware.Input.Request);
+            });
 
             Middleware.ImageFilters.Inject((req, middleware) =>
             {
@@ -52,7 +57,6 @@ namespace WeChat.Example
                      }
                 };
 
-                LogUtils.Current.WriteWithOutId(category: "/Message/Image/Response", note: repModel.ToXml());
                 middleware.SetResponseModel(repModel);
             });
 
