@@ -41,7 +41,7 @@ namespace WeChat.Core.Api
         /// <summary>
         /// 用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。
         /// </summary>
-        public int subscribe { get; set; }
+        public int Subscribe { get; set; }
 
         /// <summary>
         /// 用户的昵称
@@ -118,13 +118,13 @@ namespace WeChat.Core.Api
         public async static Task<WeChatUserInfo> GetAsync(string openId)
         {
             var weChatUser = new WeChatUserInfo(openId);
-            var response = await weChatUser.SendRequestAsync<WeChatUserInfo>();
+            var response = await weChatUser.RequestAsModelAsync<WeChatUserInfo>();
             return response;
         }
         public static WeChatUserInfo Get(string openId)
         {
             var weChatUser = new WeChatUserInfo(openId);
-            var response = weChatUser.SendRequest<WeChatUserInfo>();
+            var response = weChatUser.RequestAsModel<WeChatUserInfo>();
             return response;
         }
     }

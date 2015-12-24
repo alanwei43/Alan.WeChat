@@ -36,13 +36,13 @@ namespace WeChat.Core.Api.ContensManage
         private async static Task<string> GetAsync(string type, int offset, int count)
         {
             var query = new QueryContents(type, offset, count);
-            var response = await query.SendRequestAsync();
+            var response = await query.RequestAsStringAsync();
             return response;
         }
         private static string Get(string type, int offset, int count)
         {
             var query = new QueryContents(type, offset, count);
-            var response = query.SendRequest();
+            var response = query.RequestAsString();
             return response;
         }
 

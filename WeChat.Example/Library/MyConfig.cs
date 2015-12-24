@@ -14,7 +14,9 @@ namespace WeChat.Example.Library
 
         static MyConfig()
         {
-            Current = File.ReadAllText(Configurations.ConfigPath).ExJsonToEntity<MyConfig>();
+            var filePath = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json");
+            Current = File.ReadAllText(filePath).ExJsonToEntity<MyConfig>();
+            Configurations.Inject(Current);
         }
         public string SqlConnection { get; set; }
     }

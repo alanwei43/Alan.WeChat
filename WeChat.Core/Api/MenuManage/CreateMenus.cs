@@ -39,7 +39,7 @@ namespace WeChat.Core.Api.MenuManage
         public async static Task<CreateMenus> CreateAsync(CreateMenusWrapperModel createMenusWrapper)
         {
             var create = new CreateMenus(createMenusWrapper);
-            var response = await create.SendRequestAsync<CreateMenus>();
+            var response = await create.RequestAsModelAsync<CreateMenus>();
             return response;
         }
 
@@ -51,7 +51,7 @@ namespace WeChat.Core.Api.MenuManage
         public static CreateMenus Create(CreateMenusWrapperModel createMenusWrapper)
         {
             var create = new CreateMenus(createMenusWrapper);
-            var response = create.SendRequest<CreateMenus>();
+            var response = create.RequestAsModel<CreateMenus>();
             return response;
         }
 
@@ -64,7 +64,7 @@ namespace WeChat.Core.Api.MenuManage
         {
             var menu = new CreateMenus();
             menu.ReqData = menus;
-            return menu.SendRequest<CreateMenus>();
+            return menu.RequestAsModel<CreateMenus>();
         }
 
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using Alan.Utils.ExtensionMethods;
 using WeChat.Core.Api;
@@ -16,7 +18,7 @@ namespace WeChat.Example.Api
     /// <summary>
     /// Summary description for WebHub
     /// </summary>
-    public class WebHub : IHttpHandler
+    public class WebHub : HttpTaskAsyncHandler
     {
 
         public void ProcessRequest(HttpContext context)
@@ -36,6 +38,13 @@ namespace WeChat.Example.Api
             rep.Write(responseText);
         }
 
+        public override async Task ProcessRequestAsync(HttpContext context)
+        {
+            var t = await DownloadMedia.DownloadAsync();
+            System.IO.File.WriteAllBytes(System.Web.Hosting.HostingEnvironment.MapPath("~/think.json"), t.FileData);
+            context.Response.Write(Encoding.UTF8.GetString(t.FileData));
+        }
+
         public bool IsReusable
         {
             get
@@ -43,5 +52,6 @@ namespace WeChat.Example.Api
                 return false;
             }
         }
+
     }
 }

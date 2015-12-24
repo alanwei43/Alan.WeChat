@@ -14,31 +14,40 @@ namespace WeChat.Core.Utils
     {
 
         #region 单例
-        public static string ConfigPath
-        {
-            get
-            {
-                var configPath = System.Web.Configuration.WebConfigurationManager.AppSettings["/WeChat/Configuration/Path"];
-
-                if (configPath.StartsWith("~"))
-                    return System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json");
-
-                return configPath;
-            }
-        }
-
+        
         public static Configurations Current { get; private set; }
 
         static Configurations()
         {
-            if (File.Exists(ConfigPath))
-            {
-                Current = File.ReadAllText(ConfigPath).ExJsonToEntity<Configurations>();
-            }
-            else throw new FileNotFoundException(ConfigPath);
+            Current = new Configurations();
         }
 
+        public static void InjectWithFile(string fileFullPath)
+        {
+            Current = File.ReadAllText(fileFullPath).ExJsonToEntity<Configurations>();
+        }
+        public static void Inject(string configJson)
+        {
+            Current = configJson.ExJsonToEntity<Configurations>();
+        }
+
+        public static void Inject(Configurations config)
+        {
+            Current = config;
+        }
         #endregion
+
+        /// <summary>
+        /// 获取时间戳
+        /// </summary>
+        /// <returns></returns>
+        public long GetTimeStamp()
+        {
+            var timeStamp = new DateTime(1970, 1, 1);
+            return (long)(DateTime.Now - timeStamp).TotalSeconds;
+        }
+
+
 
         /// <summary>
         /// 应用ID

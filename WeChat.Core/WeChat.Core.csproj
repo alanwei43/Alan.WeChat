@@ -52,13 +52,18 @@
   <ItemGroup>
     <Compile Include="Api\ApiBase.cs" />
     <Compile Include="Api\ContensManage\ContentsBaseModel.cs" />
+    <Compile Include="Api\ContensManage\DownloadMedia.cs" />
     <Compile Include="Api\ContensManage\MediumContentsModel.cs" />
     <Compile Include="Api\ContensManage\NewsContentsModel.cs" />
     <Compile Include="Api\ContensManage\QueryContentsCount.cs" />
+    <Compile Include="Api\JsSdk\JsSdkTicket.cs" />
+    <Compile Include="Api\JsSdk\JsSdkConfigModel.cs" />
+    <Compile Include="Api\WebAuthAccessToken.cs" />
     <Compile Include="Api\MenuManage\CreateMenus.cs" />
     <Compile Include="Api\MenuManage\DeleteMenus.cs" />
     <Compile Include="Api\ContensManage\QueryContents.cs" />
     <Compile Include="Api\MenuManage\QueryMenusModel.cs" />
+    <Compile Include="Api\WebAuthUserInfo.cs" />
     <Compile Include="Api\WeChatUserInfo.cs" />
     <Compile Include="Api\MenuManage\CreateMenusModel.cs" />
     <Compile Include="Api\MenuManage\QueryMenus.cs" />

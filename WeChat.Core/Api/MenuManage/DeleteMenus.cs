@@ -22,7 +22,7 @@ namespace WeChat.Core.Api.MenuManage
         public async static Task<DeleteMenus> DeleteAsync()
         {
             var deleteMenu = new DeleteMenus();
-            var response = await deleteMenu.SendRequestAsync<DeleteMenus>();
+            var response = await deleteMenu.RequestAsModelAsync<DeleteMenus>();
             return response;
         }
     }

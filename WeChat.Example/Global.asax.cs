@@ -23,6 +23,8 @@ namespace WeChat.Example
         {
             LogUtils.Inject(new DbLog());
 
+            WeChat.Core.Utils.Configurations.InjectWithFile(
+                System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json"));
 
             #region Middleware Inject
 

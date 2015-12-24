@@ -28,7 +28,7 @@ namespace WeChat.Core.Api.MenuManage
         public async static Task<QueryMenus> GetAsync()
         {
             var query = new QueryMenus();
-            var menus = await query.SendRequestAsync<QueryMenus>();
+            var menus = await query.RequestAsModelAsync<QueryMenus>();
             return menus;
         }
     }
