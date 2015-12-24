@@ -78,16 +78,10 @@ namespace WeChat.Core.Api
         /// <returns></returns>
         public static WebAuthAccessToken GetAccessToken(string code)
         {
-            var cacheKey = GetCacheKey(code);
-            var cacheResponse = CacheUtils.Get(cacheKey);
-            if (cacheResponse == null)
-            {
-                var webAuth = new WebAuthAccessToken(code);
-                var response = webAuth.RequestAsModel<WebAuthAccessToken>();
-                CacheUtils.Add(cacheKey, response, DateTime.Now.AddSeconds(response.Expires_In - (20 * 60)));
-                return response;
-            }
-            return cacheResponse as WebAuthAccessToken;
+            var webAuth = new WebAuthAccessToken(code);
+            var response = webAuth.RequestAsModel<WebAuthAccessToken>();
+            return response;
+
         }
 
         /// <summary>
@@ -97,16 +91,10 @@ namespace WeChat.Core.Api
         /// <returns></returns>
         public static async Task<WebAuthAccessToken> GetAccessTokenAsync(string code)
         {
-            var cacheKey = GetCacheKey(code);
-            var cacheResponse = CacheUtils.Get(cacheKey);
-            if (cacheResponse == null)
-            {
-                var webAuth = new WebAuthAccessToken(code);
-                var response = await webAuth.RequestAsModelAsync<WebAuthAccessToken>();
-                CacheUtils.Add(cacheKey, response, DateTime.Now.AddSeconds(response.Expires_In - (20 * 60)));
-                return response;
-            }
-            return cacheResponse as WebAuthAccessToken;
+            var webAuth = new WebAuthAccessToken(code);
+            var response = await webAuth.RequestAsModelAsync<WebAuthAccessToken>();
+            return response;
+
         }
 
     }

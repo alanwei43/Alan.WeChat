@@ -117,6 +117,7 @@ namespace WeChat.Core.Api
 
             if (getHeaders != null)
             {
+
                 getHeaders(key => String.Join("", rep.Content.Headers.GetValues(key)));
             }
             return response;

@@ -117,27 +117,37 @@ namespace WeChat.Example
 
             Middleware.TextFilters.Inject((textRequest, middleware) =>
             {
+                if (textRequest.Content == "摄影大赛")
+                {
+
+                    middleware.SetResponseModel(new NewsResponse()
+                    {
+                        FromUserName = textRequest.ToUserName,
+                        ToUserName = textRequest.FromUserName,
+                        Articles = new List<NewsResponse.ArticleItem>
+                        {
+                              new NewsResponse.ArticleItem
+                              {
+                                  Description = "双鱼之恋 - 摄影大赛",
+                                  PicUrl = "http://fishlove.yupen.cn/Custom/images/home-slogan.png",
+                                  Title ="双鱼之恋 - 摄影大赛",
+                                  Url = "http://fishlove.yupen.cn/Custom/index.html?openid=" + textRequest.FromUserName
+                              }
+                         }
+                    });
+                    return;
+                }
+
+
                 var repModel = new TextResponse()
                 {
                     FromUserName = textRequest.ToUserName,
                     ToUserName = textRequest.FromUserName,
-                    Content = textRequest.Content + " - inject text filter",
+                    Content = textRequest.Content + " - inject",
                     MsgType = textRequest.MsgType
                 };
 
                 middleware.SetResponseModel(repModel);
-            });
-            CreateMenus.Create(new CreateMenusWrapperModel()
-            {
-                 button = new List<CreateBaseMenuModel>
-                 {
-                     new CreateLinkMenuModel("", ""),
-                     new CreateMenuHasSubModel("", new List<CreateMenuModel>()
-                     {
-                         new CreateLinkMenuModel("", "")
-                     })
-                      
-                 }
             });
 
             #endregion

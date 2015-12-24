@@ -42,6 +42,12 @@ namespace WeChat.Core.Api.JsSdk
             this._jsSdkType = jsSdkType;
         }
 
+        /// <summary>
+        /// 获取 JS SDK 配置
+        /// </summary>
+        /// <param name="jsSdkType">JS SDK 请求类型</param>
+        /// <param name="url">JS SDK URL</param>
+        /// <returns></returns>
         public static JsSdkConfigModel Get(string jsSdkType, string url)
         {
             var sdk = new JsSdkTicket(jsSdkType);
@@ -80,5 +86,51 @@ namespace WeChat.Core.Api.JsSdk
 
             return configModel;
         }
+
+        /// <summary>
+        /// 获取 JS SDK 配置
+        /// </summary>
+        /// <param name="jsSdkType">JS SDK 请求类型</param>
+        /// <param name="url">JS SDK配置里的URL</param>
+        /// <returns></returns>
+        public async static Task<JsSdkConfigModel> GetAsync(string jsSdkType, string url)
+        {
+            var sdk = new JsSdkTicket(jsSdkType);
+            var response = await sdk.RequestAsModelAsync<JsSdkTicket>();
+
+            if (response.ErrCode != null && response.ErrCode.Value != 0) throw new Exception(String.Format("获取JsSdk Ticket失败: {0} {1}", sdk.ErrCode, sdk.ErrMsg));
+
+            SortedDictionary<string, string> keyValues = new SortedDictionary<string, string>();
+
+            keyValues.Add("noncestr", Guid.NewGuid().ToString().Replace("-", "").Substring(0, 16));
+            keyValues.Add("jsapi_ticket", response.Ticket);
+            keyValues.Add("timestamp", Configurations.Current.GetTimeStamp().ToString());
+            keyValues.Add("url", url);
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var kv in keyValues)
+            {
+                sb.AppendFormat("{0}={1}&", kv.Key, kv.Value);
+            }
+            sb.Remove(sb.Length - 1, 1);
+
+
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            var hashValue = sha.ComputeHash(Encoding.UTF8.GetBytes(sb.ToString()));
+
+
+
+            var configModel = new JsSdkConfigModel()
+            {
+                AppId = Configurations.Current.AppId,
+                RandomString = keyValues["noncestr"],
+                Signature = BitConverter.ToString(hashValue).Replace("-", "").ToLower(),
+                TimeStamp = keyValues["timestamp"]
+            };
+            configModel.Other = new { Para = sb.ToString(), Hash = configModel.Signature };
+
+            return configModel;
+        }
+
     }
 }

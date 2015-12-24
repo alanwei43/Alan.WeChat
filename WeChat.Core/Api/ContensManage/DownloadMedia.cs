@@ -8,13 +8,13 @@ namespace WeChat.Core.Api.ContensManage
 {
     public class DownloadMedia : ApiBase
     {
-        private string mediaId;
+        private readonly string _mediaId;
         protected async override Task<string> GetApiUrlAsync()
         {
             var token = await AccessToken.GetAsync();
             return "https://zcapi.yupen.cn/Api/MobileProject/Recommand/1";
             if (token.ErrCode != null && token.ErrCode != 0) throw new Exception(String.Format("下载图片时获取AccessToken失败: {0} {1}", token.ErrCode, token.ErrMsg));
-            return String.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", token.Access_Token, this.mediaId);
+            return String.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", token.Access_Token, this._mediaId);
 
         }
 
@@ -22,15 +22,26 @@ namespace WeChat.Core.Api.ContensManage
         {
             var token = AccessToken.Get();
             if (token.ErrCode != null && token.ErrCode != 0) throw new Exception(String.Format("下载图片时获取AccessToken失败: {0} {1}", token.ErrCode, token.ErrMsg));
-            return String.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", token.Access_Token, this.mediaId);
+            return String.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", token.Access_Token, this._mediaId);
         }
 
         public string FileName { get; set; }
         public byte[] FileData { get; set; }
 
-        public static DownloadMedia Download()
+        public DownloadMedia() { }
+        public DownloadMedia(string mediaId)
         {
-            var download = new DownloadMedia();
+            this._mediaId = mediaId;
+        }
+
+        /// <summary>
+        /// 下载媒体文件
+        /// </summary>
+        /// <param name="mediaId">媒体文件标识</param>
+        /// <returns></returns>
+        public static DownloadMedia Download(string mediaId)
+        {
+            var download = new DownloadMedia(mediaId);
             var disposition = "";
             var bytes = download.Request(fn =>
             {
@@ -38,14 +49,21 @@ namespace WeChat.Core.Api.ContensManage
             });
             if (String.IsNullOrWhiteSpace(disposition) || disposition.IndexOf("filename=\"") == -1) return null;
             var fileNames = disposition.Replace("\"", "").Split('=');
+            if (fileNames.Length != 2) return null;
+
             download.FileName = fileNames[1];
             download.FileData = bytes;
             return download;
         }
 
-        public async static Task<DownloadMedia> DownloadAsync()
+        /// <summary>
+        /// 下载媒体文件
+        /// </summary>
+        /// <param name="mediaId">媒体文件标识</param>
+        /// <returns></returns>
+        public async static Task<DownloadMedia> DownloadAsync(string mediaId)
         {
-            var download = new DownloadMedia();
+            var download = new DownloadMedia(mediaId);
             var disposition = "";
             var bytes = await download.RequestAsync(fn =>
             {
@@ -53,7 +71,9 @@ namespace WeChat.Core.Api.ContensManage
             });
             if (String.IsNullOrWhiteSpace(disposition) || disposition.IndexOf("filename=\"") == -1) return null;
             var fileNames = disposition.Replace("\"", "").Split('=');
-            download.FileName = disposition;
+            if (fileNames.Length != 2) return null;
+
+            download.FileName = fileNames[1];
             download.FileData = bytes;
             return download;
         }

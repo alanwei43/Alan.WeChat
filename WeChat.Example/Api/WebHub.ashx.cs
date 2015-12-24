@@ -18,7 +18,7 @@ namespace WeChat.Example.Api
     /// <summary>
     /// Summary description for WebHub
     /// </summary>
-    public class WebHub : HttpTaskAsyncHandler
+    public class WebHub : IHttpHandler
     {
 
         public void ProcessRequest(HttpContext context)
@@ -36,13 +36,6 @@ namespace WeChat.Example.Api
             var responseText = Middleware.Execute(req).GetResponse();
             LogUtils.Current.WriteWithOutId(category: "/Message/Response", note: responseText);
             rep.Write(responseText);
-        }
-
-        public override async Task ProcessRequestAsync(HttpContext context)
-        {
-            var t = await DownloadMedia.DownloadAsync();
-            System.IO.File.WriteAllBytes(System.Web.Hosting.HostingEnvironment.MapPath("~/think.json"), t.FileData);
-            context.Response.Write(Encoding.UTF8.GetString(t.FileData));
         }
 
         public bool IsReusable

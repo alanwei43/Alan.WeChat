@@ -8,7 +8,7 @@ namespace WeChat.Core.Api
 {
     public class WebAuthUserInfo : ApiBase
     {
-        private string _code;
+        private readonly string _code;
         /// <summary>
         /// 用户的唯一标识
         /// </summary>
@@ -48,6 +48,7 @@ namespace WeChat.Core.Api
 
         protected async override Task<string> GetApiUrlAsync()
         {
+            if (String.IsNullOrWhiteSpace(this._code)) throw new Exception("网页授权获取用户信息 Code不能为空");
             var accessToken = await WebAuthAccessToken.GetAccessTokenAsync(this._code);
             if (accessToken.ErrCode != null && accessToken.ErrCode.Value != 0) throw new Exception(String.Format("获取网页授权access_token失败: {0} {1}.", accessToken.ErrCode, accessToken.ErrMsg));
 
@@ -57,13 +58,19 @@ namespace WeChat.Core.Api
 
         protected override string GetApiUrl()
         {
+            if (String.IsNullOrWhiteSpace(this._code)) throw new Exception("网页授权获取用户信息 Code不能为空");
+
             var accessToken = WebAuthAccessToken.GetAccessToken(this._code);
             if (accessToken.ErrCode != null && accessToken.ErrCode.Value != 0) throw new Exception(String.Format("获取网页授权access_token失败: {0} {1}.", accessToken.ErrCode, accessToken.ErrMsg));
 
             return String.Format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN", accessToken.Access_Token, accessToken.OpenId);
         }
         public WebAuthUserInfo() { }
-        public WebAuthUserInfo(string code) { }
+
+        public WebAuthUserInfo(string code)
+        {
+            this._code = code;
+        }
 
         /// <summary>
         /// 拉取用户信息(需scope为 snsapi_userinfo)
