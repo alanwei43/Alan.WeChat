@@ -86,6 +86,7 @@
     <Content Include="Api\WebHub.ashx" />
     <Content Include="App_Data\Config.json" />
     <Content Include="App_Data\menus.json" />
+    <Content Include="Api\DownloadImage.ashx" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -98,6 +99,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\DownloadImage.ashx.cs">
+      <DependentUpon>DownloadImage.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Api\WebHub.ashx.cs">
       <DependentUpon>WebHub.ashx</DependentUpon>
     </Compile>
