@@ -156,6 +156,12 @@ namespace WeChat.Core.Utils
             return this;
         }
 
+        /// <summary>
+        /// 注册文本消息过滤器
+        /// </summary>
+        /// <param name="where">条件过滤</param>
+        /// <param name="setResponse">设置相应</param>
+        /// <returns></returns>
         public FluentConfig InjectTxt(Func<TextRequest, bool> where, Func<TextRequest, ResponseBase> setResponse)
         {
             this.InjectTxt((req, middleware) =>

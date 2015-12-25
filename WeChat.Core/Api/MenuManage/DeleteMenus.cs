@@ -19,6 +19,21 @@ namespace WeChat.Core.Api.MenuManage
             return url;
         }
 
+        /// <summary>
+        /// 删除菜单
+        /// </summary>
+        /// <returns></returns>
+        public static DeleteMenus Delete()
+        {
+            var deleteMenu = new DeleteMenus();
+            var response = deleteMenu.RequestAsModel<DeleteMenus>();
+            return response;
+        }
+
+        /// <summary>
+        /// 删除菜单
+        /// </summary>
+        /// <returns></returns>
         public async static Task<DeleteMenus> DeleteAsync()
         {
             var deleteMenu = new DeleteMenus();

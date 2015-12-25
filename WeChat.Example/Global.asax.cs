@@ -22,6 +22,40 @@ namespace WeChat.Example
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            WeChat.Core.Api.MenuManage.CreateMenus.Create(new Dictionary<string, object>
+            {
+                {
+                    "button", new List<Dictionary<string, object>>
+                    {
+                        new Dictionary<string, object>
+                        {
+                            {"type", "click"},
+                            {"name","菜单1" },
+                            {"key","menu1" }
+                        },
+                        new Dictionary<string, object>
+                        {
+                            {"name", "子菜单"},
+                            {"sub_button", new List<Dictionary<string, object>>
+                            {
+                                new Dictionary<string, object>
+                                {
+                                    {"name","子1" },
+                                    {"type","view" },
+                                    {"key","submenu1" }
+                                },
+                                new Dictionary<string, object>
+                                {
+                                    {"name","子2" },
+                                    {"type","view" },
+                                    {"key","submenu2" }
+                                }
+                            } }
+                        }
+                    }
+                }
+            });
+
 
             WeChat.Core.Utils.FluentConfig.Get()
                 //.Inject("token", "aes key", "app id", "app secret")   //已参数的形式传入配置信息

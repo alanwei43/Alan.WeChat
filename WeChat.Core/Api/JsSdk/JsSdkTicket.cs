@@ -7,7 +7,9 @@ using WeChat.Core.Utils;
 
 namespace WeChat.Core.Api.JsSdk
 {
-
+    /// <summary>
+    /// Js SDK 票据
+    /// </summary>
     public class JsSdkTicket : ApiBase
     {
         /// <summary>

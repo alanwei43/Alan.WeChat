@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Alan.Utils.ExtensionMethods;
 
@@ -30,6 +31,16 @@ namespace WeChat.Core.Api.MenuManage
         {
             this.ReqData = createMenusWrapper.ExToJson();
         }
+        public CreateMenus(string menuJson)
+        {
+            this.ReqData = menuJson;
+        }
+
+        public CreateMenus(Dictionary<string, object> menus)
+        {
+            this.ReqData = menus.ExToJson();
+        }
+
 
         /// <summary>
         /// 创建菜单
@@ -62,9 +73,41 @@ namespace WeChat.Core.Api.MenuManage
         /// <returns></returns>
         public static CreateMenus Create(string menus)
         {
-            var menu = new CreateMenus();
-            menu.ReqData = menus;
+            var menu = new CreateMenus(menus);
             return menu.RequestAsModel<CreateMenus>();
+        }
+
+        /// <summary>
+        /// 创建菜单
+        /// </summary>
+        /// <param name="menus">菜单JSON数据</param>
+        /// <returns></returns>
+        public async static Task<CreateMenus> CreateAsync(string menus)
+        {
+            var menu = new CreateMenus(menus);
+            return await menu.RequestAsModelAsync<CreateMenus>();
+        }
+
+        /// <summary>
+        /// 创建菜单
+        /// </summary>
+        /// <param name="menus">菜单JSON数据</param>
+        /// <returns></returns>
+        public static CreateMenus Create(Dictionary<string, object> menus)
+        {
+            var menu = new CreateMenus(menus);
+            return menu.RequestAsModel<CreateMenus>();
+        }
+
+        /// <summary>
+        /// 创建菜单
+        /// </summary>
+        /// <param name="menus">菜单JSON数据</param>
+        /// <returns></returns>
+        public async static Task<CreateMenus> CreateAsync(Dictionary<string, object> menus)
+        {
+            var menu = new CreateMenus(menus);
+            return await menu.RequestAsModelAsync<CreateMenus>();
         }
 
     }

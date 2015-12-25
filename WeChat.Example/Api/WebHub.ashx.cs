@@ -34,7 +34,6 @@ namespace WeChat.Example.Api
             }
 
             var responseText = Middleware.Execute(req).GetResponse();
-            LogUtils.Current.WriteWithOutId(category: "/Message/Response", note: responseText);
             rep.Write(responseText);
         }
 
