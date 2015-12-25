@@ -5,7 +5,9 @@
 
 	Install-Package Alan.WeChat
 
-# Use
+# 全局配置
+
+### 在程序启动时调用的方法
 
 
     WeChat.Core.Utils.FluentConfig.Get()
@@ -105,3 +107,36 @@
         middleware.SetResponseModel(repModel);
     });
 
+
+### 接收微信推送的消息
+	
+	下面的代码是一般处理程序
+
+	public class WebHub : IHttpHandler
+    {
+
+        public void ProcessRequest(HttpContext context)
+        {
+            var req = context.Request;
+            var rep = context.Response;
+            var svr = context.Server;
+
+            if (req.HttpMethod.ToUpper() == "GET")
+            {
+                rep.Write(req["echostr"]);
+                return;
+            }
+
+            var responseText = Middleware.Execute(req).GetResponse();
+            rep.Write(responseText);
+        }
+
+        public bool IsReusable
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+    }
