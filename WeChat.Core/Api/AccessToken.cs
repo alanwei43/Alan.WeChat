@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using WeChat.Core.Cache;
 using WeChat.Core.Utils;
 
 namespace WeChat.Core.Api
@@ -34,13 +35,13 @@ namespace WeChat.Core.Api
 
         public async static Task<AccessToken> GetAsync()
         {
-            var accessToken = CacheUtils.Get("/WeChat/AccessToken");
+            var accessToken = CacheUtils.Current.Get("/WeChat/AccessToken");
             if (accessToken == null)
             {
                 var at = new AccessToken();
                 var token = await at.RequestAsModelAsync<AccessToken>();
                 if (token.ErrCode.GetValueOrDefault() != 0) throw new Exception(String.Format("获取access_token失败, 错误码: {0}, 错误信息: {1}.", token.ErrCode, token.ErrMsg));
-                CacheUtils.Add("/WeChat/AccessToken", token, DateTime.Now.AddSeconds(at.Expires_In - 1200));
+                CacheUtils.Current.Add("/WeChat/AccessToken", token, DateTime.Now.AddSeconds(at.Expires_In - 1200));
                 return token;
             }
 
@@ -49,13 +50,13 @@ namespace WeChat.Core.Api
 
         public static AccessToken Get()
         {
-            var accessToken = CacheUtils.Get("/WeChat/AccessToken");
+            var accessToken = CacheUtils.Current.Get("/WeChat/AccessToken");
             if (accessToken == null)
             {
                 var at = new AccessToken();
                 var token = at.RequestAsModel<AccessToken>();
                 if (token.ErrCode.GetValueOrDefault() != 0) throw new Exception(String.Format("获取access_token失败, 错误码: {0}, 错误信息: {1}.", token.ErrCode, token.ErrMsg));
-                CacheUtils.Add("/WeChat/AccessToken", token, DateTime.Now.AddSeconds(at.Expires_In - 1200));
+                CacheUtils.Current.Add("/WeChat/AccessToken", token, DateTime.Now.AddSeconds(at.Expires_In - 1200));
                 return token;
             }
 

@@ -37,6 +37,7 @@ namespace WeChat.Core.Utils
         }
         #endregion
 
+
         /// <summary>
         /// 获取时间戳
         /// </summary>
@@ -47,7 +48,15 @@ namespace WeChat.Core.Utils
             return (long)(DateTime.Now - timeStamp).TotalSeconds;
         }
 
+        /// <summary>
+        /// Hash校验Token
+        /// </summary>
+        public string Token { get; set; }
 
+        /// <summary>
+        /// 对称加密密钥
+        /// </summary>
+        public string AesKey { get; set; }
 
         /// <summary>
         /// 应用ID

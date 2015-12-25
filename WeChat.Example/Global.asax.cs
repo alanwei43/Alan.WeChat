@@ -13,6 +13,7 @@ using WeChat.Core.Messages.Middlewares;
 using WeChat.Core.Messages.Normal;
 using WeChat.Core.Utils;
 using WeChat.Example.Library;
+using WeChat.Core.Messages.Events;
 
 namespace WeChat.Example
 {
@@ -21,28 +22,61 @@ namespace WeChat.Example
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            LogUtils.Inject(new DbLog());
 
-            WeChat.Core.Utils.Configurations.InjectWithFile(
-                System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json"));
-
-            #region Middleware Inject
-
-            Middleware.InjectGlobalPreFilter(middleware =>
-            {
-                //记录请求数据
-                LogUtils.Current.WriteWithOutId(category: "/Message/Request/Data", note: middleware.Input.Request);
-            });
-
-            Middleware.ImageFilters.Inject((req, middleware) =>
-            {
-                LogUtils.Current.WriteWithOutId(category: "/Message/Image/Input", note: middleware.Input.Request);
-
-                var repModel = new NewsResponse()
+            FluentConfig.Get()
+                .Inject(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json"))
+                .Inject(new DbLog())
+                .Inject((MiddlewareParameter middleware) =>
                 {
-                    FromUserName = req.ToUserName,
-                    ToUserName = req.FromUserName,
-                    Articles = new List<NewsResponse.ArticleItem>() {
+                    //记录请求数据
+                    LogUtils.Current.WriteWithOutId(category: "/Message/Request/Data", note: middleware.Input.Request);
+                })
+                .InjectEnd(middleware =>
+                {
+                    //记录请求数据
+                    LogUtils.Current.WriteWithOutId(category: "/Message/Response/Data", note: middleware.GetResponse());
+                })
+                .InjectTxt((textRequest, middleware) =>
+                {
+                    var repModel = new TextResponse()
+                    {
+                        FromUserName = textRequest.ToUserName,
+                        ToUserName = textRequest.FromUserName,
+                        Content = textRequest.Content + " - inject",
+                        MsgType = textRequest.MsgType
+                    };
+                    middleware.SetResponseModel(repModel);
+                })
+                .Inject((TextRequest textRequest, MiddlewareParameter middleware) =>
+                {
+                    if (textRequest.Content == "摄影大赛")
+                    {
+                        middleware.SetResponseModel(new NewsResponse()
+                        {
+                            FromUserName = textRequest.ToUserName,
+                            ToUserName = textRequest.FromUserName,
+                            Articles = new List<NewsResponse.ArticleItem>
+                        {
+                              new NewsResponse.ArticleItem
+                              {
+                                  Description = "双鱼之恋 - 摄影大赛",
+                                  PicUrl = "http://fishlove.yupen.cn/Custom/images/home-slogan.png",
+                                  Title ="双鱼之恋 - 摄影大赛",
+                                  Url = "http://fishlove.yupen.cn/Custom/index.html?openid=" + textRequest.FromUserName
+                              }
+                         }
+                        });
+                    }
+                })
+                .InjectImg((req, middleware) =>
+                {
+                    LogUtils.Current.WriteWithOutId(category: "/Message/Image/Input", note: middleware.Input.Request);
+
+                    var repModel = new NewsResponse()
+                    {
+                        FromUserName = req.ToUserName,
+                        ToUserName = req.FromUserName,
+                        Articles = new List<NewsResponse.ArticleItem>() {
                           new NewsResponse.ArticleItem()
                           {
                               Description = "Hello world.",
@@ -58,12 +92,11 @@ namespace WeChat.Example
                               Url = "http://fishlove.yupen.cn/custom/index.html"
                           }
                      }
-                };
+                    };
 
-                middleware.SetResponseModel(repModel);
-            });
-
-            Middleware.ClickFilters.Inject((click, middleware) =>
+                    middleware.SetResponseModel(repModel);
+                })
+            .InjectClick((click, middleware) =>
             {
                 if (click.EventKey == "projects")
                 {
@@ -92,15 +125,14 @@ namespace WeChat.Example
                                    Url="https://zc.yupen.cn/CrowdFunding/Show/48",
                                    Description="「三期」保护传统文化 耕耘锦绣中华——“绣娘学校”众筹项目",
                                    PicUrl = "https://zcapi.yupen.cn/Static/Attachments/a3e6c7f6-359d-4b26-9886-f7e56ad9878e.jpg",
-                                   Title="2006年，苗绣经国务院批准列入第一批国家级非物质文化遗产名录。华澳融信希望筹办“绣娘学校”，将中国苗绣的丝线艺术展现给世人！让苗绣传承下去需要全民族的努力和支持，我们期待，与您一起共同编织锦绣中华！"
+                                   Title="2006年苗绣经国务院批准列入第一批国家级非物质文化遗产名录。华澳融信希望筹办“绣娘学校”，将中国苗绣的丝线艺术展现给世人！让苗绣传承下去需要全民族的努力和支持，我们期待，与您一起共同编织锦绣中华！"
                               }
                          }
                     };
                     middleware.SetResponseModel(newsRep);
                 }
-            });
-
-            Middleware.ClickFilters.Inject((click, middleware) =>
+            })
+            .Inject((ClickMenuRequest click, MiddlewareParameter middleware) =>
             {
                 if (click.EventKey == "project_intro")
                 {
@@ -114,43 +146,6 @@ namespace WeChat.Example
                     middleware.SetResponseModel(txtRep);
                 }
             });
-
-            Middleware.TextFilters.Inject((textRequest, middleware) =>
-            {
-                if (textRequest.Content == "摄影大赛")
-                {
-
-                    middleware.SetResponseModel(new NewsResponse()
-                    {
-                        FromUserName = textRequest.ToUserName,
-                        ToUserName = textRequest.FromUserName,
-                        Articles = new List<NewsResponse.ArticleItem>
-                        {
-                              new NewsResponse.ArticleItem
-                              {
-                                  Description = "双鱼之恋 - 摄影大赛",
-                                  PicUrl = "http://fishlove.yupen.cn/Custom/images/home-slogan.png",
-                                  Title ="双鱼之恋 - 摄影大赛",
-                                  Url = "http://fishlove.yupen.cn/Custom/index.html?openid=" + textRequest.FromUserName
-                              }
-                         }
-                    });
-                    return;
-                }
-
-
-                var repModel = new TextResponse()
-                {
-                    FromUserName = textRequest.ToUserName,
-                    ToUserName = textRequest.FromUserName,
-                    Content = textRequest.Content + " - inject",
-                    MsgType = textRequest.MsgType
-                };
-
-                middleware.SetResponseModel(repModel);
-            });
-
-            #endregion
 
         }
 

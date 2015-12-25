@@ -10,7 +10,14 @@
         /// <summary>
         /// 输出
         /// </summary>
-        public string Response { get { return ResponseModel.ToXml(); }  }
+        public string Response
+        {
+            get
+            {
+                if (ResponseModel == null) return "";
+                return ResponseModel.ToXml();
+            }
+        }
 
     }
 }

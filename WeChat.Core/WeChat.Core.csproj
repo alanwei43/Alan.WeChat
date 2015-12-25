@@ -67,6 +67,9 @@
     <Compile Include="Api\WeChatUserInfo.cs" />
     <Compile Include="Api\MenuManage\CreateMenusModel.cs" />
     <Compile Include="Api\MenuManage\QueryMenus.cs" />
+    <Compile Include="Cache\CacheUtils.cs" />
+    <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Cache\SystemCache.cs" />
     <Compile Include="Log\LogUtils.cs" />
     <Compile Include="Log\TraceLog.cs" />
     <Compile Include="Messages\Events\EventBase.cs" />
@@ -92,9 +95,9 @@
     <Compile Include="Messages\Normal\TextResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Api\AccessToken.cs" />
-    <Compile Include="Utils\CacheUtils.cs" />
     <Compile Include="Utils\Configurations.cs" />
     <Compile Include="Log\ILog.cs" />
+    <Compile Include="Utils\FluentConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

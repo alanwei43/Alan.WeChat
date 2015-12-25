@@ -33,10 +33,10 @@ namespace WeChat.Core.Messages.Middlewares
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public int Inject(Action<TRequest, MiddlewareParameter> filter)
+        public FiltersContainer<TRequest> Inject(Action<TRequest, MiddlewareParameter> filter)
         {
             _filters.Add(filter);
-            return _filters.Count - 1;
+            return this;
         }
 
         /// <summary>
