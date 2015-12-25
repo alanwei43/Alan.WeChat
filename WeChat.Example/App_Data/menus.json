@@ -1,27 +1,47 @@
 ﻿{
     "button": [
         {
-            "name": "众筹项目",
+            "name": "摄影大赛",
             "type": "click",
-            "key": "projects"
+            "key": "photographer"
         },
         {
-            "name": "帮助",
+            "name": "子菜单",
             "sub_button": [
                 {
-                    "type": "click",
-                    "name": "自闭症儿童",
-                    "key": "project_47"
+                    "type": "pic_sysphoto",
+                    "name": "系统拍照发图",
+                    "key": "xtpzft"
                 },
                 {
-                    "type": "click",
-                    "name": "阿尔兹海默症",
-                    "key": "project_46"
+                    "type": "pic_photo_or_album",
+                    "name": "拍照或者相册发图",
+                    "key": "pzxcft"
                 },
                 {
-                    "type": "click",
-                    "name": "众筹介绍",
-                    "key": "project_intro"
+                    "type": "pic_weixin",
+                    "name": "微信相册发图",
+                    "key": "wxxcft"
+                },
+                {
+                    "name": "发送位置",
+                    "type": "location_select",
+                    "key": "fswz"
+                }
+            ]
+        },
+        {
+            "name": "子菜单2",
+            "sub_button": [
+                {
+                    "type": "scancode_waitmsg",
+                    "name": "扫码带提示",
+                    "key": "smts"
+                },
+                {
+                    "type": "scancode_push",
+                    "name": "扫码推事件",
+                    "key": "smtsj"
                 }
             ]
         }

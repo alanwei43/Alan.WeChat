@@ -315,6 +315,39 @@ namespace WeChat.Core.Utils
         {
             return this.InjectScan(filter);
         }
+
+        /// <summary>
+        /// 注册事件过滤器
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public FluentConfig Inject(Action<EventBase, MiddlewareParameter> filter)
+        {
+            Middleware.EventFileters.Inject(filter);
+            return this;
+        }
+
+        /// <summary>
+        /// 注册事件过滤器
+        /// </summary>
+        public FluentConfig InjectEvent(Action<EventBase, MiddlewareParameter> filter)
+        {
+            return this.Inject(filter);
+        }
+
+        /// <summary>
+        /// 注册事件过滤器
+        /// </summary>
+        public FluentConfig InjectEvent(Func<EventBase, bool> where, Func<EventBase, ResponseBase> setResponse)
+        {
+            return this.InjectEvent((req, middleware) =>
+            {
+                if (where(req))
+                {
+                    setResponse(req);
+                }
+            });
+        }
         #endregion
     }
 }

@@ -12,7 +12,6 @@ namespace WeChat.Core.Api.ContensManage
         protected async override Task<string> GetApiUrlAsync()
         {
             var token = await AccessToken.GetAsync();
-            return "https://zcapi.yupen.cn/Api/MobileProject/Recommand/1";
             if (token.ErrCode != null && token.ErrCode != 0) throw new Exception(String.Format("下载图片时获取AccessToken失败: {0} {1}", token.ErrCode, token.ErrMsg));
             return String.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", token.Access_Token, this._mediaId);
 

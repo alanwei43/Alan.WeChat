@@ -58,6 +58,11 @@
     <Compile Include="Api\ContensManage\QueryContentsCount.cs" />
     <Compile Include="Api\JsSdk\JsSdkTicket.cs" />
     <Compile Include="Api\JsSdk\JsSdkConfigModel.cs" />
+    <Compile Include="Api\UserGroupManage\CreateGroup.cs" />
+    <Compile Include="Api\UserGroupManage\GroupModel.cs" />
+    <Compile Include="Api\UserGroupManage\ModifyGroupName.cs" />
+    <Compile Include="Api\UserGroupManage\QueryGroupOfUser.cs" />
+    <Compile Include="Api\UserGroupManage\QueryGroups.cs" />
     <Compile Include="Api\WebAuthAccessToken.cs" />
     <Compile Include="Api\MenuManage\CreateMenus.cs" />
     <Compile Include="Api\MenuManage\DeleteMenus.cs" />
@@ -75,6 +80,7 @@
     <Compile Include="Messages\Events\EventBase.cs" />
     <Compile Include="Messages\Events\ClickMenuRequest.cs" />
     <Compile Include="Messages\Events\EventTypes.cs" />
+    <Compile Include="Messages\Events\PickPhotoRequest.cs" />
     <Compile Include="Messages\Events\PositionRequest.cs" />
     <Compile Include="Messages\Events\ScanQrRequest.cs" />
     <Compile Include="Messages\Middlewares\FiltersContainer.cs" />
@@ -98,6 +104,7 @@
     <Compile Include="Utils\Configurations.cs" />
     <Compile Include="Log\ILog.cs" />
     <Compile Include="Utils\FluentConfig.cs" />
+    <Compile Include="Utils\HttpUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

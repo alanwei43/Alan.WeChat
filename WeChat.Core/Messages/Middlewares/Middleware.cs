@@ -56,6 +56,11 @@ namespace WeChat.Core.Messages.Middlewares
         /// </summary>
         public static FiltersContainer<ClickMenuRequest> ClickFilters { get; private set; }
 
+        /// <summary>
+        /// 事件过滤器
+        /// </summary>
+        public static FiltersContainer<EventBase> EventFileters { get; private set; }
+
         static Middleware()
         {
             GlobalPreFilters = new List<Action<MiddlewareParameter>>();
@@ -67,6 +72,7 @@ namespace WeChat.Core.Messages.Middlewares
             ScanQrFilters = new FiltersContainer<ScanQrRequest>();
             PositionFilter = new FiltersContainer<PositionRequest>();
             ClickFilters = new FiltersContainer<ClickMenuRequest>();
+            EventFileters = new FiltersContainer<EventBase>();
         }
 
         #region 注入过滤器
@@ -180,6 +186,9 @@ namespace WeChat.Core.Messages.Middlewares
             if (middlareResult.Input.RequestBaseModel.MsgType == Configurations.Current.MessageType.Event)
             {
                 var eb = middlareResult.Input.GetRequestModel<EventBase>();
+                //普通过滤器
+                EventFileters.Execute(eb, middlareResult);
+
                 if (eb.Event == Configurations.Current.EventType.Click)
                 {
                     //单击菜单事件

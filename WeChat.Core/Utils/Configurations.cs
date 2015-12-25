@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using Alan.Utils.ExtensionMethods;
 using WeChat.Core.Messages;
 using WeChat.Core.Messages.Events;
@@ -82,7 +83,6 @@ namespace WeChat.Core.Utils
         /// 事件类型
         /// </summary>
         public EventTypes EventType { get { return new EventTypes(); } }
-
 
     }
 }

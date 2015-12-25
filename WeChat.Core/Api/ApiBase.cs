@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using Alan.Utils.ExtensionMethods;
 using WeChat.Core.Log;
+using WeChat.Core.Utils;
 
 namespace WeChat.Core.Api
 {
@@ -30,13 +31,13 @@ namespace WeChat.Core.Api
         /// </summary>
         protected virtual string ReqMethod { get { return "GET"; } }
 
+        public ApiBase() { }
 
 
         protected T RequestAsModel<T>()
             where T : class
         {
-            var rep = this.RequestAsString();
-            return rep.ExJsonToEntity<T>();
+            return this.RequestAsString().ExJsonToEntity<T>();
         }
 
         protected async Task<T> RequestAsModelAsync<T>()
