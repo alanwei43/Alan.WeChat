@@ -158,5 +158,11 @@ namespace WeChat.Core.Utils
             if (String.IsNullOrWhiteSpace(fileName)) return Tuple.Create(Guid.NewGuid().ToString(), bytes);
             return System.Tuple.Create(fileName, bytes);
         }
+
+        public string UploadFile()
+        {
+            WebClient client = new WebClient();
+            client.UploadFile(this.Url, )
+        }
     }
 }

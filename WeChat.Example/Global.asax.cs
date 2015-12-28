@@ -59,12 +59,11 @@ namespace WeChat.Example
                 //只有文本消息的内容是 "我的信息" 的时候才执行这个过滤器
                 .InjectTxt(req => req.Content == "我的信息", req =>
                 {
-
                     //获取微信用户信息
                     var user = WeChat.Core.Api.WeChatUserInfo.Get(req.FromUserName);
                     return new TextResponse()
                     {
-                        Content = String.Format("你的名字是 {0}." + user.NickName),
+                        Content = String.Format("你的名字是 {0}.", user.NickName),
                         MsgType = WeChat.Core.Utils.Configurations.Current.MessageType.Text
                     };
                 })

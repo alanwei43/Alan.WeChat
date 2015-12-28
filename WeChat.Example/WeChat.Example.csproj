@@ -85,6 +85,7 @@
     </Content>
     <Content Include="App_Data\Config.json" />
     <Content Include="App_Data\menus.json" />
+    <Content Include="Api\GetAccessToken.ashx" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -97,6 +98,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\GetAccessToken.ashx.cs">
+      <DependentUpon>GetAccessToken.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Api\ImageDowload.cs" />
     <Compile Include="Api\WebHub.cs" />
     <Compile Include="Global.asax.cs">

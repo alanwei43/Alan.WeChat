@@ -55,7 +55,7 @@ namespace WeChat.Core.Messages.Middlewares
         /// <summary>
         /// 辅助用于传递数据
         /// </summary>
-        public Dictionary<string, object> Items { get; private set; }
+        private Dictionary<string, object> Items { get; set; }
 
         /// <summary>
         /// 输入
