@@ -82,6 +82,8 @@ namespace WeChat.Core.Utils
 
         #region inject filters
 
+
+        #region Inject global filters
         /// <summary>
         /// 注册全局事件/消息过滤器
         /// </summary>
@@ -114,6 +116,9 @@ namespace WeChat.Core.Utils
             Middleware.InjectGlobalEndFilter(filter);
             return this;
         }
+        #endregion
+
+        #region Inject image filters
 
         /// <summary>
         /// 注册图片消息过滤器
@@ -144,7 +149,26 @@ namespace WeChat.Core.Utils
                     middleware.SetResponseModel(setResponse(req));
             });
         }
+        public FluentConfig InjectImg(Func<ImageRequest, MiddlewareParameter, bool> where, Func<ImageRequest, MiddlewareParameter, ResponseBase> setResponse)
+        {
+            return this.InjectImg((req, middleware) =>
+            {
+                if (where(req, middleware))
+                    middleware.SetResponseModel(setResponse(req, middleware));
+            });
+        }
+        #endregion
 
+        #region Inject text filters
+        /// <summary>
+        /// 注册文本消息过滤器
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public FluentConfig Inject(Action<TextRequest, MiddlewareParameter> filter)
+        {
+            return this.InjectTxt(filter);
+        }
         /// <summary>
         /// 注册文本消息过滤器
         /// </summary>
@@ -173,16 +197,27 @@ namespace WeChat.Core.Utils
             });
             return this;
         }
-
         /// <summary>
         /// 注册文本消息过滤器
         /// </summary>
-        /// <param name="filter"></param>
+        /// <param name="where">条件过滤</param>
+        /// <param name="setResponse">设置相应</param>
         /// <returns></returns>
-        public FluentConfig Inject(Action<TextRequest, MiddlewareParameter> filter)
+        public FluentConfig InjectTxt(Func<TextRequest, MiddlewareParameter, bool> where, Func<TextRequest, MiddlewareParameter, ResponseBase> setResponse)
         {
-            return this.InjectTxt(filter);
+            this.InjectTxt((req, middleware) =>
+            {
+                if (where(req, middleware))
+                {
+                    middleware.SetResponseModel(setResponse(req, middleware));
+                }
+            });
+            return this;
         }
+
+        #endregion
+
+        #region location filters
         /// <summary>
         /// 注册位置消息过滤器
         /// </summary>
@@ -197,12 +232,12 @@ namespace WeChat.Core.Utils
         /// 注册位置消息过滤器
         /// </summary>
         /// <returns></returns>
-        public FluentConfig InjectLoc(Func<LocationRequest, bool> where, Func<LocationRequest, ResponseBase> setResponse)
+        public FluentConfig InjectLoc(Func<LocationRequest, bool> where, Func<LocationRequest,  ResponseBase> setResponse)
         {
             return this.InjectLoc((req, middleware) =>
             {
                 if (where(req))
-                    middleware.SetResponseModel(setResponse(req));
+                    middleware.SetResponseModel(setResponse(req ));
             });
         }
         /// <summary>
@@ -214,7 +249,9 @@ namespace WeChat.Core.Utils
         {
             return this.InjectLoc(filter);
         }
+        #endregion
 
+        #region Inject click filters
         /// <summary>
         /// 注册单击事件过滤器
         /// </summary>
@@ -247,7 +284,9 @@ namespace WeChat.Core.Utils
         {
             return this.InjectClick(filter);
         }
+        #endregion
 
+        #region Inject position event filters
         /// <summary>
         /// 注册位置事件过滤器
         /// </summary>
@@ -284,7 +323,9 @@ namespace WeChat.Core.Utils
         {
             return this.InjectPos(filter);
         }
+        #endregion
 
+        #region Inject qrcode event filters
         /// <summary>
         /// 注册扫描QR Code事件过滤器
         /// </summary>
@@ -315,7 +356,9 @@ namespace WeChat.Core.Utils
         {
             return this.InjectScan(filter);
         }
+        #endregion
 
+        #region Inject event filters
         /// <summary>
         /// 注册事件过滤器
         /// </summary>
@@ -348,6 +391,21 @@ namespace WeChat.Core.Utils
                 }
             });
         }
+
+        /// <summary>
+        /// 注册事件过滤器
+        /// </summary>
+        public FluentConfig InjectEvent(Func<EventBase, MiddlewareParameter, bool> where, Func<EventBase, ResponseBase> setResponse)
+        {
+            return this.InjectEvent((req, middleware) =>
+            {
+                if (where(req, middleware))
+                {
+                    setResponse(req);
+                }
+            });
+        }
+        #endregion
         #endregion
     }
 }

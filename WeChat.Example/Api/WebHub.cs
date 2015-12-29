@@ -8,6 +8,7 @@ using WeChat.Core.Messages.Middlewares;
 using WeChat.Core.Log;
 using System.Text;
 using WeChat.Core.Api;
+using WeChat.Core.Utils;
 
 namespace WeChat.Example.Api
 {
@@ -22,12 +23,9 @@ namespace WeChat.Example.Api
             if (req.HttpMethod.ToUpper() == "GET")
             {
                 rep.ContentEncoding = Encoding.UTF8;
+                rep.AddHeader("X-WeChat-AppId", WeChat.Core.Utils.Configurations.Current.AppId);
                 var echo = req["echostr"];
                 rep.Write(echo);
-
-                var user = "oLntxs13Y5LXfAeck1SJHRTVtd1Y";
-                var remarkRep = RemarkUser.Remark(user, "remark test");
-                rep.Write(remarkRep.ExToJson());
                 return;
             }
 

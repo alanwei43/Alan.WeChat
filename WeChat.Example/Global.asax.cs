@@ -99,7 +99,7 @@ namespace WeChat.Example
                         }
                     }
                 })
-                .InjectLoc(req => true, req => new TextResponse
+                .InjectLoc(req => true, (req )=> new TextResponse
                 {
                     Content = String.Format("你目前所在地是: {0}. ", req.Label),
                     MsgType = WeChat.Core.Utils.Configurations.Current.MessageType.Text
@@ -107,6 +107,11 @@ namespace WeChat.Example
                 .InjectEvent(req => req.Event == Configurations.Current.EventType.PickSysPhoto, req => new TextResponse
                 {
                     Content = "you select picksysphoto",
+                    MsgType = Configurations.Current.MessageType.Text
+                })
+                .InjectTxt((req, middleware) => !middleware.SetedResponse, (req, middleware)=> new TextResponse
+                {
+                    Content = "你发送的信息是: " + req.Content + ".",
                     MsgType = Configurations.Current.MessageType.Text
                 });
 

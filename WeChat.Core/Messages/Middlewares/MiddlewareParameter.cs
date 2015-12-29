@@ -17,6 +17,7 @@ namespace WeChat.Core.Messages.Middlewares
             this.Items.Add("/Sys/SetResponse", false);  //是否已经设置了Response
             this.Items.Add("/Sys/SetResponseCount", 0); //设置Response的次数
         }
+        public bool SetedResponse { get { return this.GetItem<bool>("/Sys/SetResponse"); } }
 
         /// <summary>
         /// 获取条目
