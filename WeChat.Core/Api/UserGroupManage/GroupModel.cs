@@ -11,6 +11,12 @@ namespace WeChat.Core.Api.UserGroupManage
     /// </summary>
     public class GroupModel
     {
+        public GroupModel() { }
+        public GroupModel(int groupId, string groupName)
+        {
+            this.id = groupId;
+            this.name = groupName;
+        }
         /// <summary>
         /// 分组id，由微信分配
         /// </summary>

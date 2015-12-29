@@ -162,7 +162,8 @@ namespace WeChat.Core.Utils
         public string UploadFile()
         {
             WebClient client = new WebClient();
-            client.UploadFile(this.Url, )
+            //client.UploadFile(this.Url, )
+            return null;
         }
     }
 }

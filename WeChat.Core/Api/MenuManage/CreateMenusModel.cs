@@ -9,7 +9,7 @@ namespace WeChat.Core.Api.MenuManage
     public class CreateMenusWrapperModel
     {
         /// <summary>
-        /// 一级菜单数组，个数应为1~3个
+        /// 一级菜单数组的个数应为1~3个
         /// </summary>
         public List<CreateBaseMenuModel> button { get; set; }
     }

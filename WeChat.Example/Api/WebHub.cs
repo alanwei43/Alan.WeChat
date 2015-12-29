@@ -5,6 +5,9 @@ using System.Web;
 using Alan.Utils.ExtensionMethods;
 using WeChat.Core.Api.UserGroupManage;
 using WeChat.Core.Messages.Middlewares;
+using WeChat.Core.Log;
+using System.Text;
+using WeChat.Core.Api;
 
 namespace WeChat.Example.Api
 {
@@ -18,12 +21,13 @@ namespace WeChat.Example.Api
 
             if (req.HttpMethod.ToUpper() == "GET")
             {
-                //var createRep = CreateGroup.Create("hello");
-                var queryRep = QueryGroups.Query();
-                //rep.Write(createRep.ExToJson());
-                rep.Write(queryRep.ExToJson());
+                rep.ContentEncoding = Encoding.UTF8;
+                var echo = req["echostr"];
+                rep.Write(echo);
 
-                rep.Write(req["echostr"]);
+                var user = "oLntxs13Y5LXfAeck1SJHRTVtd1Y";
+                var remarkRep = RemarkUser.Remark(user, "remark test");
+                rep.Write(remarkRep.ExToJson());
                 return;
             }
 

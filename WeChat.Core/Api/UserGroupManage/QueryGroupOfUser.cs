@@ -15,14 +15,14 @@ namespace WeChat.Core.Api.UserGroupManage
         protected async override Task<string> GetApiUrlAsync()
         {
             var token = await AccessToken.GetAsync();
-            if (token.ErrCode.GetValueOrDefault() != 0) throw new Exception(String.Format("查询用户所在分组时获取AccessToken失败: {0} {1}", token.ErrCode, token.ErrMsg));
+            if (!token.IsSuccess) throw new Exception(String.Format("查询用户所在分组时获取AccessToken失败: {0} {1}", token.ErrCode, token.ErrMsg));
             return String.Format("https://api.weixin.qq.com/cgi-bin/groups/getid?access_token={0}", token.Access_Token);
         }
 
         protected override string GetApiUrl()
         {
             var token = AccessToken.Get();
-            if (token.ErrCode.GetValueOrDefault() != 0) throw new Exception(String.Format("查询用户所在分组时获取AccessToken失败: {0} {1}", token.ErrCode, token.ErrMsg));
+            if (!token.IsSuccess) throw new Exception(String.Format("查询用户所在分组时获取AccessToken失败: {0} {1}", token.ErrCode, token.ErrMsg));
             return String.Format("https://api.weixin.qq.com/cgi-bin/groups/getid?access_token={0}", token.Access_Token);
         }
 

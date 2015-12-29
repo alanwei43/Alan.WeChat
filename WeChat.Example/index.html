@@ -11,15 +11,15 @@
     </form>
     <script>
 
-        //var xhr = new XMLHttpRequest();
-        //xhr.open("GET", "/web.hub");
-        //xhr.setRequestHeader("Content-Type", "application/xml");
-        //xhr.onreadystatechange = function() {
-        //    if (xhr.readyState === 4 && xhr.status === 200) {
-        //        document.write(xhr.responseText);
-        //    }
-        //};
-        //xhr.send("<xml><ToUserName><![CDATA[gh_3209e49c0c17]]></ToUserName> <FromUserName><![CDATA[oLntxsymT4zUutfwUtlZbkliwcvY]]></FromUserName> <CreateTime>1451282784</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[我的信息]]></Content> <MsgId>6233212094929152282</MsgId> </xml>");
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/web.hub");
+        xhr.setRequestHeader("Content-Type", "application/xml");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.write(xhr.responseText);
+            }
+        };
+        xhr.send("<xml><ToUserName><![CDATA[gh_3209e49c0c17]]></ToUserName> <FromUserName><![CDATA[oLntxsymT4zUutfwUtlZbkliwcvY]]></FromUserName> <CreateTime>1451282784</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[我的信息]]></Content> <MsgId>6233212094929152282</MsgId> </xml>");
 
         function submit() {
             var xhr = new XMLHttpRequest();
@@ -29,7 +29,6 @@
                     var url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + xhr.responseText + "&type=image";
                     var form = document.querySelector("form");
                     form.setAttribute("action", url);
-
                 }
             };
             xhr.send();

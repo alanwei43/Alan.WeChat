@@ -59,6 +59,10 @@
     <Compile Include="Api\ContensManage\UploadTempMedia.cs" />
     <Compile Include="Api\JsSdk\JsSdkTicket.cs" />
     <Compile Include="Api\JsSdk\JsSdkConfigModel.cs" />
+    <Compile Include="Api\MenuManage\CreatePersonalMenus.cs" />
+    <Compile Include="Api\MenuManage\CreatePersonalMenusModel.cs" />
+    <Compile Include="Api\MenuManage\DeletePersonalMenus.cs" />
+    <Compile Include="Api\MenuManage\TestPersonalMenus.cs" />
     <Compile Include="Api\UserGroupManage\BatchMoveUserToGroup.cs" />
     <Compile Include="Api\UserGroupManage\CreateGroup.cs" />
     <Compile Include="Api\UserGroupManage\DeleteGroup.cs" />

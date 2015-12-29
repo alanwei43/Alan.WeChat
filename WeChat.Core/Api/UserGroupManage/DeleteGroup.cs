@@ -19,7 +19,7 @@ namespace WeChat.Core.Api.UserGroupManage
         protected override async Task<string> GetApiUrlAsync()
         {
             var token = await AccessToken.GetAsync();
-            if (token.ErrCode.GetValueOrDefault() != 0) throw new Exception(String.Format("删除分组 获取AccessToken时失败: {0} {1}", token.ErrCode, token.ErrMsg));
+            if (!token.IsSuccess) throw new Exception(String.Format("删除分组 获取AccessToken时失败: {0} {1}", token.ErrCode, token.ErrMsg));
 
             return String.Format("https://api.weixin.qq.com/cgi-bin/groups/delete?access_token={0}", token.Access_Token);
         }
@@ -27,7 +27,7 @@ namespace WeChat.Core.Api.UserGroupManage
         protected override string GetApiUrl()
         {
             var token = AccessToken.Get();
-            if (token.ErrCode.GetValueOrDefault() != 0) throw new Exception(String.Format("删除分组 获取AccessToken时失败: {0} {1}", token.ErrCode, token.ErrMsg));
+            if (!token.IsSuccess) throw new Exception(String.Format("删除分组 获取AccessToken时失败: {0} {1}", token.ErrCode, token.ErrMsg));
 
             return String.Format("https://api.weixin.qq.com/cgi-bin/groups/delete?access_token={0}", token.Access_Token);
         }
@@ -49,7 +49,7 @@ namespace WeChat.Core.Api.UserGroupManage
         /// <param name="groupId">分组Id</param>
         public static DeleteGroup Delete(int groupId)
         {
-            var delete = new DeleteGroup();
+            var delete = new DeleteGroup(groupId);
             var response = delete.RequestAsModel<DeleteGroup>();
             return response;
         }
@@ -60,7 +60,7 @@ namespace WeChat.Core.Api.UserGroupManage
         /// <param name="groupId">分组Id</param>
         public static async Task<DeleteGroup> DeleteAsync(int groupId)
         {
-            var delete = new DeleteGroup();
+            var delete = new DeleteGroup(groupId);
             var response = await delete.RequestAsModelAsync<DeleteGroup>();
             return response;
         }

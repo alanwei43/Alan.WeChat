@@ -19,7 +19,7 @@ namespace WeChat.Core.Api.UserGroupManage
         protected override async Task<string> GetApiUrlAsync()
         {
             var token = await AccessToken.GetAsync();
-            if (token.IsSuccess)
+            if (!token.IsSuccess)
                 throw new Exception(String.Format("获取用户列表 获取AccessToken时失败:{0} {1}.", token.ErrCode, token.ErrMsg));
 
             if (String.IsNullOrWhiteSpace(this._nextOpenId))
@@ -32,7 +32,7 @@ namespace WeChat.Core.Api.UserGroupManage
         protected override string GetApiUrl()
         {
             var token = AccessToken.Get();
-            if (token.IsSuccess)
+            if (!token.IsSuccess)
                 throw new Exception(String.Format("获取用户列表 获取AccessToken时失败:{0} {1}.", token.ErrCode, token.ErrMsg));
 
             if (String.IsNullOrWhiteSpace(this._nextOpenId))
@@ -46,6 +46,26 @@ namespace WeChat.Core.Api.UserGroupManage
         public QueryUsers(string nextOpenId)
         {
             this._nextOpenId = nextOpenId;
+        }
+        /// <summary>
+        /// 关注该公众账号的总用户数
+        /// </summary>
+        public long Total { get; set; }
+        /// <summary>
+        /// 拉取的OPENID个数，最大值为10000
+        /// </summary>
+        public int Count { get; set; }
+        /// <summary>
+        /// 拉取列表的最后一个用户的OPENID
+        /// </summary>
+        public string Next_OpenId { get; set; }
+        /// <summary>
+        /// 列表数据，OPENID的列表
+        /// </summary>
+        public DataModel Data { get; set; }
+        public class DataModel
+        {
+            public List<string> OpenId { get; set; }
         }
 
         public static QueryUsers Query()
