@@ -41,7 +41,7 @@ namespace WeChat.Core.Api.MenuManage
         /// <param name="menuId"></param>
         public DeletePersonalMenus(int menuId)
         {
-            this.ReqData = new { menuid = menuId }.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(new { menuid = menuId }.ExToJson());
         }
         public static DeletePersonalMenus Delete(int menuId)
         {

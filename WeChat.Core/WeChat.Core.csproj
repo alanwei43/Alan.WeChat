@@ -56,6 +56,8 @@
     <Compile Include="Api\ContensManage\MediumContentsModel.cs" />
     <Compile Include="Api\ContensManage\NewsContentsModel.cs" />
     <Compile Include="Api\ContensManage\QueryContentsCount.cs" />
+    <Compile Include="Api\ContensManage\DownloadTempMedia.cs" />
+    <Compile Include="Api\ContensManage\UploadLongTermMedia.cs" />
     <Compile Include="Api\ContensManage\UploadTempMedia.cs" />
     <Compile Include="Api\JsSdk\JsSdkTicket.cs" />
     <Compile Include="Api\JsSdk\JsSdkConfigModel.cs" />

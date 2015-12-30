@@ -44,7 +44,7 @@ namespace WeChat.Core.Api.UserGroupManage
         {
             if (openIdList == null) throw new Exception("OpenIdList(用户唯一标识符openid的列表) 不能为空");
             if (openIdList.Length > 50) throw new Exception("OpenIdList(用户唯一标识符openid的列表) 数量不能超过50");
-            this.ReqData = new { openid_list = openIdList, to_groupid = toGroupId }.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(new { openid_list = openIdList, to_groupid = toGroupId }.ExToJson());
         }
 
         /// <summary>

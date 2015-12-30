@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using Alan.Utils.ExtensionMethods;
@@ -8,6 +9,7 @@ using WeChat.Core.Messages.Middlewares;
 using WeChat.Core.Log;
 using System.Text;
 using WeChat.Core.Api;
+using WeChat.Core.Api.ContensManage;
 using WeChat.Core.Utils;
 
 namespace WeChat.Example.Api
@@ -22,6 +24,14 @@ namespace WeChat.Example.Api
 
             if (req.HttpMethod.ToUpper() == "GET")
             {
+                var mediaId = "sAmTzdZsPN9atbFbzjKJNtGRDGI16nWXodN2H2vAMpnnYVNt-sdREePHWmAIZ6Qy";
+                var mediaResponse = DownloadTempMedia.Download(mediaId);
+                System.IO.File.WriteAllBytes(@"D:\temp.jpg", mediaResponse.FileData);
+
+
+                //var response = UploadTempMedia.Upload(@"C:\Users\lenovo\Pictures\IMG_0069.JPG", "image");
+                //Trace.WriteLine(response.Media_Id);
+                //Trace.WriteLine(response.ErrMsg);
                 rep.ContentEncoding = Encoding.UTF8;
                 rep.AddHeader("X-WeChat-AppId", WeChat.Core.Utils.Configurations.Current.AppId);
                 var echo = req["echostr"];

@@ -38,7 +38,7 @@ namespace WeChat.Core.Api.UserGroupManage
         /// <param name="remark">新的备注名，长度必须小于30字符</param>
         public RemarkUser(string openId, string remark)
         {
-            this.ReqData = new { openid = openId, remark = remark }.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(new { openid = openId, remark = remark }.ExToJson());
         }
 
 

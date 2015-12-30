@@ -24,8 +24,9 @@ namespace WeChat.Core.Api
         /// <summary>
         /// 请求的数据
         /// </summary>
-        protected virtual string ReqData { get; set; }
+        protected virtual byte[] ReqData { get; set; }
 
+        protected string ReqDataString { get { return Encoding.UTF8.GetString(this.ReqData); } }
         /// <summary>
         /// 请求的方法
         /// </summary>
@@ -110,7 +111,7 @@ namespace WeChat.Core.Api
             HttpResponseMessage rep;
 
             if (this.ReqMethod.ToUpper() == "POST")
-                rep = await client.PostAsync(apiUrl, new StringContent(this.ReqData, Encoding.UTF8));
+                rep = await client.PostAsync(apiUrl, new StringContent(this.ReqDataString, Encoding.UTF8));
             else
                 rep = await client.GetAsync(apiUrl);
 
@@ -123,6 +124,21 @@ namespace WeChat.Core.Api
             }
             return response;
         }
+
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="fileName">文件名</param>
+        /// <param name="contentType">文件的 Content-Type</param>
+        /// <returns></returns>
+        protected byte[] UploadFile(string fileName, string contentType)
+        {
+            var url = this.GetApiUrl();
+            var response = HttpUtils.UploadFile(url, new HttpUtils.FormFileParam(fileName, System.IO.Path.GetFileNameWithoutExtension(fileName), this.ReqData), contentType, null);
+            return response;
+        }
+
+
 
         /// <summary>
         /// 错误码

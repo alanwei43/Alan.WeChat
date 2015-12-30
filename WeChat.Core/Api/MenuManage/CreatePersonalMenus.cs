@@ -35,15 +35,15 @@ namespace WeChat.Core.Api.MenuManage
         public CreatePersonalMenus() { }
         public CreatePersonalMenus(CreatePersonalMenusModel model)
         {
-            this.ReqData = model.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(model.ExToJson());
         }
         public CreatePersonalMenus(Dictionary<string, object> model)
         {
-            this.ReqData = model.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(model.ExToJson());
         }
         public CreatePersonalMenus(string model)
         {
-            this.ReqData = model;
+            this.ReqData = Encoding.UTF8.GetBytes(model);
         }
 
         public static CreatePersonalMenus Create(CreatePersonalMenusModel model)

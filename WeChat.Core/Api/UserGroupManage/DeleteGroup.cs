@@ -40,7 +40,7 @@ namespace WeChat.Core.Api.UserGroupManage
         /// <param name="groupId">分组Id</param>
         public DeleteGroup(int groupId)
         {
-            this.ReqData = new { group = new { id = groupId } }.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(new { group = new { id = groupId } }.ExToJson());
         }
 
         /// <summary>

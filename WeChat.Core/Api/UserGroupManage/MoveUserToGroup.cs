@@ -43,7 +43,7 @@ namespace WeChat.Core.Api.UserGroupManage
         /// <param name="toGroupId">分组id</param>
         public MoveUserToGroup(string openId, int toGroupId)
         {
-            this.ReqData = new { openid = openId, to_groupid = toGroupId }.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(new { openid = openId, to_groupid = toGroupId }.ExToJson());
         }
 
         /// <summary>

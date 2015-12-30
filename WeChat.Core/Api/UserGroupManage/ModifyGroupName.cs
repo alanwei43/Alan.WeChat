@@ -32,7 +32,7 @@ namespace WeChat.Core.Api.UserGroupManage
 
         public ModifyGroupName(GroupModel group)
         {
-            this.ReqData = new { group = group }.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(new { group = group }.ExToJson());
         }
 
         public static ModifyGroupName Modify(GroupModel group)

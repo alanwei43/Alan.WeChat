@@ -32,7 +32,7 @@ namespace WeChat.Core.Api.UserGroupManage
 
         public QueryGroupOfUser(string openId)
         {
-            this.ReqData = new { openid = openId }.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(new { openid = openId }.ExToJson());
         }
 
         /// <summary>

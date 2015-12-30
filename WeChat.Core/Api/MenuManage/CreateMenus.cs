@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Alan.Utils.ExtensionMethods;
 
@@ -24,21 +25,21 @@ namespace WeChat.Core.Api.MenuManage
 
         protected override string ReqMethod { get { return "POST"; } }
 
-        protected override string ReqData { get; set; }
+        protected override byte[] ReqData { get; set; }
         public CreateMenus() { }
 
         public CreateMenus(CreateMenusWrapperModel createMenusWrapper)
         {
-            this.ReqData = createMenusWrapper.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(createMenusWrapper.ExToJson());
         }
         public CreateMenus(string menuJson)
         {
-            this.ReqData = menuJson;
+            this.ReqData = Encoding.UTF8.GetBytes(menuJson);
         }
 
         public CreateMenus(Dictionary<string, object> menus)
         {
-            this.ReqData = menus.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(menus.ExToJson());
         }
 
 

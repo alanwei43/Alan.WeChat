@@ -23,7 +23,7 @@ namespace WeChat.Core.Api.UserGroupManage
 
         public CreateGroup(string groupName)
         {
-            this.ReqData = new { group = new { name = groupName } }.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(new { group = new { name = groupName } }.ExToJson());
         }
         protected async override Task<string> GetApiUrlAsync()
         {

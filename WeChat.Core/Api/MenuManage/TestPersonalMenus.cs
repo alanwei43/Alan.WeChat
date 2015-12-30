@@ -32,7 +32,7 @@ namespace WeChat.Core.Api.MenuManage
         /// <param name="userId">user_id可以是粉丝的OpenID 也可以是粉丝的微信号</param>
         public TestPersonalMenus(int userId)
         {
-            this.ReqData = new { user_id = userId }.ExToJson();
+            this.ReqData = Encoding.UTF8.GetBytes(new { user_id = userId }.ExToJson());
         }
         /// <summary>
         /// 测试个性化菜单匹配结果

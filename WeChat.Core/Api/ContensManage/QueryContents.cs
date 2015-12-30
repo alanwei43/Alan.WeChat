@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using Alan.Utils.ExtensionMethods;
 
@@ -25,12 +26,12 @@ namespace WeChat.Core.Api.ContensManage
 
         public QueryContents(string type, int offset, int count)
         {
-            this.ReqData = new
+            this.ReqData = Encoding.UTF8.GetBytes(new
             {
                 type,
                 offset,
                 count
-            }.ExToJson();
+            }.ExToJson());
         }
 
         private async static Task<string> GetAsync(string type, int offset, int count)

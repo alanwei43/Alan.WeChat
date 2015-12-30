@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -160,73 +161,82 @@ namespace WeChat.Core.Utils
             return System.Tuple.Create(fileName, bytes);
         }
 
-        public string UploadFile()
+
+        #region 上传文件
+        public class FormFileParam
         {
-            WebClient client = new WebClient();
-            //client.UploadFile(this.Url, )
-            return null;
+            public byte[] Data { get; set; }
+            public string FileName { get; set; }
+            public string ParamName { get; set; }
+
+            public FormFileParam(string fileName, string paramName, byte[] data)
+            {
+                this.FileName = fileName;
+                this.ParamName = paramName;
+                this.Data = data;
+            }
         }
 
-        public static void HttpUploadFile(string url, string file, string paramName, string contentType, NameValueCollection nvc)
+        public static byte[] UploadFile(
+            string url,
+            FormFileParam file,
+            string contentType,
+            Dictionary<string, string> data)
         {
-            string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
-            byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            var boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
+            var boundaryBytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "multipart/form-data; boundary=" + boundary;
+            request.Method = "POST";
+            request.KeepAlive = true;
+            request.Credentials = CredentialCache.DefaultCredentials;
 
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
-            wr.ContentType = "multipart/form-data; boundary=" + boundary;
-            wr.Method = "POST";
-            wr.KeepAlive = true;
-            wr.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            List<byte> requestBytes = new List<byte>();
 
-            Stream rs = wr.GetRequestStream();
 
-            string formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
-            foreach (string key in nvc.Keys)
+            if (data != null)
             {
-                rs.Write(boundarybytes, 0, boundarybytes.Length);
-                string formitem = string.Format(formdataTemplate, key, nvc[key]);
-                byte[] formitembytes = System.Text.Encoding.UTF8.GetBytes(formitem);
-                rs.Write(formitembytes, 0, formitembytes.Length);
-            }
-            rs.Write(boundarybytes, 0, boundarybytes.Length);
-
-            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-            string header = string.Format(headerTemplate, paramName, file, contentType);
-            byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
-            rs.Write(headerbytes, 0, headerbytes.Length);
-
-            FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read);
-            byte[] buffer = new byte[4096];
-            int bytesRead = 0;
-            while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
-            {
-                rs.Write(buffer, 0, bytesRead);
-            }
-            fileStream.Close();
-
-            byte[] trailer = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
-            rs.Write(trailer, 0, trailer.Length);
-            rs.Close();
-
-            WebResponse wresp = null;
-            try
-            {
-                wresp = wr.GetResponse();
-                Stream stream2 = wresp.GetResponseStream();
-                StreamReader reader2 = new StreamReader(stream2);
-            }
-            catch (Exception ex)
-            {
-                if (wresp != null)
+                string formDataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
+                foreach (KeyValuePair<string, string> dict in data)
                 {
-                    wresp.Close();
-                    wresp = null;
+                    requestBytes.AddRange(boundaryBytes);
+                    string formItem = String.Format(formDataTemplate, dict.Key, dict.Value);
+                    requestBytes.AddRange(Encoding.UTF8.GetBytes(formItem));
                 }
             }
-            finally
+            requestBytes.AddRange(boundaryBytes);
+
+            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+            var header = String.Format(headerTemplate, file.ParamName, file.FileName, contentType);
+            var headerBytes = Encoding.UTF8.GetBytes(header);
+            requestBytes.AddRange(headerBytes);
+
+            requestBytes.AddRange(file.Data);
+
+            byte[] trailer = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
+            requestBytes.AddRange(trailer);
+
+            var requestStream = request.GetRequestStream();
+            requestStream.Write(requestBytes.ToArray(), 0, requestBytes.Count);
+            requestStream.Close();
+
+            var rep = request.GetResponse();
+            using (Stream stream = rep.GetResponseStream())
             {
-                wr = null;
+                if (stream == null) return null;
+                List<byte> responseBytes = new List<byte>();
+                byte[] buffer = new byte[1024];
+                int read;
+                do
+                {
+                    read = stream.Read(buffer, 0, buffer.Length);
+                    responseBytes.AddRange(buffer.Take(read));
+                } while (read > 0);
+
+                return responseBytes.ToArray();
             }
         }
+
+        #endregion
     }
 }
