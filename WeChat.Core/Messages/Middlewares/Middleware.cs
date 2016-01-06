@@ -7,6 +7,10 @@ using WeChat.Core.Messages.Events;
 using WeChat.Core.Messages.Normal;
 using WeChat.Core.Utils;
 using WeChat.Core.Messages;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using WeChat.Core.EncryptDecrypt;
 
 namespace WeChat.Core.Messages.Middlewares
 {
@@ -125,6 +129,14 @@ namespace WeChat.Core.Messages.Middlewares
         /// <returns></returns>
         public static MiddlewareParameter Execute(string input, string signature, string nonce, string timestamp)
         {
+            if (Configurations.Current.MessageMode == 3)
+            {
+                WXBizMsgCrypt crypt = new WXBizMsgCrypt();
+                var items = crypt.DecryptMsg(signature, timestamp, nonce, input);
+                if (!items.Item1) throw new Exception(items.Item2);
+                input = items.Item2;
+            }
+
             var requestModel = input.ExXmlToEntity<RequestBase>();
             requestModel.Nonce = nonce;
             requestModel.Timestamp = timestamp;
@@ -135,7 +147,40 @@ namespace WeChat.Core.Messages.Middlewares
                 Input = new MiddlewareInput(input, requestModel)
             };
 
+            var valid = Validate(signature, nonce, timestamp);
+
             return Execute(middleInput);
+        }
+
+        public static bool Validate(string signature, string nonce, string timestamp)
+        {
+
+            string[] parameters = new string[] { signature, nonce, timestamp };
+            SHA1 sha1 = SHA1.Create();
+            var value = String.Join("", parameters.OrderBy(p => p));
+            var hello = sha1.ComputeHash(Encoding.ASCII.GetBytes(value));
+            var hashvalue = BitConverter.ToString(hello);
+
+
+
+
+            SortedDictionary<string, string> dict = new SortedDictionary<string, string>()
+            {
+                {"timestamp", timestamp },
+                {"nonce", nonce },
+                {"token", Configurations.Current.Token }
+            };
+            var values = String.Join("", dict.Cast<KeyValuePair<string, string>>().Select(kv => kv.Value));
+            SHA1 sha = SHA1.Create();
+            var hash = sha.ComputeHash(Encoding.UTF8.GetBytes(values));
+            var hash1 = BitConverter.ToString(hash);
+
+            var md5 = new SHA1CryptoServiceProvider();
+            hash = md5.ComputeHash(Encoding.ASCII.GetBytes(values));
+            hash1 = BitConverter.ToString(hash);
+
+
+            return true;
         }
 
         /// <summary>
@@ -151,6 +196,7 @@ namespace WeChat.Core.Messages.Middlewares
                 return Execute(requestInput, request.QueryString["signature"], request.QueryString["nonce"], request.QueryString["timestamp"]);
             }
         }
+
 
         /// <summary>
         /// 执行过滤器

@@ -406,6 +406,8 @@ namespace WeChat.Core.Utils
             });
         }
         #endregion
+
         #endregion
+
     }
 }

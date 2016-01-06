@@ -15,7 +15,7 @@ namespace WeChat.Core.Utils
     {
 
         #region 单例
-        
+
         public static Configurations Current { get; private set; }
 
         static Configurations()
@@ -69,6 +69,13 @@ namespace WeChat.Core.Utils
         /// </summary>
         public string AppSecret { get; set; }
 
+        /// <summary>
+        /// 消息模式
+        /// 1: 明文模式
+        /// 2: 兼容模式
+        /// 3: 安全模式
+        /// </summary>
+        public short MessageMode { get; set; }
 
         /// <summary>
         /// 消息类型

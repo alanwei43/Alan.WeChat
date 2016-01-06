@@ -1,6 +1,8 @@
 ﻿using System;
 using Alan.Utils.ExtensionMethods;
 using System.Collections.Generic;
+using WeChat.Core.Utils;
+using WeChat.Core.EncryptDecrypt;
 
 namespace WeChat.Core.Messages.Middlewares
 {
@@ -90,6 +92,13 @@ namespace WeChat.Core.Messages.Middlewares
             {
                 this.Output.ResponseModel.ToUserName = this.Input.RequestBaseModel.FromUserName;
                 this.Output.ResponseModel.FromUserName = this.Input.RequestBaseModel.ToUserName;
+            }
+            if (Configurations.Current.MessageMode == 3)
+            {
+                WXBizMsgCrypt crypt = new WXBizMsgCrypt();
+                var items = crypt.EncryptMsg(this.Output.Response, Input.RequestBaseModel.Timestamp, Input.RequestBaseModel.Nonce);
+                if (!items.Item1) { throw new Exception(items.Item2); }
+                return items.Item2;
             }
             return this.Output.Response;
         }

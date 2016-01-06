@@ -9,32 +9,23 @@
         <input type="file" value="" name="hello" />
         <input type="submit" value="Submit" />
     </form>
+
     <script>
+        /*
+        2016/1/5 22:19:52    101.226.62.81    POST
+        2016/1/5 22:49:07    101.226.62.81    POST
+        */
 
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/web.hub");
+        xhr.open("POST", "/web.hub?signature=a5103359e0127c5a40a0144c5f058535675eb4b1&timestamp=1452008681&nonce=537104086&encrypt_type=aes&msg_signature=943e24f90f77b85ad872c3091ab510c3265c9bac");
         xhr.setRequestHeader("Content-Type", "application/xml");
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 document.write(xhr.responseText);
             }
         };
-        xhr.send("<xml><ToUserName><![CDATA[gh_3209e49c0c17]]></ToUserName> <FromUserName><![CDATA[oLntxsymT4zUutfwUtlZbkliwcvY]]></FromUserName> <CreateTime>1451282784</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[我的信息]]></Content> <MsgId>6233212094929152282</MsgId> </xml>");
+        xhr.send("<xml>     <ToUserName><![CDATA[gh_3209e49c0c17]]></ToUserName>     <Encrypt><![CDATA[5JYfTBVwikexpwj2l5mzvzO4Ds6Q64VCvp6x+QUYEb0VnX/2a6ekiDkzn8LS72fMqPZFuCveMzPKAWRhshAxn19GPX8gPmDQefGyAufEO1GlcbVYtUDAleZXxjyDPk5T0tFUsHSv9ON157JTtaeCwX6JR5ylszLgLiSyzY2HnKaJVzsV7hODLPc+IufWpesaqYs+0nJu8NFUSX9yM7vCUeJ9OKzALSQS1buS2MJ0tpdc2ZGRW2hpqfQwJpltziRRPb1qubFHoO9L6sHLBNjcuO5WtRCLNJPXccuWMlg3WJ6PaVnB1KPfcTU5gCEMoWAL6/AdTj53QyPjlhbsPpsOLro14MoW/1daoWgCm5Qmeebmh5oYOI2ua8AzQi94LbXPUrxR6B29yPO2J+C2IQa2MXa6VJ/r+MUSwS3/nuXBfZwMS3d0weUMfGoyaOmbtVw7NwPDK1IMxFHArWMz6m9W2w==]]></Encrypt> </xml> ");
 
-        function submit() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/Api/GetAccessToken.ashx");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + xhr.responseText + "&type=image";
-                    var form = document.querySelector("form");
-                    form.setAttribute("action", url);
-                }
-            };
-            xhr.send();
-        }
-
-        submit();
     </script>
 </body>
 </html>

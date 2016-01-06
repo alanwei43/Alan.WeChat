@@ -68,13 +68,20 @@ namespace WeChat.Core.Api.UserGroupManage
             public List<string> OpenId { get; set; }
         }
 
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <returns></returns>
         public static QueryUsers Query()
         {
             var q = new QueryUsers(null);
             var response = q.RequestAsModel<QueryUsers>();
             return response;
         }
-
+        /// <summary>
+        /// 异步获取用户列表
+        /// </summary>
+        /// <returns></returns>
         public static async Task<QueryUsers> QueryAsync()
         {
             var q = new QueryUsers(null);
@@ -82,6 +89,11 @@ namespace WeChat.Core.Api.UserGroupManage
             return response;
         }
 
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="nextOpenId">用户列表开始位置</param>
+        /// <returns></returns>
         public static QueryUsers Query(string nextOpenId)
         {
             var q = new QueryUsers(nextOpenId);
@@ -89,6 +101,11 @@ namespace WeChat.Core.Api.UserGroupManage
             return response;
         }
 
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="nextOpenId">用户列表开始位置</param>
+        /// <returns></returns>
         public static async Task<QueryUsers> QueryAsync(string nextOpenId)
         {
             var q = new QueryUsers(nextOpenId);

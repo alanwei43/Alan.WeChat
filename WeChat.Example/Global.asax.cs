@@ -23,8 +23,6 @@ namespace WeChat.Example
         protected void Application_Start(object sender, EventArgs e)
         {
 
-
-
             WeChat.Core.Utils.FluentConfig.Get()
                 .Inject(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json")) //出入JSON文件的形式传入配置信息
                 .Inject(new DbLog()) //注入日志模块, 不是必需的

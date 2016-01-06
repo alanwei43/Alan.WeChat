@@ -87,6 +87,9 @@
     <Compile Include="Cache\CacheUtils.cs" />
     <Compile Include="Cache\ICache.cs" />
     <Compile Include="Cache\SystemCache.cs" />
+    <Compile Include="EncryptDecrypt\Cryptography.cs" />
+    <Compile Include="EncryptDecrypt\Sample.cs" />
+    <Compile Include="EncryptDecrypt\WXBizMsgCrypt.cs" />
     <Compile Include="Log\LogUtils.cs" />
     <Compile Include="Log\TraceLog.cs" />
     <Compile Include="Messages\Events\EventBase.cs" />
@@ -124,7 +127,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="EncryptDecrypt\Readme.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
