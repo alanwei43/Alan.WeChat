@@ -93,7 +93,7 @@ namespace WeChat.Core.Messages.Middlewares
                 this.Output.ResponseModel.ToUserName = this.Input.RequestBaseModel.FromUserName;
                 this.Output.ResponseModel.FromUserName = this.Input.RequestBaseModel.ToUserName;
             }
-            if (Configurations.Current.MessageMode == 3)
+            if (Configurations.Current.EnumMessageMode == Configurations.TransferMode.Cipher)
             {
                 WXBizMsgCrypt crypt = new WXBizMsgCrypt();
                 var items = crypt.EncryptMsg(this.Output.Response, Input.RequestBaseModel.Timestamp, Input.RequestBaseModel.Nonce);

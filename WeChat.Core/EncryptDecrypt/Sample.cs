@@ -45,7 +45,7 @@ namespace WeChat.Core.EncryptDecrypt
 
             /*
              * 2. 企业回复用户消息也需要加密和拼接xml字符串。
-             * 假设企业需要回复用户的消息为：
+             * 假设企业需要回复用户的消息为
              * 		<xml>
              * 		<ToUserName><![CDATA[mycreate]]></ToUserName>
              * 		<FromUserName><![CDATA[wx5823bf96d3bd56c7]]></FromUserName>
@@ -54,7 +54,7 @@ namespace WeChat.Core.EncryptDecrypt
              *      <Content><![CDATA[this is a test]]></Content>
              *      <MsgId>1234567890123456</MsgId>
              *      </xml>
-             * 生成xml格式的加密消息过程为：
+             * 生成xml格式的加密消息过程为
              */
             string sRespData = "<xml><ToUserName><![CDATA[mycreate]]></ToUserName><FromUserName><![CDATA[wx582测试一下中文的情况，消息长度是按字节来算的396d3bd56c7]]></FromUserName><CreateTime>1348831860</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[this is a test]]></Content><MsgId>1234567890123456</MsgId></xml>";
             ret = wxcpt.EncryptMsg(sRespData, sReqTimeStamp, sReqNonce);

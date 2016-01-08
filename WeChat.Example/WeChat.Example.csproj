@@ -104,7 +104,6 @@
     </Compile>
     <Compile Include="Library\CommonModule.cs" />
     <Compile Include="Library\DbLog.cs" />
-    <Compile Include="Library\FileLog.cs" />
     <Compile Include="Library\MyConfig.cs" />
     <Compile Include="Library\SqlUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

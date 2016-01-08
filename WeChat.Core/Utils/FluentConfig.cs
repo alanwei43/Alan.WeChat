@@ -42,14 +42,15 @@ namespace WeChat.Core.Utils
         /// <param name="appId"></param>
         /// <param name="appSecret"></param>
         /// <returns></returns>
-        public FluentConfig Inject(string token, string aesKey, string appId, string appSecret)
+        public FluentConfig Inject(string token, string aesKey, string appId, string appSecret, Configurations.TransferMode mode)
         {
             Configurations.Inject(new Configurations()
             {
                 Token = token,
                 AesKey = aesKey,
                 AppId = appId,
-                AppSecret = appSecret
+                AppSecret = appSecret,
+                EnumMessageMode = mode
             });
             return this;
         }
@@ -232,12 +233,12 @@ namespace WeChat.Core.Utils
         /// 注册位置消息过滤器
         /// </summary>
         /// <returns></returns>
-        public FluentConfig InjectLoc(Func<LocationRequest, bool> where, Func<LocationRequest,  ResponseBase> setResponse)
+        public FluentConfig InjectLoc(Func<LocationRequest, bool> where, Func<LocationRequest, ResponseBase> setResponse)
         {
             return this.InjectLoc((req, middleware) =>
             {
                 if (where(req))
-                    middleware.SetResponseModel(setResponse(req ));
+                    middleware.SetResponseModel(setResponse(req));
             });
         }
         /// <summary>

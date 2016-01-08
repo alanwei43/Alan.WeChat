@@ -25,11 +25,6 @@ namespace WeChat.Example.Api
 
             if (req.HttpMethod.ToUpper() == "GET")
             {
-
-                //var mediaId = "sAmTzdZsPN9atbFbzjKJNtGRDGI16nWXodN2H2vAMpnnYVNt-sdREePHWmAIZ6Qy";
-                //var mediaResponse = DownloadTempMedia.Download(mediaId);
-                //System.IO.File.WriteAllBytes(@"D:\temp.jpg", mediaResponse.FileData);
-
                 rep.ContentEncoding = Encoding.UTF8;
                 rep.AddHeader("X-WeChat-AppId", WeChat.Core.Utils.Configurations.Current.AppId);
                 var echo = req["echostr"];

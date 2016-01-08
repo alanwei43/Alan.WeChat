@@ -23,13 +23,9 @@ namespace WeChat.Core.Utils
             Current = new Configurations();
         }
 
-        public static void InjectWithFile(string fileFullPath)
-        {
-            Current = File.ReadAllText(fileFullPath).ExJsonToEntity<Configurations>();
-        }
         public static void Inject(string configJson)
         {
-            Current = configJson.ExJsonToEntity<Configurations>();
+            Inject(configJson.ExJsonToEntity<Configurations>());
         }
 
         public static void Inject(Configurations config)
@@ -69,13 +65,43 @@ namespace WeChat.Core.Utils
         /// </summary>
         public string AppSecret { get; set; }
 
+        private string _messageMode;
+
+        /// <summary>
+        /// 消息模式
+        /// Plain 明文模式
+        /// Hybrid 兼容模式
+        /// Cipher 安全模式
+        /// </summary>
+        public string MessageMode
+        {
+            get { return this._messageMode; }
+            set
+            {
+                this._messageMode = value;
+                if (!String.IsNullOrWhiteSpace(this._messageMode))
+                    this._messageMode = TransferMode.Plain.ToString().ToLower();
+
+                this.EnumMessageMode = TransferMode.Plain;
+
+                if (this._messageMode.ToLower() == Configurations.TransferMode.Cipher.ToString().ToLower())
+                {
+                    this.EnumMessageMode = TransferMode.Cipher;
+                }
+                if (this._messageMode.ToLower() == Configurations.TransferMode.Hybrid.ToString().ToLower())
+                {
+                    this.EnumMessageMode = TransferMode.Hybrid;
+                }
+            }
+        }
+
         /// <summary>
         /// 消息模式
         /// 1: 明文模式
         /// 2: 兼容模式
         /// 3: 安全模式
         /// </summary>
-        public short MessageMode { get; set; }
+        public TransferMode EnumMessageMode { get; set; }
 
         /// <summary>
         /// 消息类型
@@ -90,6 +116,29 @@ namespace WeChat.Core.Utils
         /// 事件类型
         /// </summary>
         public EventTypes EventType { get { return new EventTypes(); } }
+
+
+
+        /// <summary>
+        /// 数据传输模式
+        /// </summary>
+        public enum TransferMode : byte
+        {
+            /// <summary>
+            /// 明文模式
+            /// </summary>
+            Plain = 0,
+
+            /// <summary>
+            /// 混合模式
+            /// </summary>
+            Hybrid = 1,
+
+            /// <summary>
+            /// 加密模式
+            /// </summary>
+            Cipher = 2
+        }
 
     }
 }

@@ -129,7 +129,7 @@ namespace WeChat.Core.Messages.Middlewares
         /// <returns></returns>
         public static MiddlewareParameter Execute(string input, string signature, string nonce, string timestamp)
         {
-            if (Configurations.Current.MessageMode == 3)
+            if (Configurations.Current.EnumMessageMode == Configurations.TransferMode.Cipher)
             {
                 WXBizMsgCrypt crypt = new WXBizMsgCrypt();
                 var items = crypt.DecryptMsg(signature, timestamp, nonce, input);
