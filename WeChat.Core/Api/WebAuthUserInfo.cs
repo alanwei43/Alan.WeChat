@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeChat.Core.Api.Models;
 
 namespace WeChat.Core.Api
 {
+    /// <summary>
+    /// 网页授权获取用户信息
+    /// </summary>
     public class WebAuthUserInfo : ApiBase
     {
         private readonly string _code;

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using WeChat.Core.Api.JsSdk.Models;
+using WeChat.Core.Api.Models;
 using WeChat.Core.Utils;
 
 namespace WeChat.Core.Api.JsSdk

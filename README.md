@@ -5,13 +5,35 @@
 
 	Install-Package Alan.WeChat
 
+# Introducation
+	
+首先吐槽一下微信接口写的很烂, 不是排版样式不好, 是文档写的不是很明白.(当然了比我好的不知百倍.)
+这个项目从最小的一两个功能, 扩展重构了好几次, 已经实现了[微信接口](http://mp.weixin.qq.com/wiki)的一半了. 包括:
+
+	1. 接收消息
+	2. 发送消息
+	3. 消息加解密
+	4. 素材管理
+	5. 用户管理
+	6. 自定义菜单
+	7. 帐号管理
+	8. 微信JS-SDK
+
+
+这个项目断断续续写了好长时间了, 其实好多抽象类或实体类应该放到更深层的目录下, 最近要忙别的项目了, 这个先告一段落吧. 项目的几个文件夹的大概意思如下:
+
+### Api目录, 主要包括主动调用微信API的接口
+
+	Api.ContentsManage: 微信的素材管理接口, 包括
+		
+
 # Use
 
 ### 在程序启动时调用的方法
 
 
     WeChat.Core.Utils.FluentConfig.Get()
-		//.Inject("token", "aes key", "app id", "app secret")   //已参数的形式传入配置信息
+		//.Inject("token", "aes key", "app id", "app secret", Configurations.TransferMode.Cipher)   //以参数的形式传入配置信息
 		.Inject(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json")) //出入JSON文件的形式传入配置信息
 		.Inject(new DbLog()) //注入日志模块, 不是必需的
 		.Inject(middleware =>

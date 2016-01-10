@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Alan.Utils.ExtensionMethods;
+using WeChat.Core.Api.Models;
+using WeChat.Core.Api.UserGroupManage.Models;
 
 namespace WeChat.Core.Api.UserGroupManage
 {

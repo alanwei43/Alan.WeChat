@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeChat.Core.Api.Models;
 using WeChat.Core.Utils;
 
 namespace WeChat.Core.Api
 {
+    /// <summary>
+    /// 网页授权AccessToken
+    /// </summary>
     public class WebAuthAccessToken : ApiBase
     {
         private readonly string _code;

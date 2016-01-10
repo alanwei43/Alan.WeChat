@@ -50,25 +50,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\ApiBase.cs" />
-    <Compile Include="Api\ContensManage\ContentsBaseModel.cs" />
-    <Compile Include="Api\ContensManage\DownloadMedia.cs" />
-    <Compile Include="Api\ContensManage\MediumContentsModel.cs" />
-    <Compile Include="Api\ContensManage\NewsContentsModel.cs" />
-    <Compile Include="Api\ContensManage\QueryContentsCount.cs" />
-    <Compile Include="Api\ContensManage\DownloadTempMedia.cs" />
-    <Compile Include="Api\ContensManage\UploadLongTermMedia.cs" />
-    <Compile Include="Api\ContensManage\UploadTempMedia.cs" />
+    <Compile Include="Api\ContentsManage\DeleteContent.cs" />
+    <Compile Include="Api\ContentsManage\Models\GetVideoContentModel.cs" />
+    <Compile Include="Api\ContentsManage\Models\UploadNewsModel.cs" />
+    <Compile Include="Api\ContentsManage\UploadMedia.cs" />
+    <Compile Include="Api\MenuManage\Models\CreatePersonalMenusModel.cs" />
+    <Compile Include="Api\Models\ApiBase.cs" />
+    <Compile Include="Api\ContentsManage\Models\ContentsBaseModel.cs" />
+    <Compile Include="Api\ContentsManage\GetContent.cs" />
+    <Compile Include="Api\ContentsManage\Models\GetNewsContentModel.cs" />
+    <Compile Include="Api\ContentsManage\Models\MediumContentsModel.cs" />
+    <Compile Include="Api\ContentsManage\Models\NewsItemModel.cs" />
+    <Compile Include="Api\ContentsManage\Models\QueryNewsContentsModel.cs" />
+    <Compile Include="Api\ContentsManage\QueryContentsCount.cs" />
+    <Compile Include="Api\ContentsManage\DownloadTempMedia.cs" />
+    <Compile Include="Api\ContentsManage\AddContent.cs" />
+    <Compile Include="Api\ContentsManage\UploadTempMedia.cs" />
     <Compile Include="Api\JsSdk\JsSdkTicket.cs" />
-    <Compile Include="Api\JsSdk\JsSdkConfigModel.cs" />
+    <Compile Include="Api\JsSdk\Models\JsSdkConfigModel.cs" />
     <Compile Include="Api\MenuManage\CreatePersonalMenus.cs" />
-    <Compile Include="Api\MenuManage\CreatePersonalMenusModel.cs" />
+    <Compile Include="Api\MenuManage\Models\CreatePersonalMenuMatchRuleModel.cs" />
     <Compile Include="Api\MenuManage\DeletePersonalMenus.cs" />
     <Compile Include="Api\MenuManage\TestPersonalMenus.cs" />
+    <Compile Include="Api\Models\ResponseModel.cs" />
     <Compile Include="Api\UserGroupManage\BatchMoveUserToGroup.cs" />
     <Compile Include="Api\UserGroupManage\CreateGroup.cs" />
     <Compile Include="Api\UserGroupManage\DeleteGroup.cs" />
-    <Compile Include="Api\UserGroupManage\GroupModel.cs" />
+    <Compile Include="Api\UserGroupManage\Models\GroupModel.cs" />
     <Compile Include="Api\UserGroupManage\ModifyGroupName.cs" />
     <Compile Include="Api\UserGroupManage\MoveUserToGroup.cs" />
     <Compile Include="Api\UserGroupManage\QueryGroupOfUser.cs" />
@@ -78,11 +86,11 @@
     <Compile Include="Api\WebAuthAccessToken.cs" />
     <Compile Include="Api\MenuManage\CreateMenus.cs" />
     <Compile Include="Api\MenuManage\DeleteMenus.cs" />
-    <Compile Include="Api\ContensManage\QueryContents.cs" />
-    <Compile Include="Api\MenuManage\QueryMenusModel.cs" />
+    <Compile Include="Api\ContentsManage\QueryContents.cs" />
+    <Compile Include="Api\MenuManage\Models\QueryMenusModel.cs" />
     <Compile Include="Api\WebAuthUserInfo.cs" />
     <Compile Include="Api\WeChatUserInfo.cs" />
-    <Compile Include="Api\MenuManage\CreateMenusModel.cs" />
+    <Compile Include="Api\MenuManage\Models\CreateMenusModel.cs" />
     <Compile Include="Api\MenuManage\QueryMenus.cs" />
     <Compile Include="Cache\CacheUtils.cs" />
     <Compile Include="Cache\ICache.cs" />
@@ -130,6 +138,7 @@
   <ItemGroup>
     <Content Include="EncryptDecrypt\Readme.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

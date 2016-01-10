@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Alan.Utils.ExtensionMethods;
+using WeChat.Core.Api.Models;
+using WeChat.Core.Api.MenuManage.Models;
 
 namespace WeChat.Core.Api.MenuManage
 {

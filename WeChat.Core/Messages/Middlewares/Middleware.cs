@@ -122,10 +122,10 @@ namespace WeChat.Core.Messages.Middlewares
         /// <summary>
         /// 执行过滤器
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="signature"></param>
-        /// <param name="nonce"></param>
-        /// <param name="timestamp"></param>
+        /// <param name="input">微信的请求数据</param>
+        /// <param name="signature">微信请求时携带的signature</param>
+        /// <param name="nonce">微信请求时携带的nonce</param>
+        /// <param name="timestamp">微信请求时携带的timestamp</param>
         /// <returns></returns>
         public static MiddlewareParameter Execute(string input, string signature, string nonce, string timestamp)
         {
@@ -154,6 +154,7 @@ namespace WeChat.Core.Messages.Middlewares
 
         public static bool Validate(string signature, string nonce, string timestamp)
         {
+            throw new NotImplementedException();
 
             string[] parameters = new string[] { signature, nonce, timestamp };
             SHA1 sha1 = SHA1.Create();

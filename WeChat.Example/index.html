@@ -17,7 +17,7 @@
         */
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/web.hub?signature=a5103359e0127c5a40a0144c5f058535675eb4b1&timestamp=1452008681&nonce=537104086&encrypt_type=aes&msg_signature=943e24f90f77b85ad872c3091ab510c3265c9bac");
+        xhr.open("GET", "/web.hub?signature=a5103359e0127c5a40a0144c5f058535675eb4b1&timestamp=1452008681&nonce=537104086&encrypt_type=aes&msg_signature=943e24f90f77b85ad872c3091ab510c3265c9bac");
         xhr.setRequestHeader("Content-Type", "application/xml");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {

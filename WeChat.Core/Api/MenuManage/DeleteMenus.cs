@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using WeChat.Core.Api.Models;
 
 namespace WeChat.Core.Api.MenuManage
 {
+    /// <summary>
+    /// 删除菜单
+    /// </summary>
     public class DeleteMenus : ApiBase
     {
         protected async override Task<string> GetApiUrlAsync()

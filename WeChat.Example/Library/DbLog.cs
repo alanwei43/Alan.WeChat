@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Alan.Utils.ExtensionMethods;
+using System;
+using System.Diagnostics;
 
 namespace WeChat.Example.Library
 {
@@ -19,6 +21,17 @@ namespace WeChat.Example.Library
 
         public void Write(string id, DateTime date, string category, string request, string response, string note)
         {
+            Trace.WriteLine(new
+            {
+                Id = id,
+                Date = date,
+                Category = category,
+                Request = request,
+                Response = response,
+                Note = note
+            }.ExToJson());
+            return;
+
             SqlUtils.Insert(tableName: "LogInfos", model: new
             {
                 Id = id,

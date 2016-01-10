@@ -24,6 +24,7 @@ namespace WeChat.Example
         {
 
             WeChat.Core.Utils.FluentConfig.Get()
+                //.Inject("token", "aes key", "app id", "app secret", Configurations.TransferMode.Plain)
                 .Inject(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json")) //出入JSON文件的形式传入配置信息
                 .Inject(new DbLog()) //注入日志模块, 不是必需的
                 .Inject(middleware =>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using WeChat.Core.Api.MenuManage.Models;
+using WeChat.Core.Api.Models;
 
 namespace WeChat.Core.Api.MenuManage
 {

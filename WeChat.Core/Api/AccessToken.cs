@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using WeChat.Core.Api.Models;
 using WeChat.Core.Cache;
 using WeChat.Core.Utils;
 

@@ -7,6 +7,9 @@ using System.Web;
 
 namespace WeChat.Example.Api
 {
+    /// <summary>
+    /// 图片下载
+    /// </summary>
     public class ImageDowload : HttpTaskAsyncHandler
     {
 
@@ -17,7 +20,7 @@ namespace WeChat.Example.Api
             var mediaId = req.QueryString["media"];
             if (String.IsNullOrWhiteSpace(mediaId)) return;
 
-            var response = WeChat.Core.Api.ContensManage.DownloadMedia.Download(mediaId);
+            var response = WeChat.Core.Api.ContentsManage.DownloadTempMedia.Download(mediaId);
             if (response.ErrCode.GetValueOrDefault() != 0) return;
 
             rep.AddHeader("X-File-Ext", response.FileName);

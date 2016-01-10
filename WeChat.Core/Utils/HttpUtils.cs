@@ -163,24 +163,59 @@ namespace WeChat.Core.Utils
 
 
         #region 上传文件
+        /// <summary>
+        /// 表单上传文件信息
+        /// </summary>
         public class FormFileParam
         {
+            /// <summary>
+            /// 文件数据
+            /// </summary>
             public byte[] Data { get; set; }
+
+            /// <summary>
+            /// 文件名
+            /// </summary>
             public string FileName { get; set; }
+
+            /// <summary>
+            /// 文件对应的Form参数名
+            /// </summary>
             public string ParamName { get; set; }
 
-            public FormFileParam(string fileName, string paramName, byte[] data)
+            /// <summary>
+            /// 文件的ContentType
+            /// </summary>
+            public string ContentType { get; set; }
+
+            /// <summary>
+            /// 构造Form表单单个文件数据
+            /// </summary>
+            /// <param name="fileName">文件名</param>
+            /// <param name="paramName">文件参数名</param>
+            /// <param name="data">文件数据</param>
+            /// <param name="contentType">文件的ContentType</param>
+            public FormFileParam(string fileName, string paramName, byte[] data, string contentType)
             {
                 this.FileName = fileName;
                 this.ParamName = paramName;
                 this.Data = data;
+                this.ContentType = contentType;
             }
+
         }
 
+        /// <summary>
+        /// 以Form表单的形式上传文件
+        /// </summary>
+        /// <param name="url">上传请求的URL</param>
+        /// <param name="file">上传的文件的信息</param>
+        /// <param name="contentType">上传的文件</param>
+        /// <param name="data">文件数据</param>
+        /// <returns></returns>
         public static byte[] UploadFile(
             string url,
             FormFileParam file,
-            string contentType,
             Dictionary<string, string> data)
         {
             var boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
@@ -207,7 +242,7 @@ namespace WeChat.Core.Utils
             requestBytes.AddRange(boundaryBytes);
 
             string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-            var header = String.Format(headerTemplate, file.ParamName, file.FileName, contentType);
+            var header = String.Format(headerTemplate, file.ParamName, file.FileName, file.ContentType);
             var headerBytes = Encoding.UTF8.GetBytes(header);
             requestBytes.AddRange(headerBytes);
 
@@ -236,6 +271,76 @@ namespace WeChat.Core.Utils
                 return responseBytes.ToArray();
             }
         }
+
+
+        /// <summary>
+        /// 以Form表单的形式上传文件
+        /// </summary>
+        /// <param name="url">上传请求的URL</param>
+        /// <param name="file">上传的文件的信息</param>
+        /// <param name="contentType">上传的文件</param>
+        /// <param name="data">文件数据</param>
+        /// <returns></returns>
+        public static async Task<byte[]> UploadFileAsync(
+            string url,
+            FormFileParam file,
+            Dictionary<string, string> data)
+        {
+            var boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
+            var boundaryBytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "multipart/form-data; boundary=" + boundary;
+            request.Method = "POST";
+            request.KeepAlive = true;
+            request.Credentials = CredentialCache.DefaultCredentials;
+
+            List<byte> requestBytes = new List<byte>();
+
+
+            if (data != null)
+            {
+                string formDataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
+                foreach (KeyValuePair<string, string> dict in data)
+                {
+                    requestBytes.AddRange(boundaryBytes);
+                    string formItem = String.Format(formDataTemplate, dict.Key, dict.Value);
+                    requestBytes.AddRange(Encoding.UTF8.GetBytes(formItem));
+                }
+            }
+            requestBytes.AddRange(boundaryBytes);
+
+            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+            var header = String.Format(headerTemplate, file.ParamName, file.FileName, file.ContentType);
+            var headerBytes = Encoding.UTF8.GetBytes(header);
+            requestBytes.AddRange(headerBytes);
+
+            requestBytes.AddRange(file.Data);
+
+            byte[] trailer = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
+            requestBytes.AddRange(trailer);
+
+            var requestStream = await request.GetRequestStreamAsync();
+            //await requestStream.WriteAsync(requestBytes.ToArray(), 0, requestBytes.Count);
+            requestStream.Write(requestBytes.ToArray(), 0, requestBytes.Count);
+            requestStream.Close();
+
+            var rep = await request.GetResponseAsync();
+            using (Stream stream = rep.GetResponseStream())
+            {
+                if (stream == null) return null;
+                List<byte> responseBytes = new List<byte>();
+                byte[] buffer = new byte[1024];
+                int read;
+                do
+                {
+                    read = stream.Read(buffer, 0, buffer.Length);
+                    responseBytes.AddRange(buffer.Take(read));
+                } while (read > 0);
+
+                return responseBytes.ToArray();
+            }
+        }
+
 
         #endregion
     }

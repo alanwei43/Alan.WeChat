@@ -37,10 +37,10 @@ namespace WeChat.Core.Utils
         /// <summary>
         /// 注入配置
         /// </summary>
-        /// <param name="token"></param>
-        /// <param name="aesKey"></param>
-        /// <param name="appId"></param>
-        /// <param name="appSecret"></param>
+        /// <param name="token">token</param>
+        /// <param name="aesKey">AES加密密钥</param>
+        /// <param name="appId">APP Id</param>
+        /// <param name="appSecret">App Secret</param>
         /// <returns></returns>
         public FluentConfig Inject(string token, string aesKey, string appId, string appSecret, Configurations.TransferMode mode)
         {
