@@ -24,9 +24,8 @@ namespace WeChat.Example
         {
 
             WeChat.Core.Utils.FluentConfig.Get()
-                //.Inject("token", "aes key", "app id", "app secret", Configurations.TransferMode.Plain)
-                .Inject(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json")) //出入JSON文件的形式传入配置信息
-                .Inject(new DbLog()) //注入日志模块, 不是必需的
+                .Inject(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json")) //注入JSON文件的形式传入配置信息
+                .Inject(new DbLog()) //修改日志模块
                 .Inject(middleware =>
                 {
                     //记录请求数据
@@ -98,7 +97,7 @@ namespace WeChat.Example
                         }
                     }
                 })
-                .InjectLoc(req => true, (req )=> new TextResponse
+                .InjectLoc(req => true, (req) => new TextResponse
                 {
                     Content = String.Format("你目前所在地是: {0}. ", req.Label),
                     MsgType = WeChat.Core.Utils.Configurations.Current.MessageType.Text
@@ -108,7 +107,7 @@ namespace WeChat.Example
                     Content = "you select picksysphoto",
                     MsgType = Configurations.Current.MessageType.Text
                 })
-                .InjectTxt((req, middleware) => !middleware.SetedResponse, (req, middleware)=> new TextResponse
+                .InjectTxt((req, middleware) => !middleware.SetedResponse, (req, middleware) => new TextResponse
                 {
                     Content = "你发送的信息是: " + req.Content + ".",
                     MsgType = Configurations.Current.MessageType.Text
