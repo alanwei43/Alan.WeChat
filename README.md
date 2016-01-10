@@ -22,10 +22,53 @@
 
 这个项目断断续续写了好长时间了, 其实好多抽象类或实体类应该放到更深层的目录下, 最近要忙别的项目了, 这个先告一段落吧. 项目的几个文件夹的大概意思如下:
 
-### Api目录, 主要包括主动调用微信API的接口
 
-	Api.ContentsManage: 微信的素材管理接口, 包括
-		
+	* Api: 微信接口调用
+	* Api.ContentsManage: 微信的素材管理接口
+	* Api.JsSdk: 微信JavaScript SDK相关
+	* Api.MenuManage: 微信菜单管理
+	* Api.UserGroupManage: 微信用户管理
+	* Api.AccessToken.cs: 获取AccessToken
+	* Api.WebAuth---.cs: 网页授权相关
+
+	* Cache: 缓存模块, 主要用于AccessToken的缓存. 这里为了快速开发使用了 System.Web.HttpContext.Current.Cache 对象来管理缓存.
+	* EncryptDecrypt: 加密/解密模块, 这里直接使用了腾讯给的示例代码.
+	* Log: 日志记录模块.
+
+	* Messages: 自定义消息模块, 这里利用中间件的思想. 
+
+所有的接口使用方式大都类似, 而且都提供同步和异步两种方式, 文档的使用示例小节有例子.
+
+后来为了使用方便, 创建了一个 FluentConfig 类, 你可以在应用程序启动的时候调用这个类, 来初始化配置, 注入日志/缓存模块, 拦截微信推送的消息, 并相应微信推送的消息.
+
+
+# Configuration
+
+有两种配置方式, 一种是写配置文件读取, 一种是调用方法配置.
+配置文件(*假设文件路径是: E:\WeChat\App_Data\config.json*)的格式如下:
+
+	{
+	  "Token": "token",
+	  "AESKey": "AES key",
+	  "AppId": "App Id",
+	  "AppSecret": "App Secret",
+	  "MessageModel": "消息模式: Plain(明文)/Hybrid(混合)/Cipher(加密)"
+	}
+
+可以使用如下代码修改配置:
+
+	WeChat.Core.Utils.Configurations.Inject(System.IO.File.ReadAllText(@"E:\WeChat\App_Data\config.json"));
+	
+获取使用如下方式修改配置: 
+
+	WeChat.Core.Utils.Configurations.Inject(new Configurations()
+            {
+                Token = token,
+                AesKey = aesKey,
+                AppId = appId,
+                AppSecret = appSecret,
+                EnumMessageMode = mode
+            });
 
 # Use
 
@@ -130,7 +173,7 @@
     });
 
 
-### 接收微信推送的消息
+### 响应微信推送的消息
 	
 	下面的代码是在一般处理程序的使用例子: 
 
@@ -144,6 +187,7 @@
 
             if (req.HttpMethod.ToUpper() == "GET")
             {
+				//如果是GET请求则视为微信配置时的服务器校验
                 rep.Write(req["echostr"]);
                 return;
             }
@@ -155,14 +199,14 @@
     }
 
 
-# API
 
-总共分为两大块: 主动调用微信的接口(获取用户信息, 素材管理, JavaScript SDK配置, 菜单管理， 网页授权), 和接收微信推送的消息/事件.  而且接口调用都同时包含异步和同步两个.
+## API使用示例
 
-### 获取用户信息
+### 根据获取微信用户信息
 
 	WeChat.Core.Api.WeChatUserInfo.Get(string openId);
 	WeChat.Core.Api.WeChatUserInfo.GetAsync(string openId);
+
 
 ### JavaScript SDK
 
@@ -237,3 +281,6 @@
 
 	WeChat.Core.Api.MenuManage.DeleteMenus.Delete();
 	WeChat.Core.Api.MenuManage.DeleteMenus.DeleteAsync();
+
+
+

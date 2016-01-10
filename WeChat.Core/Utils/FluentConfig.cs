@@ -44,7 +44,7 @@ namespace WeChat.Core.Utils
         /// <returns></returns>
         public FluentConfig Inject(string token, string aesKey, string appId, string appSecret, Configurations.TransferMode mode)
         {
-            Configurations.Inject(new Configurations()
+            WeChat.Core.Utils.Configurations.Inject(new Configurations()
             {
                 Token = token,
                 AesKey = aesKey,
