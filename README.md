@@ -23,19 +23,19 @@
 这个项目断断续续写了好长时间了, 其实好多抽象类或实体类应该放到更深层的目录下, 最近要忙别的项目了, 这个先告一段落吧. 项目的几个文件夹的大概意思如下:
 
 
-	* Api: 微信接口调用
-	* Api.ContentsManage: 微信的素材管理接口
-	* Api.JsSdk: 微信JavaScript SDK相关
-	* Api.MenuManage: 微信菜单管理
-	* Api.UserGroupManage: 微信用户管理
-	* Api.AccessToken.cs: 获取AccessToken
-	* Api.WebAuth---.cs: 网页授权相关
+* Api: 微信接口调用
+* Api.ContentsManage: 微信的素材管理接口
+* Api.JsSdk: 微信JavaScript SDK相关
+* Api.MenuManage: 微信菜单管理
+* Api.UserGroupManage: 微信用户管理
+* Api.AccessToken.cs: 获取AccessToken
+* Api.WebAuth---.cs: 网页授权相关
 
-	* Cache: 缓存模块, 主要用于AccessToken的缓存. 这里为了快速开发使用了 System.Web.HttpContext.Current.Cache 对象来管理缓存.
-	* EncryptDecrypt: 加密/解密模块, 这里直接使用了腾讯给的示例代码.
-	* Log: 日志记录模块.
+* Cache: 缓存模块, 主要用于AccessToken的缓存. 这里为了快速开发使用了 System.Web.HttpContext.Current.Cache 对象来管理缓存.
+* EncryptDecrypt: 加密/解密模块, 这里直接使用了腾讯给的示例代码.
+* Log: 日志记录模块.
 
-	* Messages: 自定义消息模块, 这里利用中间件的思想. 
+* Messages: 自定义消息模块, 这里利用中间件的思想. 
 
 所有的接口使用方式大都类似, 而且都提供同步和异步两种方式, 文档的使用示例小节有例子.
 
