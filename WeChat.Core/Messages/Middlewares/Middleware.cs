@@ -147,8 +147,6 @@ namespace WeChat.Core.Messages.Middlewares
                 Input = new MiddlewareInput(input, requestModel)
             };
 
-            var valid = Validate(signature, nonce, timestamp);
-
             return Execute(middleInput);
         }
 
