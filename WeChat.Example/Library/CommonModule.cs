@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
+using Alan.Log.LogContainerImplement;
 using Alan.Utils.ExtensionMethods;
-using WeChat.Core.Log;
 
 namespace WeChat.Example.Library
 {
@@ -16,7 +16,7 @@ namespace WeChat.Example.Library
 
         private void Context_PreSendRequestContent(object sender, EventArgs e)
         {
-            LogUtils.Current.WriteWithOutId(category: "/Request/End", note: String.Format("{0}",DateTime.Now));
+            LogUtils.Current.LogWithId(category: "/Request/End", note: String.Format("{0}", DateTime.Now));
         }
 
         private void Context_Error(object sender, EventArgs e)
@@ -25,26 +25,19 @@ namespace WeChat.Example.Library
             try
             {
                 var lastEx = app.Server.GetLastError();
-                if (lastEx != null)
-                    LogUtils.Current.Write(
-                        id: (System.Web.HttpContext.Current.Items["X-Request-Id"] ?? "").ToString(),
-                        category: "exception",
-                        note: new
-                        {
-                            Method = app.Request.HttpMethod,
-                            Url = app.Request.RawUrl,
-                            Message = lastEx.Message,
-                            Stack = lastEx.StackTrace,
-                            Source = lastEx.Source
-                        }.ExToJson());
-                else
-                    LogUtils.Current.Write(
-                        id: (System.Web.HttpContext.Current.Items["X-Request-Id"] ?? "").ToString(),
-                        category: "exception",
-                        note: String.Format("Exception: {0} \t {1} \t {2}",
-                        DateTime.Now,
-                        app.Request.HttpMethod,
-                        app.Request.RawUrl));
+
+                LogUtils.Current.Log(
+                    level: "error",
+                    category: "exception",
+                    note: new
+                    {
+                        Method = app.Request.HttpMethod,
+                        Url = app.Request.RawUrl,
+                        Message = lastEx.Message,
+                        Stack = lastEx.StackTrace,
+                        Source = lastEx.Source
+                    }.ExToJson());
+
             }
             catch { }
         }
@@ -56,9 +49,7 @@ namespace WeChat.Example.Library
 
             System.Web.HttpContext.Current.Items["X-Request-Id"] = Guid.NewGuid().ToString();
 
-            LogUtils.Current.WriteWithOutId(
-                category: "/Request/Start",
-                note: String.Format("{0} \n\r {1} \n\r {2} \n\r {3}", DateTime.Now, app.Request.UserHostAddress, app.Request.HttpMethod, app.Request.RawUrl));
+            LogUtils.Current.LogWithId(category: "/Request/Start", note: String.Format("{0} \n\r {1} \n\r {2} \n\r {3}", DateTime.Now, app.Request.UserHostAddress, app.Request.HttpMethod, app.Request.RawUrl));
 
         }
 

@@ -1,19 +1,15 @@
 ﻿using System;
+using System.IO;
+using System.Net;
+using System.Web;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.SessionState;
-using Alan.Utils.ExtensionMethods;
-using WeChat.Core.Api;
-using WeChat.Core.Api.MenuManage;
-using WeChat.Core.Log;
-using WeChat.Core.Messages;
-using WeChat.Core.Messages.Middlewares;
+using System.Text.RegularExpressions;
+using Alan.Log.LogContainerImplement;
 using WeChat.Core.Messages.Normal;
 using WeChat.Core.Utils;
 using WeChat.Example.Library;
-using WeChat.Core.Messages.Events;
+using HtmlAgilityPack;
 
 namespace WeChat.Example
 {
@@ -23,21 +19,22 @@ namespace WeChat.Example
         protected void Application_Start(object sender, EventArgs e)
         {
 
+            //LogUtils.Current.InjectLogModule<DbLog>();
+            Alan.Log.LogContainerImplement.LogUtils.Current.InjectLogModule(new Alan.Log.ILogImplement.LogAutoSeperateFiles(100 * 1024, System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/wechat.log")));
+
             WeChat.Core.Utils.FluentConfig.Get()
                 .Inject(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json")) //注入JSON文件的形式传入配置信息
-                .Inject(new DbLog()) //修改日志模块
                 .Inject(middleware =>
                 {
                     //记录请求数据
-                    LogUtils.Current.WriteWithOutId(category: "/Message/Request/Data", note: middleware.Input.Request);
+                    LogUtils.Current.LogWithId(category: "/Message/Request/Data", note: middleware.Input.Request);
                 })
                 .InjectEnd(middleware =>
                 {
                     //记录输出数据
-                    LogUtils.Current.WriteWithOutId(category: "/Message/Response/Data", note: middleware.GetResponse());
+                    LogUtils.Current.LogWithId(category: "/Message/Response/Data", note: middleware.GetResponse());
                 })
 
-                //使用Inject方法注入文本消息过滤器
                 //只有文本消息的内容是 "摄影大赛" 的时候才执行这个过滤器
                 .InjectTxt(req => req.Content == "摄影大赛", req => new NewsResponse()
                 {
@@ -53,7 +50,6 @@ namespace WeChat.Example
                     }
                 }
                 )
-                //使用InjectTxt方法注入文本消息过滤器
                 //只有文本消息的内容是 "我的信息" 的时候才执行这个过滤器
                 .InjectTxt(req => req.Content == "我的信息", req =>
                 {
@@ -65,14 +61,12 @@ namespace WeChat.Example
                         MsgType = WeChat.Core.Utils.Configurations.Current.MessageType.Text
                     };
                 })
-                //使用InjectTxt方法注入文本消息过滤器
                 //只有文本消息的内容是 "现在时间" 的时候才执行这个过滤器
                 .InjectTxt(req => req.Content == "现在时间", req => new TextResponse
                 {
                     Content = DateTime.Now.ToString("服务器时间 yyyy-MM-dd HH:mm:ss"),
                     MsgType = WeChat.Core.Utils.Configurations.Current.MessageType.Text
                 })
-                //当用户向微信公众号发送图片消息的响应
                 .InjectImg(req => true, req =>
                 {
 
@@ -106,6 +100,73 @@ namespace WeChat.Example
                 {
                     Content = "you select picksysphoto",
                     MsgType = Configurations.Current.MessageType.Text
+                })
+                .InjectTxt(where: req => req.Content == "cnbeta", setResponse: req =>
+                {
+                    var url = "http://www.cnbeta.com";
+                    WebRequest webReq = WebRequest.Create(url);
+
+                    var allLinks = new List<Tuple<string, string>>();
+
+                    using (var reader = new StreamReader(webReq.GetResponse().GetResponseStream()))
+                    {
+
+                        HtmlDocument doc = new HtmlDocument();
+                        var html = reader.ReadToEnd();
+                        doc.LoadHtml(html);
+
+                        var articles =
+                            doc.DocumentNode.SelectNodes("//div[@class]")
+                                .FirstOrDefault(l => l.Attributes["class"].Value == "alllist");
+
+                        if (articles == null)
+                            return new TextResponse()
+                            {
+                                Content = "Not found articles",
+                                MsgType = Configurations.Current.MessageType.Text
+                            };
+
+                        allLinks = articles.SelectNodes("//a[@href]")
+                        .Select(art => Tuple.Create(art.InnerText, art.Attributes["href"].Value))
+                        .ToList();
+                    }
+
+
+
+                    var links = from ele in allLinks
+                                let matches = Regex.Match(ele.Item2, @"/articles/(\d+)\.htm")
+                                where matches.Success && matches.Groups.Count == 2 && !String.IsNullOrWhiteSpace(ele.Item1)
+                                select String.Format("{0} {1}", matches.Groups[1].Value, ele.Item1);
+
+                    var rep = new TextResponse()
+                    {
+                        Content = String.Join(Environment.NewLine, links),
+                        MsgType = Configurations.Current.MessageType.Text
+                    };
+
+                    return rep;
+                })
+                .InjectTxt(where: req => Regex.IsMatch(req.Content, @"\d+"), setResponse: req =>
+                {
+                    var url = String.Format("http://www.cnbeta.com/articles/{0}.htm", req.Content);
+                    HtmlDocument doc = new HtmlDocument();
+                    WebRequest webReq = WebRequest.Create(url);
+                    var reader = new StreamReader(webReq.GetResponse().GetResponseStream());
+                    var html = reader.ReadToEnd();
+                    doc.LoadHtml(html);
+
+                    var articleContent =
+                        doc.DocumentNode.SelectNodes("//section[@class]")
+                            .FirstOrDefault(ele => ele.Attributes["class"].Value == "article_content");
+                    var textContent = articleContent == null ? "not found" : articleContent.InnerText;
+
+                    var rep = new TextResponse()
+                    {
+                        Content = textContent,
+                        MsgType = Configurations.Current.MessageType.Text
+                    };
+
+                    return rep;
                 })
                 .InjectTxt((req, middleware) => !middleware.SetedResponse, (req, middleware) => new TextResponse
                 {

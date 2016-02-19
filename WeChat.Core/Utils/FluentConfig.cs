@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeChat.Core.Cache;
-using WeChat.Core.Log;
+using Alan.Log.Core;
+using Alan.Log.LogContainerImplement;
 using WeChat.Core.Messages;
 using WeChat.Core.Messages.Events;
 using WeChat.Core.Messages.Middlewares;
@@ -73,7 +74,7 @@ namespace WeChat.Core.Utils
         /// <returns></returns>
         public FluentConfig Inject(ILog log)
         {
-            LogUtils.Inject(log);
+            LogUtils.Current.InjectLogModule(log);
             return this;
         }
         #endregion

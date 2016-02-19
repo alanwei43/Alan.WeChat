@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
 using Alan.Utils.ExtensionMethods;
-using WeChat.Core.Log;
+using Alan.Log.Core;
+using Alan.Log.LogContainerImplement;
 using WeChat.Core.Utils;
 
 namespace WeChat.Core.Api.Models

@@ -31,6 +31,10 @@
     <DocumentationFile>bin\Release\WeChat.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Alan.Log, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Alan.Log.1.2.4\lib\net40\Alan.Log.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Alan.Utils, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Alan.Utils.1.1.4.0\lib\net40\Alan.Utils.dll</HintPath>
       <Private>True</Private>
@@ -73,6 +77,8 @@
     <Compile Include="Api\MenuManage\DeletePersonalMenus.cs" />
     <Compile Include="Api\MenuManage\TestPersonalMenus.cs" />
     <Compile Include="Api\Models\ResponseModel.cs" />
+    <Compile Include="Api\Nearby\ApplyFor.cs" />
+    <Compile Include="Api\Nearby\Models\ApplyForModel.cs" />
     <Compile Include="Api\UserGroupManage\BatchMoveUserToGroup.cs" />
     <Compile Include="Api\UserGroupManage\CreateGroup.cs" />
     <Compile Include="Api\UserGroupManage\DeleteGroup.cs" />
@@ -98,8 +104,7 @@
     <Compile Include="EncryptDecrypt\Cryptography.cs" />
     <Compile Include="EncryptDecrypt\Sample.cs" />
     <Compile Include="EncryptDecrypt\WXBizMsgCrypt.cs" />
-    <Compile Include="Log\LogUtils.cs" />
-    <Compile Include="Log\TraceLog.cs" />
+    <Compile Include="Exceptions\GetAccessTokenException.cs" />
     <Compile Include="Messages\Events\EventBase.cs" />
     <Compile Include="Messages\Events\ClickMenuRequest.cs" />
     <Compile Include="Messages\Events\EventTypes.cs" />
@@ -125,7 +130,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Api\AccessToken.cs" />
     <Compile Include="Utils\Configurations.cs" />
-    <Compile Include="Log\ILog.cs" />
     <Compile Include="Utils\FluentConfig.cs" />
     <Compile Include="Utils\HttpUtils.cs" />
   </ItemGroup>

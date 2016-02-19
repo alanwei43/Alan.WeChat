@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using Alan.Utils.ExtensionMethods;
-using WeChat.Core.Log;
 using WeChat.Core.Messages.Events;
 using WeChat.Core.Messages.Normal;
 using WeChat.Core.Utils;

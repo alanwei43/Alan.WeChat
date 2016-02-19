@@ -210,7 +210,6 @@ namespace WeChat.Core.Utils
         /// </summary>
         /// <param name="url">上传请求的URL</param>
         /// <param name="file">上传的文件的信息</param>
-        /// <param name="contentType">上传的文件</param>
         /// <param name="data">文件数据</param>
         /// <returns></returns>
         public static byte[] UploadFile(
@@ -278,7 +277,6 @@ namespace WeChat.Core.Utils
         /// </summary>
         /// <param name="url">上传请求的URL</param>
         /// <param name="file">上传的文件的信息</param>
-        /// <param name="contentType">上传的文件</param>
         /// <param name="data">文件数据</param>
         /// <returns></returns>
         public static async Task<byte[]> UploadFileAsync(
