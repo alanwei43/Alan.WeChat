@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WeChat.Core.Cache
 {
+    /// <summary>
+    /// ICache缓存接口
+    /// </summary>
     public interface ICache
     {
         /// <summary>

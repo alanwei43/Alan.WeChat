@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace WeChat.Core.Messages
 {
+    /// <summary>
+    /// 消息类型
+    /// </summary>
     public class MessageTypes
     {
         /// <summary>

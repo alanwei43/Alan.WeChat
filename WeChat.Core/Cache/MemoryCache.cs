@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WeChat.Core.Cache
 {
+    /// <summary>
+    /// 基于内存实现的ICache
+    /// </summary>
     public class MemoryCache : ICache
     {
         private IDictionary<string, CacheObj<object>> _dict;

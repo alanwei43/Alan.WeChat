@@ -57,6 +57,7 @@ namespace WeChat.Example
                         MsgType = Configurations.Current.MessageType.Text
                     };
                 })
+
             #region cnbeta
                 .InjectTxt(where: req => req.Content == "cnbeta", setResponse: req =>
                 {

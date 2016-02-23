@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WeChat.Core.Cache
 {
+    /// <summary>
+    /// 基于System.Web.HttpContext.Current.Cache实现的ICache
+    /// </summary>
     internal class SystemCache : ICache
     {
         /// <summary>

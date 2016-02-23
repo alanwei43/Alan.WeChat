@@ -100,6 +100,7 @@
     <Compile Include="Api\MenuManage\QueryMenus.cs" />
     <Compile Include="Cache\CacheUtils.cs" />
     <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Cache\MemoryCache.cs" />
     <Compile Include="Cache\SystemCache.cs" />
     <Compile Include="EncryptDecrypt\Cryptography.cs" />
     <Compile Include="EncryptDecrypt\Sample.cs" />

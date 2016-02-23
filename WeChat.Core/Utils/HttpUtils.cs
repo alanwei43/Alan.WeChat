@@ -18,6 +18,12 @@ namespace WeChat.Core.Utils
         private string Data { get; set; }
         private string HttpMethod { get; set; }
 
+        /// <summary>
+        /// 实例化 HttpUtils
+        /// </summary>
+        /// <param name="url">请求的Url</param>
+        /// <param name="data">请求时发送的数据</param>
+        /// <param name="method">请求方法</param>
         public HttpUtils(string url, string data, string method)
         {
             this.Url = url;
@@ -25,11 +31,23 @@ namespace WeChat.Core.Utils
             this.HttpMethod = method ?? "GET";
         }
 
-        public static HttpUtils Get(string url, string data, string method)
+        /// <summary>
+        /// 获取HttpUtils实例
+        /// </summary>
+        /// <param name="url">请求的Url</param>
+        /// <param name="data">请求时发送的数据</param>
+        /// <param name="method">请求方法</param>
+        /// <returns>HttpUtils实例</returns>
+        public static HttpUtils Get(string url, string data = null, string method = null)
         {
             return new HttpUtils(url, data, method);
         }
 
+        /// <summary>
+        /// 发起Http请求, 并把结果序列化成一个实体
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <returns></returns>
         public T RequestAsModel<T>()
             where T : class
         {
@@ -37,6 +55,11 @@ namespace WeChat.Core.Utils
             return rep.ExJsonToEntity<T>();
         }
 
+        /// <summary>
+        /// 异步发起Http请求, 并把结果序列化成一个实体
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <returns></returns>
         public async Task<T> RequestAsModelAsync<T>()
             where T : class
         {
@@ -44,18 +67,31 @@ namespace WeChat.Core.Utils
             return response.ExJsonToEntity<T>();
         }
 
+        /// <summary>
+        /// 发起Http请求, 并把结果转换成字符串
+        /// </summary>
+        /// <returns>请求结果字符串</returns>
         public string RequestAsString()
         {
             var bytes = this.Request(null);
             return Encoding.UTF8.GetString(bytes);
         }
 
+        /// <summary>
+        /// 异步发起Http请求, 并把结果转换成字符串
+        /// </summary>
+        /// <returns>请求结果字符串</returns>
         public async Task<string> RequestAsStringAsync()
         {
             var bytes = await this.RequestAsync(null);
             return Encoding.UTF8.GetString(bytes);
         }
 
+        /// <summary>
+        /// 发起Http请求, 返回请求结果
+        /// </summary>
+        /// <param name="getHeaders">获取响应头信息</param>
+        /// <returns>请求结果</returns>
         public byte[] Request(Action<Func<string, string>> getHeaders)
         {
             WebRequest req = WebRequest.Create(this.Url);
@@ -91,6 +127,12 @@ namespace WeChat.Core.Utils
             return buffers.ToArray();
         }
 
+
+        /// <summary>
+        /// 异步发起Http请求, 返回请求结果
+        /// </summary>
+        /// <param name="getHeaders">获取响应头信息</param>
+        /// <returns>请求结果</returns>
         public async Task<byte[]> RequestAsync(Action<Func<string, string>> getHeaders)
         {
 
@@ -115,6 +157,11 @@ namespace WeChat.Core.Utils
             return response;
         }
 
+
+        /// <summary>
+        /// 发起Http请求下载文件
+        /// </summary>
+        /// <returns>返回 Tuple.Item1 是否请求成功, Tuple.Item2 请求结果</returns>
         public System.Tuple<string, byte[]> DownloadFile()
         {
             var fileName = String.Empty;
@@ -138,6 +185,10 @@ namespace WeChat.Core.Utils
             return System.Tuple.Create(fileName, bytes);
         }
 
+        /// <summary>
+        /// 异步发起Http请求下载文件
+        /// </summary>
+        /// <returns>返回 Tuple.Item1 是否请求成功, Tuple.Item2 请求结果</returns>
         public async Task<Tuple<string, byte[]>> DownloadFileAsync()
         {
             var fileName = String.Empty;
@@ -273,7 +324,7 @@ namespace WeChat.Core.Utils
 
 
         /// <summary>
-        /// 以Form表单的形式上传文件
+        /// 以Form表单的形式异步上传文件
         /// </summary>
         /// <param name="url">上传请求的URL</param>
         /// <param name="file">上传的文件的信息</param>
