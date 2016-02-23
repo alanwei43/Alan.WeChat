@@ -34,42 +34,21 @@ namespace WeChat.Example
                     //记录输出数据
                     LogUtils.Current.LogWithId(category: "/Message/Response/Data", note: middleware.GetResponse());
                 })
-
-                //只有文本消息的内容是 "摄影大赛" 的时候才执行这个过滤器
-                .InjectTxt(req => req.Content == "摄影大赛", req => new NewsResponse()
-                {
-                    Articles = new List<NewsResponse.ArticleItem>
-                    {
-                        new NewsResponse.ArticleItem
-                        {
-                            Description = "双鱼之恋 - 摄影大赛",
-                            PicUrl = "http://fishlove.yupen.cn/Custom/images/home-slogan.png",
-                            Title = "双鱼之恋 - 摄影大赛",
-                            Url = "http://fishlove.yupen.cn/Custom/index.html?openid=" + req.FromUserName
-                        }
-                    }
-                }
-                )
                 //只有文本消息的内容是 "我的信息" 的时候才执行这个过滤器
                 .InjectTxt(req => req.Content == "我的信息", req =>
                 {
                     //获取微信用户信息
                     var user = WeChat.Core.Api.WeChatUserInfo.Get(req.FromUserName);
+
                     return new TextResponse()
                     {
-                        Content = String.Format("你的名字是 {0}.", user.NickName),
+                        Content = String.Format("你的名字是 {0}.", Newtonsoft.Json.JsonConvert.SerializeObject(user)),
                         MsgType = WeChat.Core.Utils.Configurations.Current.MessageType.Text
                     };
                 })
-                //只有文本消息的内容是 "现在时间" 的时候才执行这个过滤器
-                .InjectTxt(req => req.Content == "现在时间", req => new TextResponse
-                {
-                    Content = DateTime.Now.ToString("服务器时间 yyyy-MM-dd HH:mm:ss"),
-                    MsgType = WeChat.Core.Utils.Configurations.Current.MessageType.Text
-                })
+                //下载图片
                 .InjectImg(req => true, req =>
                 {
-
                     var items = HttpUtils.Get(req.PicUrl, null, null).DownloadFile();
                     System.IO.File.WriteAllBytes(System.Web.Hosting.HostingEnvironment.MapPath("~/" + items.Item1), items.Item2);
                     return new TextResponse
@@ -78,29 +57,7 @@ namespace WeChat.Example
                         MsgType = Configurations.Current.MessageType.Text
                     };
                 })
-                .InjectClick(req => req.EventKey == "photographer", req => new NewsResponse
-                {
-                    Articles = new List<NewsResponse.ArticleItem>
-                    {
-                        new NewsResponse.ArticleItem
-                        {
-                            Description = "双鱼之恋 - 摄影大赛",
-                            PicUrl = "http://fishlove.yupen.cn/Custom/images/home-slogan.png",
-                            Title = "双鱼之恋 - 摄影大赛",
-                            Url = "http://fishlove.yupen.cn/Custom/index.html?openid=" + req.FromUserName
-                        }
-                    }
-                })
-                .InjectLoc(req => true, (req) => new TextResponse
-                {
-                    Content = String.Format("你目前所在地是: {0}. ", req.Label),
-                    MsgType = WeChat.Core.Utils.Configurations.Current.MessageType.Text
-                })
-                .InjectEvent(req => req.Event == Configurations.Current.EventType.PickSysPhoto, req => new TextResponse
-                {
-                    Content = "you select picksysphoto",
-                    MsgType = Configurations.Current.MessageType.Text
-                })
+            #region cnbeta
                 .InjectTxt(where: req => req.Content == "cnbeta", setResponse: req =>
                 {
 
@@ -151,9 +108,9 @@ namespace WeChat.Example
                     return rep;
 
                 })
-                .InjectTxt(where: req => Regex.IsMatch(req.Content, @"\d+"), setResponse: req =>
+                .InjectTxt(where: req => Regex.IsMatch(req.Content, @"cnbeta \d+"), setResponse: req =>
                 {
-                    var url = String.Format("http://www.cnbeta.com/articles/{0}.htm", req.Content);
+                    var url = String.Format("http://www.cnbeta.com/articles/{0}.htm", req.Content.Split(' ')[1]);
                     HtmlDocument doc = new HtmlDocument();
                     WebRequest webReq = WebRequest.Create(url);
                     var reader = new StreamReader(webReq.GetResponse().GetResponseStream());
@@ -179,9 +136,11 @@ namespace WeChat.Example
                     return rep;
 
                 })
+            #endregion
+
                 .InjectTxt((req, middleware) => !middleware.SetedResponse, (req, middleware) => new TextResponse
                 {
-                    Content = "你发送的信息是: " + req.Content + ".",
+                    Content = System.IO.File.ReadAllText(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/directives.txt")),
                     MsgType = Configurations.Current.MessageType.Text
                 });
 

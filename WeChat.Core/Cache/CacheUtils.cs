@@ -11,7 +11,7 @@ namespace WeChat.Core.Cache
         public static ICache Current { get; private set; }
         static CacheUtils()
         {
-            Current = new SystemCache();
+            Current = new MemoryCache();
         }
         public static void Inject(ICache cache)
         {

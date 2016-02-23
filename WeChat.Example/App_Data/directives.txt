@@ -1,0 +1,6 @@
+﻿文本指令列表
+文本: 说明 / 例子
+cnbeta: 获取www.cnbeta.com首页新闻列表 / cnbeta
+cnbeta number: 获取www.cnbeta.com指定的新闻内容 / cnbeta　38943
+我的信息: 返回用户信息 / 我的信息
+淡定的小汤圆: 获取指令列表

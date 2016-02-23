@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App_Data\Config.json" />
+    <Content Include="App_Data\directives.txt" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="packages.config">

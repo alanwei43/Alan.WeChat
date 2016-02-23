@@ -18,7 +18,7 @@ namespace WeChat.Core.Cache
 
 
         /// <summary>
-        /// 移除缓存
+        /// 获取缓存
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
