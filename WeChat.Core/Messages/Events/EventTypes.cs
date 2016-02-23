@@ -38,7 +38,12 @@ namespace WeChat.Core.Messages.Events
         /// </summary>
         public string View { get { return "VIEW"; } }
 
+        /// <summary>
+        /// 选择图片
+        /// </summary>
         public string PickSysPhoto { get { return "pic_sysphoto"; } }
+
+        public string Voice { get { return "VOICE"; } }
 
 
     }

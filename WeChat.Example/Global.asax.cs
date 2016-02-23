@@ -10,6 +10,7 @@ using WeChat.Core.Messages.Normal;
 using WeChat.Core.Utils;
 using WeChat.Example.Library;
 using HtmlAgilityPack;
+using Alan.Log.Core;
 
 namespace WeChat.Example
 {
@@ -31,9 +32,21 @@ namespace WeChat.Example
                 })
                 .InjectEnd(middleware =>
                 {
+                    if (!middleware.SetedResponse)
+                    {
+                        middleware.SetResponseModel(new TextResponse()
+                        {
+                            Content = "未匹配规则",
+                            MsgType = Configurations.Current.MessageType.Text
+                        });
+                    }
                     //记录输出数据
                     LogUtils.Current.LogWithId(category: "/Message/Response/Data", note: middleware.GetResponse());
                 })
+                //.InjectTxt(req => req.Content.StartsWith("txt: "), req =>
+                //  {
+                //      return null;
+                //  })
                 //只有文本消息的内容是 "我的信息" 的时候才执行这个过滤器
                 .InjectTxt(req => req.Content == "我的信息", req =>
                 {
@@ -56,6 +69,24 @@ namespace WeChat.Example
                         Content = "download file ",
                         MsgType = Configurations.Current.MessageType.Text
                     };
+                })
+                .InjectVoice(filter: (req, middle) =>
+                {
+                    try
+                    {
+                        var txt = String.IsNullOrWhiteSpace(req.Recognition) ? "empty" : req.Recognition;
+                        var rep = new TextResponse
+                        {
+                            Content = txt,
+                            MsgType = Configurations.Current.MessageType.Text
+                        };
+                        middle.SetResponseModel(rep);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogUtils.Current.LogError(id: Guid.NewGuid().ToString(), date: DateTime.Now, message: ex.Message,
+                            note: ex.StackTrace, position: ex.Source);
+                    }
                 })
 
             #region cnbeta

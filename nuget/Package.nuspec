@@ -2,20 +2,24 @@
 <package >
   <metadata>
     <id>Alan.WeChat</id>
-    <version>1.2.1.0</version>
+    <version>1.3.1.0</version>
     <authors>Alan Wei</authors>
     <owners>Alan Wei</owners>
-    <licenseUrl>https://github.com/Allen-Wei/WeChat</licenseUrl>
-    <projectUrl>https://github.com/Allen-Wei/WeChat</projectUrl>
+    <licenseUrl>https://github.com/Allen-Wei/Alan.WeChat</licenseUrl>
+    <projectUrl>https://github.com/Allen-Wei/Alan.WeChat</projectUrl>
     <iconUrl>https://avatars0.githubusercontent.com/u/2927578</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>WeChat Develop</description>
-    <releaseNotes>WeChat Develop</releaseNotes>
+	<description>
+		项目及使用地址: https://github.com/Allen-Wei/Alan.WeChat
+	</description>
+	<releaseNotes>
+		add InjectVoice filters
+	</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>WeChat .net</tags>
     <dependencies>
       <dependency id="Alan.Utils" version="1.1.4.0" />
-      <dependency id="Alan.Log" version="1.2.1" />
+      <dependency id="Alan.Log" version="1.2.4" />
     </dependencies>
   </metadata>
   <files>

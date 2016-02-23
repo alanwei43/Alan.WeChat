@@ -360,6 +360,28 @@ namespace WeChat.Core.Utils
         }
         #endregion
 
+        #region Inject voice filters
+
+        public FluentConfig Inject(Action<VoiceRequest, MiddlewareParameter> filter)
+        {
+            Middleware.VoiceFilters.Inject(filter);
+            return this;
+        }
+        public FluentConfig InjectVoice(Action<VoiceRequest, MiddlewareParameter> filter)
+        {
+            Middleware.VoiceFilters.Inject(filter);
+            return this;
+        }
+        public FluentConfig InjectVoice(Func<VoiceRequest, bool> where, Func<VoiceRequest, ResponseBase> setResponse)
+        {
+            this.InjectVoice((req, middleware) =>
+            {
+                if (where(req)) middleware.SetResponseModel(setResponse(req));
+            });
+            return this;
+        }
+        #endregion
+
         #region Inject event filters
         /// <summary>
         /// 注册事件过滤器

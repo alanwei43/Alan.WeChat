@@ -112,6 +112,7 @@
     <Compile Include="Messages\Events\PickPhotoRequest.cs" />
     <Compile Include="Messages\Events\PositionRequest.cs" />
     <Compile Include="Messages\Events\ScanQrRequest.cs" />
+    <Compile Include="Messages\Events\VoiceRequest.cs" />
     <Compile Include="Messages\Middlewares\FiltersContainer.cs" />
     <Compile Include="Messages\Normal\ImageRequest.cs" />
     <Compile Include="Messages\Normal\ImageResponse.cs" />

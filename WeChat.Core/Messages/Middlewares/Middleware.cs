@@ -60,6 +60,11 @@ namespace WeChat.Core.Messages.Middlewares
         public static FiltersContainer<ClickMenuRequest> ClickFilters { get; private set; }
 
         /// <summary>
+        /// 接受语音识别结果过滤器
+        /// </summary>
+        public static FiltersContainer<VoiceRequest> VoiceFilters { get; private set; }
+
+        /// <summary>
         /// 事件过滤器
         /// </summary>
         public static FiltersContainer<EventBase> EventFileters { get; private set; }
@@ -75,6 +80,7 @@ namespace WeChat.Core.Messages.Middlewares
             ScanQrFilters = new FiltersContainer<ScanQrRequest>();
             PositionFilter = new FiltersContainer<PositionRequest>();
             ClickFilters = new FiltersContainer<ClickMenuRequest>();
+            VoiceFilters = new FiltersContainer<Events.VoiceRequest>();
             EventFileters = new FiltersContainer<EventBase>();
         }
 
@@ -151,31 +157,31 @@ namespace WeChat.Core.Messages.Middlewares
 
         public static bool Validate(string signature, string nonce, string timestamp)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
 
-            string[] parameters = new string[] { signature, nonce, timestamp };
-            SHA1 sha1 = SHA1.Create();
-            var value = String.Join("", parameters.OrderBy(p => p));
-            var hello = sha1.ComputeHash(Encoding.ASCII.GetBytes(value));
-            var hashvalue = BitConverter.ToString(hello);
-
-
+            //string[] parameters = new string[] { signature, nonce, timestamp };
+            //SHA1 sha1 = SHA1.Create();
+            //var value = String.Join("", parameters.OrderBy(p => p));
+            //var hello = sha1.ComputeHash(Encoding.ASCII.GetBytes(value));
+            //var hashvalue = BitConverter.ToString(hello);
 
 
-            SortedDictionary<string, string> dict = new SortedDictionary<string, string>()
-            {
-                {"timestamp", timestamp },
-                {"nonce", nonce },
-                {"token", Configurations.Current.Token }
-            };
-            var values = String.Join("", dict.Cast<KeyValuePair<string, string>>().Select(kv => kv.Value));
-            SHA1 sha = SHA1.Create();
-            var hash = sha.ComputeHash(Encoding.UTF8.GetBytes(values));
-            var hash1 = BitConverter.ToString(hash);
 
-            var md5 = new SHA1CryptoServiceProvider();
-            hash = md5.ComputeHash(Encoding.ASCII.GetBytes(values));
-            hash1 = BitConverter.ToString(hash);
+
+            //SortedDictionary<string, string> dict = new SortedDictionary<string, string>()
+            //{
+            //    {"timestamp", timestamp },
+            //    {"nonce", nonce },
+            //    {"token", Configurations.Current.Token }
+            //};
+            //var values = String.Join("", dict.Cast<KeyValuePair<string, string>>().Select(kv => kv.Value));
+            //SHA1 sha = SHA1.Create();
+            //var hash = sha.ComputeHash(Encoding.UTF8.GetBytes(values));
+            //var hash1 = BitConverter.ToString(hash);
+
+            //var md5 = new SHA1CryptoServiceProvider();
+            //hash = md5.ComputeHash(Encoding.ASCII.GetBytes(values));
+            //hash1 = BitConverter.ToString(hash);
 
 
             return true;
@@ -251,6 +257,12 @@ namespace WeChat.Core.Messages.Middlewares
                     var positionReq = middlareResult.Input.GetRequestModel<PositionRequest>();
                     PositionFilter.Execute(positionReq, middlareResult);
                 }
+            }
+            //执行 语音识别结果 过滤器
+            if (middlareResult.Input.RequestBaseModel.MsgType == Configurations.Current.MessageType.Voice)
+            {
+                var voiceReq = middlareResult.Input.GetRequestModel<VoiceRequest>();
+                VoiceFilters.Execute(voiceReq, middlareResult);
             }
 
             //全局结束过滤器
