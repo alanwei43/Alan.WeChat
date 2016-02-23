@@ -29,7 +29,6 @@ namespace WeChat.Example.Api
                 rep.AddHeader("X-WeChat-AppId", WeChat.Core.Utils.Configurations.Current.AppId);
                 var echo = req["echostr"];
                 rep.Write(echo);
-
                 return;
             }
 

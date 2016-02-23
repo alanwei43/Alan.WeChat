@@ -39,7 +39,15 @@ namespace WeChat.Example.Library
                     }.ExToJson());
 
             }
-            catch { }
+            catch (Exception ex)
+            {
+                var appErroLog = app.Server.MapPath("~/App_Data/ApplicationError.log");
+                if (!System.IO.File.Exists(appErroLog))
+                {
+                    using (var fs = System.IO.File.Create(appErroLog)) { }
+                }
+                System.IO.File.WriteAllText(appErroLog, String.Format("", ex.Message, ex.StackTrace));
+            }
         }
 
         private void Context_BeginRequest(object sender, EventArgs e)

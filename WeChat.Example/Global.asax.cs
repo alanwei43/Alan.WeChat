@@ -19,7 +19,7 @@ namespace WeChat.Example
         protected void Application_Start(object sender, EventArgs e)
         {
 
-            //LogUtils.Current.InjectLogModule<DbLog>();
+            LogUtils.Current.InjectLogModule<DbLog>();
             Alan.Log.LogContainerImplement.LogUtils.Current.InjectLogModule(new Alan.Log.ILogImplement.LogAutoSeperateFiles(100 * 1024, System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/wechat.log")));
 
             WeChat.Core.Utils.FluentConfig.Get()
@@ -103,6 +103,7 @@ namespace WeChat.Example
                 })
                 .InjectTxt(where: req => req.Content == "cnbeta", setResponse: req =>
                 {
+
                     var url = "http://www.cnbeta.com";
                     WebRequest webReq = WebRequest.Create(url);
 
@@ -127,8 +128,8 @@ namespace WeChat.Example
                             };
 
                         allLinks = articles.SelectNodes("//a[@href]")
-                        .Select(art => Tuple.Create(art.InnerText, art.Attributes["href"].Value))
-                        .ToList();
+                            .Select(art => Tuple.Create(art.InnerText, art.Attributes["href"].Value))
+                            .ToList();
                     }
 
 
@@ -138,13 +139,17 @@ namespace WeChat.Example
                                 where matches.Success && matches.Groups.Count == 2 && !String.IsNullOrWhiteSpace(ele.Item1)
                                 select String.Format("{0} {1}", matches.Groups[1].Value, ele.Item1);
 
+                    var txt = String.Join(Environment.NewLine, links).Trim();
+                    txt = System.Text.Encoding.UTF8.GetString(System.Text.Encoding.UTF8.GetBytes(txt).Take(2000).ToArray());
+
                     var rep = new TextResponse()
                     {
-                        Content = String.Join(Environment.NewLine, links),
+                        Content = txt,
                         MsgType = Configurations.Current.MessageType.Text
                     };
 
                     return rep;
+
                 })
                 .InjectTxt(where: req => Regex.IsMatch(req.Content, @"\d+"), setResponse: req =>
                 {
@@ -158,8 +163,13 @@ namespace WeChat.Example
                     var articleContent =
                         doc.DocumentNode.SelectNodes("//section[@class]")
                             .FirstOrDefault(ele => ele.Attributes["class"].Value == "article_content");
-                    var textContent = articleContent == null ? "not found" : articleContent.InnerText;
+                    var textContent =
+                        (articleContent == null ? "not found" : articleContent.InnerText)
+                            .Replace(Environment.NewLine, "")
+                            .Trim();
 
+                    var txtBytes = System.Text.Encoding.UTF8.GetBytes(textContent);
+                    textContent = System.Text.Encoding.UTF8.GetString(txtBytes.Take(2000).ToArray());
                     var rep = new TextResponse()
                     {
                         Content = textContent,
@@ -167,6 +177,7 @@ namespace WeChat.Example
                     };
 
                     return rep;
+
                 })
                 .InjectTxt((req, middleware) => !middleware.SetedResponse, (req, middleware) => new TextResponse
                 {
