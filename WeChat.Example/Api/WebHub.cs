@@ -26,10 +26,18 @@ namespace WeChat.Example.Api
             if (req.HttpMethod.ToUpper() == "GET")
             {
                 rep.ContentEncoding = Encoding.UTF8;
-                rep.AddHeader("X-WeChat-AppId", WeChat.Core.Utils.Configurations.Current.AppId);
                 var echo = req["echostr"];
                 rep.Write(echo);
                 return;
+            }
+
+            var apiReq = WebRequest.Create("http://apis.baidu.com/apistore/weatherservice/cityname?cityname=天津");
+            apiReq.Headers.Add("apikey", MyConfig.Current.BaiduApiKey);
+            using (var reader = new StreamReader(apiReq.GetResponse().GetResponseStream(), Encoding.UTF8))
+            {
+                var apiRep = reader.ReadToEnd();
+                Encoding encode = new UnicodeEncoding();
+                encode.GetString(Encoding.UTF8.GetBytes(apiRep));
             }
 
             var responseText = Middleware.Execute(req).GetResponse();
