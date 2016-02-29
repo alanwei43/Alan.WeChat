@@ -55,7 +55,7 @@ namespace WeChat.Example
 
                     return new TextResponse()
                     {
-                        Content = String.Format("你的名字是 {0}.", Newtonsoft.Json.JsonConvert.SerializeObject(user)),
+                        Content = String.Format("你的名字是 {0}.", user.NickName),
                         MsgType = WeChat.Core.Utils.Configurations.Current.MessageType.Text
                     };
                 })
@@ -176,6 +176,20 @@ namespace WeChat.Example
                     MsgType = Configurations.Current.MessageType.Text
                 });
 
+            var nearBy = new WeChat.Core.Api.Nearby.ApplyFor(new Core.Api.Nearby.Models.ApplyForModel
+            {
+                apply_reason = "this is reason",
+                email = "hello@qq.com",
+                industry_id = "0101",
+                name = "Alan",
+                phone_number = "12345678901",
+                //qualification_cert_urls = "empty"
+            });
+            var response = nearBy.Submit();
+            if (!response.IsSuccess)
+            {
+                var error = response.ErrMsg;
+            }
         }
 
         protected void Session_Start(object sender, EventArgs e)

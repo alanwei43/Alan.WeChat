@@ -11,10 +11,6 @@ namespace WeChat.Core.Api.Nearby.Models
     /// </summary>
     public class ApplyForModel
     {
-        /// <summary>
-        /// 调用接口凭证
-        /// </summary>
-        public string access_token { get; set; }
 
         /// <summary>
         /// 联系人姓名，不超过20汉字或40个英文字母
