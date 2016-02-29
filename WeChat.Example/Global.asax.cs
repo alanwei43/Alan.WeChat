@@ -191,7 +191,7 @@ namespace WeChat.Example
                 var error = response.ErrMsg;
             }
 
-            WeChat.Core.Api.ContentsManage.UploadMedia.Upload(File.ReadAllBytes(""), "", "cert");
+            WeChat.Core.Api.ContentsManage.UploadMedia.Upload(File.ReadAllBytes("cert file full path"), "image", "cert");
         }
 
         protected void Session_Start(object sender, EventArgs e)
