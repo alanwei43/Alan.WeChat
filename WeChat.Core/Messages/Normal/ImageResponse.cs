@@ -1,13 +1,28 @@
 ﻿using System.Xml.Linq;
+using WeChat.Core.Utils;
 
 namespace WeChat.Core.Messages.Normal
 {
+    /// <summary>
+    /// 回复图片消息
+    /// </summary>
     public class ImageResponse : RequestBase
     {
+        public ImageResponse()
+        {
+            this.MsgType = Configurations.Current.MessageType.Image;
+        }
+
+        /// <summary>
+        /// 图片资源
+        /// </summary>
         public ImageModel Image { get; set; }
 
         public class ImageModel
         {
+            /// <summary>
+            /// 通过上传多媒体文件，得到的id
+            /// </summary>
             public string MediaId { get; set; }
         }
 

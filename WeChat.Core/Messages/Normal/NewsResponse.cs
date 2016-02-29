@@ -10,6 +10,10 @@ namespace WeChat.Core.Messages.Normal
     /// </summary>
     public class NewsResponse : ResponseBase
     {
+        public NewsResponse()
+        {
+            this.MsgType = Configurations.Current.MessageType.News;
+        }
         /// <summary>
         /// 图文消息个数，限制为10条以内
         /// </summary>
@@ -23,7 +27,7 @@ namespace WeChat.Core.Messages.Normal
         /// <summary>
         /// 消息类型
         /// </summary>
-        public new string MsgType { get { return Configurations.Current.MessageType.News; } }
+        public new string MsgType { get; set; }
 
         /// <summary>
         /// 单个文章

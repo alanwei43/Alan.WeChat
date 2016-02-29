@@ -19,5 +19,6 @@ namespace WeChat.Example.Library
             Configurations.Inject(Current);
         }
         public string SqlConnection { get; set; }
+        public string BaiduApiKey { get; set; }
     }
 }

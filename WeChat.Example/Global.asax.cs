@@ -43,10 +43,10 @@ namespace WeChat.Example
                     //记录输出数据
                     LogUtils.Current.LogWithId(category: "/Message/Response/Data", note: middleware.GetResponse());
                 })
-                //.InjectTxt(req => req.Content.StartsWith("txt: "), req =>
-                //  {
-                //      return null;
-                //  })
+                .InjectEvent(where: evt => evt.Event == "subscribe", setResponse: evt => new TextResponse()
+                {
+                    Content = System.IO.File.ReadAllText(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/directives.txt"))
+                })
                 //只有文本消息的内容是 "我的信息" 的时候才执行这个过滤器
                 .InjectTxt(req => req.Content == "我的信息", req =>
                 {
