@@ -86,7 +86,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\Config.json" />
+    <None Include="App_Data\Config-Clever.json" />
     <Content Include="App_Data\directives.txt" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />

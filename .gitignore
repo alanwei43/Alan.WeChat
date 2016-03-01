@@ -197,5 +197,5 @@ FakesAssemblies/
 
 # Alan
 WeChat.Example/App_Data/Config.json
-*/Config.json
+*/**/*.json
 *.csproj.csdat

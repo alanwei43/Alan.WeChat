@@ -9,7 +9,7 @@ namespace WeChat.Core.Messages
     public class EventBase : RequestBase
     {
         /// <summary>
-        /// 事件类型，subscribe(订阅)、unsubscribe(取消订阅)
+        /// 事件类型 subscribe(订阅), unsubscribe(取消订阅)
         /// </summary>
         public string Event { get; set; }
 

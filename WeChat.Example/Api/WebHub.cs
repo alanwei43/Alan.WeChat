@@ -23,6 +23,10 @@ namespace WeChat.Example.Api
             var rep = context.Response;
             var svr = context.Server;
 
+            var reponse = WeChat.Core.Api.MenuManage.QueryMenus.Get();
+
+
+
             if (req.HttpMethod.ToUpper() == "GET")
             {
                 rep.ContentEncoding = Encoding.UTF8;
@@ -31,14 +35,6 @@ namespace WeChat.Example.Api
                 return;
             }
 
-            var apiReq = WebRequest.Create("http://apis.baidu.com/apistore/weatherservice/cityname?cityname=天津");
-            apiReq.Headers.Add("apikey", MyConfig.Current.BaiduApiKey);
-            using (var reader = new StreamReader(apiReq.GetResponse().GetResponseStream(), Encoding.UTF8))
-            {
-                var apiRep = reader.ReadToEnd();
-                Encoding encode = new UnicodeEncoding();
-                encode.GetString(Encoding.UTF8.GetBytes(apiRep));
-            }
 
             var responseText = Middleware.Execute(req).GetResponse();
             rep.Write(responseText);

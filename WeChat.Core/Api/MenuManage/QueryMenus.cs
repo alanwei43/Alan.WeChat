@@ -27,6 +27,17 @@ namespace WeChat.Core.Api.MenuManage
         /// 获取查询菜单
         /// </summary>
         /// <returns></returns>
+        public static QueryMenus Get()
+        {
+            var query = new QueryMenus();
+            var menus = query.RequestAsModel<QueryMenus>();
+            return menus;
+        }
+
+        /// <summary>
+        /// 异步获取查询菜单
+        /// </summary>
+        /// <returns></returns>
         public async static Task<QueryMenus> GetAsync()
         {
             var query = new QueryMenus();

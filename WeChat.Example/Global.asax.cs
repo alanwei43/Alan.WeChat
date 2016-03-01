@@ -24,7 +24,7 @@ namespace WeChat.Example
             Alan.Log.LogContainerImplement.LogUtils.Current.InjectLogModule(new Alan.Log.ILogImplement.LogAutoSeperateFiles(100 * 1024, System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/wechat.log")));
 
             WeChat.Core.Utils.FluentConfig.Get()
-                .Inject(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config.json")) //注入JSON文件的形式传入配置信息
+                .Inject(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Config-Clever.json")) //注入JSON文件的形式传入配置信息
                 .Inject(middleware =>
                 {
                     //记录请求数据
@@ -176,22 +176,6 @@ namespace WeChat.Example
                     MsgType = Configurations.Current.MessageType.Text
                 });
 
-            var nearBy = new WeChat.Core.Api.Nearby.ApplyFor(new Core.Api.Nearby.Models.ApplyForModel
-            {
-                apply_reason = "this is reason",
-                email = "hello@qq.com",
-                industry_id = "0101",
-                name = "Alan",
-                phone_number = "12345678901",
-                //qualification_cert_urls = "empty"
-            });
-            var response = nearBy.Submit();
-            if (!response.IsSuccess)
-            {
-                var error = response.ErrMsg;
-            }
-
-            WeChat.Core.Api.ContentsManage.UploadMedia.Upload(File.ReadAllBytes("cert file full path"), "image", "cert");
         }
 
         protected void Session_Start(object sender, EventArgs e)
