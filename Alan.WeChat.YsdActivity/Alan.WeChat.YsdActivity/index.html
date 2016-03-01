@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>WeChat Develop</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <form enctype="multipart/form-data" method="post" action="">
+        <input type="file" value="" name="hello" />
+        <input type="submit" value="Submit" />
+    </form>
+
+    <script>
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/web.hub?signature=1062518d8f96d5a8cfd97ebc0bd0d8d7da29da55&timestamp=1454575512&nonce=23154618");
+        xhr.setRequestHeader("Content-Type", "application/xml");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.write(xhr.responseText);
+            }
+        };
+        var data = "<xml><ToUserName><![CDATA[gh_f46e90582bc8]]></ToUserName> <FromUserName><![CDATA[oGiUGtzodk2b0kdeWo23C8PzMEoI]]></FromUserName> <CreateTime>1456760637</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[投票12号]]></Content> <MsgId>6256739294418631880</MsgId> </xml>";
+        xhr.send(data);
+
+    </script>
+</body>
+</html>
