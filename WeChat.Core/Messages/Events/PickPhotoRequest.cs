@@ -36,6 +36,8 @@ namespace WeChat.Core.Messages.Events
         /// 图片列表
         /// </summary>
         public List<PicListModel> PicList { get; set; }
+
+
         public class PicListModel
         {
             public ItemModel item { get; set; }

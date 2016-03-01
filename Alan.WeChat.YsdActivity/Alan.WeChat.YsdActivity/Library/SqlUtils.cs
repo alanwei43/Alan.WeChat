@@ -15,7 +15,7 @@ namespace WeChat.YsdActivity.Library
         private static string _SqlConnection;
         public static void Init()
         {
-            var configFilePath = HostingEnvironment.MapPath("~/App_Data/Config-Yupen.json");
+            var configFilePath = HostingEnvironment.MapPath("~/App_Data/Config.json");
             var configJson = File.ReadAllText(configFilePath);
             dynamic jObj = Newtonsoft.Json.Linq.JObject.Parse(configJson);
             var sqlCnString = (string)jObj.SqlConnection;
