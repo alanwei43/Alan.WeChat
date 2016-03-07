@@ -49,4 +49,5 @@ namespace WeChat.Example.Library
             }
         }
     }
+
 }
