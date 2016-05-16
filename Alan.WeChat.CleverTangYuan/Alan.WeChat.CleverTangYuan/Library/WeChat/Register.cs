@@ -22,11 +22,7 @@ namespace Alan.WeChat.CleverTangYuan.Library.WeChat
                 .InjectPre(middle =>
                 {
                     LogUtils.Current.LogDebug(category: "/WeChat/Register", message: middle.Input.RawRequest);
-                    var txtReq = middle.Input.GetRequestModel<TextRequest>();
-                    if (txtReq != null)
-                    {
-                        LogUtils.Current.LogDebug(message: "text request content: " + txtReq.Content, category: "/WeChat/Register");
-                    }
+                   
 
                     Models.WeChatUser checkUser = new Models.WeChatUser()
                     {
@@ -38,9 +34,27 @@ namespace Alan.WeChat.CleverTangYuan.Library.WeChat
                 {
                     LogUtils.Current.LogDebug(message: "match query");
                     var model = new Models.WeChatUserRecord();
-                    var response = model.Query(req.FromUserName, 0, 50).ToTextResponse();
+                    var response = model.Query(req.FromUserName, 0, 5).ToTextResponse();
                     LogUtils.Current.LogDebug(message: "match query: " + response.ExToJson());
                     return response;
+                })
+                .InjectTxt(req => req.Content == "help", req =>
+                {
+                    var helpPath = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/wechat.help.txt");
+                    var help = System.IO.File.ReadAllText(helpPath);
+                    return new TextResponse
+                    {
+                        Content = help,
+                        MsgType = Configurations.Current.MessageType.Text
+                    };
+                })
+                .InjectTxt(req => System.Text.RegularExpressions.Regex.IsMatch(req.Content, @"^query \d+$"), req =>
+                {
+                    var groups = System.Text.RegularExpressions.Regex.Match(req.Content, @"^query (\d+)$");
+                    var take = groups.Groups[1].Value.ExToInt();
+
+                    var model = new Models.WeChatUserRecord();
+                    return model.Query(req.FromUserName, 0, take).ToTextResponse();
                 })
                 .InjectTxt(req => System.Text.RegularExpressions.Regex.IsMatch(req.Content, @"^query \d+ \d+$"), req =>
                 {
@@ -54,7 +68,7 @@ namespace Alan.WeChat.CleverTangYuan.Library.WeChat
                 })
                 .InjectTxt(where: (req, middle) => System.Text.RegularExpressions.Regex.IsMatch(req.Content, @"^query .+$"), setResponse: (req, middle) =>
                 {
-                    if (middle.SetedResponse) return;
+                    if (middle.SetedResponse) return middle.GetNullResponseModel();
 
                     var match = System.Text.RegularExpressions.Regex.Match(req.Content, @"^query (.+)$");
                     var keywords = match.Groups[1].Value;
@@ -77,6 +91,16 @@ namespace Alan.WeChat.CleverTangYuan.Library.WeChat
                         Content = record.Content,
                         MsgType = Configurations.Current.MessageType.Text
                     });
+                })
+                .InjectEvent(where: evt => evt.Event == Configurations.Current.EventType.Subscribe, setResponse: evt =>
+                {
+                    var helpPath = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/wechat.help.txt");
+                    var help = System.IO.File.ReadAllText(helpPath);
+                    return new TextResponse
+                    {
+                        Content = help,
+                        MsgType = Configurations.Current.MessageType.Text
+                    };
                 })
                 .InjectEnd(middle =>
                 {

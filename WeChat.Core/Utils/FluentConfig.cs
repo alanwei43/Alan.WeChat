@@ -411,7 +411,7 @@ namespace WeChat.Core.Utils
             {
                 if (where(req))
                 {
-                    setResponse(req);
+                    middleware.SetResponseModel(setResponse(req));
                 }
             });
         }
@@ -425,7 +425,7 @@ namespace WeChat.Core.Utils
             {
                 if (where(req, middleware))
                 {
-                    setResponse(req);
+                    middleware.SetResponseModel(setResponse(req));
                 }
             });
         }
