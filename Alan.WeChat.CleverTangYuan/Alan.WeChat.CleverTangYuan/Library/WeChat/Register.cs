@@ -88,7 +88,7 @@ namespace Alan.WeChat.CleverTangYuan.Library.WeChat
 
                     middle.SetResponseModel(new TextResponse()
                     {
-                        Content = record.Content,
+                        Content = "Todo创建成功",
                         MsgType = Configurations.Current.MessageType.Text
                     });
                 })

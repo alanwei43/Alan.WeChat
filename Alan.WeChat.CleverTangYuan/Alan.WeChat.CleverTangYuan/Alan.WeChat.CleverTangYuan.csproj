@@ -78,8 +78,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WeChat.Core, Version=1.3.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Alan.WeChat.1.3.8.0\lib\net45\WeChat.Core.dll</HintPath>
+    <Reference Include="WeChat.Core, Version=1.3.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Alan.WeChat.1.3.9.0\lib\net45\WeChat.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
