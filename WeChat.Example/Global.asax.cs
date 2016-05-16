@@ -28,7 +28,7 @@ namespace WeChat.Example
                 .Inject(middleware =>
                 {
                     //记录请求数据
-                    LogUtils.Current.LogWithId(category: "/Message/Request/Data", note: middleware.Input.Request);
+                    LogUtils.Current.LogWithId(category: "/Message/Request/Data", note: middleware.Input.RawRequest);
                 })
                 .InjectEnd(middleware =>
                 {

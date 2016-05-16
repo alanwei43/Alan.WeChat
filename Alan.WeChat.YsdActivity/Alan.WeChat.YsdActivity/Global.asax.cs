@@ -15,6 +15,8 @@ using WeChat.YsdActivity.Library.ExUtils;
 using WeChat.YsdActivity.Library;
 using WeChat.YsdActivity.Models;
 using Dapper;
+using WeChat.Core.Messages.Events;
+using WeChat.Core.Messages.Middlewares;
 
 namespace WeChat.YsdActivity
 {
@@ -23,7 +25,7 @@ namespace WeChat.YsdActivity
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            var configFilePath = HostingEnvironment.MapPath("~/App_Data/Config-Yupen.json");
+            var configFilePath = HostingEnvironment.MapPath("~/App_Data/Config.json");
 
             Alan.Log.LogContainerImplement.LogUtils.Current.InjectLogModule(new Alan.Log.Bmob.LogBmob("Logs", "b61048de9001d146307bdd704e87c59b", "fa1198d5867bdce5799a813c2933f420"));
 
@@ -39,9 +41,17 @@ namespace WeChat.YsdActivity
                   LogUtils.Current.LogInfo(id: Guid.NewGuid().ToString(), date: DateTime.Now, category: "request", request: req.Input.Request);
               })
 
-              .Inject(req =>
+              .InjectEnd(req =>
               {
                   LogUtils.Current.LogInfo(id: Guid.NewGuid().ToString(), date: DateTime.Now, category: "response", response: req.GetResponse());
+              })
+              .Inject((EventBase req, MiddlewareParameter middleware) =>
+              {
+                  if (req.Event == "pic_sysphoto")
+                  {
+                      var pickPhoto = middleware.Input.GetRequestModel<PickPhotoRequest>();
+                      if (pickPhoto == null) return;
+                  }
               })
 
               .InjectVoice((req, middleware) =>
@@ -62,9 +72,10 @@ namespace WeChat.YsdActivity
                     using (var connection = SqlUtils.GetConnection())
                     {
                         var players = connection.Query<Player>("select p.*, (select COUNT(*) from Votes where PlayerId = p.Id) as VotedCount from Players p ").OrderByDescending(p => p.VotedCount);
+                        var content = "编号 / 姓名 / 票数" + Environment.NewLine;
                         return new TextResponse
                         {
-                            Content = String.Join(Environment.NewLine, players.Select(p => String.Format("投票编号: {0}, 姓名: {1}({2}), 已获得投票: {3}", p.Id, p.Name, p.WeChatOpenId, p.VotedCount))),
+                            Content = content + String.Join(Environment.NewLine, players.Select(p => String.Format("{0} / {1} / {2}", p.Id, p.Name, p.VotedCount))),
                             MsgType = Configurations.Current.MessageType.Text
                         };
                     }
@@ -74,9 +85,10 @@ namespace WeChat.YsdActivity
                     using (var connection = SqlUtils.GetConnection())
                     {
                         var players = connection.Query<Player>("select p.*, (select COUNT(*) from Votes where PlayerId = p.Id) as VotedCount from Players p ");
+                        var content = "编号 / 姓名 / 票数" + Environment.NewLine;
                         return new TextResponse
                         {
-                            Content = String.Join(Environment.NewLine, players.Select(p => String.Format("投票编号: {0}, 姓名: {1}({2}), 已获得投票: {3}", p.Id, p.Name, p.WeChatOpenId, p.VotedCount))),
+                            Content = content + String.Join(Environment.NewLine, players.Select(p => String.Format("{0} / {1} / {2}", p.Id, p.Name, p.VotedCount))),
                             MsgType = Configurations.Current.MessageType.Text
                         };
                     }
@@ -151,21 +163,45 @@ namespace WeChat.YsdActivity
                       MsgType = Configurations.Current.MessageType.Text
                   };
               })
-              .InjectClick(where: click => click.EventKey == "selfie", setResponse: req =>
-              {
-                  return null;
-              })
+              .InjectVoice(where: req => req.Recognition.StartsWith("我的信息"), setResponse: req =>
+                {
+                    //return new NewsResponse
+                    //{
+                    //    Articles = new List<NewsResponse.ArticleItem>
+                    //     {
+                    //          new NewsResponse.ArticleItem
+                    //          {
+                    //               Description = "",
+                    //                Title = "Alan",
+                    //                 PicUrl = "",
+                    //                  Url=""
+                    //          }
+                    //     }
+                    //}
+
+                    var count = SqlUtils.GetConnection().ExecuteScalar<string>("select count(*) from Votes where PalyerId = (select Id from Players where WeChatOpenId = @openId)", new { openId = req.FromUserName });
+
+                    return new TextResponse
+                    {
+                        Content = "你的投票数是: " + count,
+                        MsgType = Configurations.Current.MessageType.Text
+                    };
+                })
               .InjectImg(where: req => true, setResponse: req =>
               {
                   var response = HttpUtils.Get(req.PicUrl, null, "GET").DownloadFile();
                   var filePath = HostingEnvironment.MapPath("~/Contents/Avatars/" + response.Item1);
                   File.WriteAllBytes(filePath, response.Item2);
 
+                  var weChatUser = WeChat.Core.Api.WeChatUserInfo.Get(req.FromUserName);
+
                   var player = new Player
                   {
                       Avatar = filePath,
-                      Name = req.FromUserName,
+                      Name = weChatUser.NickName,
                       WeChatOpenId = req.FromUserName,
+                      WeChatAvatar = weChatUser.HeadImgUrl,
+                      WeChatName = weChatUser.NickName
                   };
                   player.Insert();
 

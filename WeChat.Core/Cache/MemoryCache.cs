@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Alan.Log.LogContainerImplement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Alan.Log.Core;
+using Alan.Utils.ExtensionMethods;
 
 namespace WeChat.Core.Cache
 {
@@ -40,15 +43,11 @@ namespace WeChat.Core.Cache
 
         public void Add(string key, object value, DateTime expire)
         {
+
             if (expire == default(DateTime)) return;
 
             var cache = new CacheObj<object> { Expire = expire, Value = value };
-            if (_dict.ContainsKey(key))
-            {
-                _dict[key] = cache;
-            }
-
-            _dict.Add(key, cache);
+            _dict[key] = cache;
         }
 
         public object Get(string key)

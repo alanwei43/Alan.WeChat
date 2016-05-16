@@ -31,16 +31,16 @@
     <DocumentationFile>bin\Release\WeChat.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Alan.Log, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Alan.Log.1.2.4\lib\net40\Alan.Log.dll</HintPath>
+    <Reference Include="Alan.Log, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Alan.Log.1.4.2\lib\net40\Alan.Log.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Alan.Utils, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Alan.Utils.1.1.4.0\lib\net40\Alan.Utils.dll</HintPath>
+    <Reference Include="Alan.Utils, Version=1.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Alan.Utils.1.1.7.0\lib\net40\Alan.Utils.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -125,6 +125,7 @@
     <Compile Include="Messages\Normal\NewsResponse.cs" />
     <Compile Include="Messages\Normal\NormalBase.cs" />
     <Compile Include="Messages\Normal\LocationRequest.cs" />
+    <Compile Include="Messages\NullResponseBase.cs" />
     <Compile Include="Messages\RequestBase.cs" />
     <Compile Include="Messages\ResponseBase.cs" />
     <Compile Include="Messages\Normal\TextRequest.cs" />
@@ -137,9 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="EncryptDecrypt\Readme.txt" />

@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <script>
+        var xml = "<xml><ToUserName><![CDATA[gh_f46e90582bc8]]></ToUserName> <FromUserName><![CDATA[oGiUGtzodk2b0kdeWo23C8PzMEoI]]></FromUserName> <CreateTime>1463406177</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[query 0 2]]></Content> <MsgId>6285281671388986998</MsgId> </xml>";
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/web.hub?signature=d4f96e4494d2d63bc1495f23615400efe0e8644a&timestamp=1463284380&nonce=1807090702.");
+        xhr.onreadystatechange = function () { };
+        xhr.send(xml);
+    </script>
+</body>
+</html>

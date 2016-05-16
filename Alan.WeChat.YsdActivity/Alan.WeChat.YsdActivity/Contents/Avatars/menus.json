@@ -1,0 +1,14 @@
+﻿{
+  "button": [
+    {
+      "name": "摄影大赛",
+      "type": "click",
+      "key": "photographer"
+    },
+    {
+      "type": "pic_sysphoto",
+      "name": "自拍上传",
+      "key": "selfie"
+    }
+  ]
+}

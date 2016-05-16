@@ -7,7 +7,7 @@ namespace WeChat.Core.Messages.Middlewares
         /// <summary>
         /// 原始请求输入
         /// </summary>
-        public string Request { get; private set; }
+        public string RawRequest { get; private set; }
 
         /// <summary>
         /// 请求类型
@@ -16,7 +16,7 @@ namespace WeChat.Core.Messages.Middlewares
 
         public MiddlewareInput(string req, RequestBase model)
         {
-            this.Request = req;
+            this.RawRequest = req;
             this.RequestBaseModel = model;
         }
 
@@ -28,7 +28,7 @@ namespace WeChat.Core.Messages.Middlewares
         public T GetRequestModel<T>()
             where T : RequestBase
         {
-            var model = this.Request.ExXmlToEntity<T>();
+            var model = this.RawRequest.ExXmlToEntity<T>();
             if (model != null)
             {
                 model.Signature = this.RequestBaseModel.Signature;

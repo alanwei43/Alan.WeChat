@@ -59,7 +59,8 @@ namespace WeChat.Core.Api.Models
         protected string RequestAsString()
         {
             var bytes = this.Request(null);
-            return Encoding.UTF8.GetString(bytes);
+            var response = Encoding.UTF8.GetString(bytes);
+            return response;
         }
 
         protected async Task<string> RequestAsStringAsync()
@@ -70,7 +71,8 @@ namespace WeChat.Core.Api.Models
 
         protected byte[] Request(Action<Func<string, string>> getHeaders)
         {
-            WebRequest req = WebRequest.Create(this.GetApiUrl());
+            var url = this.GetApiUrl();
+            WebRequest req = WebRequest.Create(url);
 
             if (this.ReqMethod.ToUpper() == "POST")
             {

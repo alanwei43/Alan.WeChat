@@ -76,6 +76,8 @@ namespace WeChat.Core.Messages.Middlewares
         /// <param name="rep"></param>
         public void SetResponseModel(ResponseBase rep)
         {
+            if (rep.IsNullResponseModel()) return;
+
             this.SetItem("/Sys/SetResponse", true);
             this.SetItem("/Sys/SetResponseItemCount", this.GetItem<int>("/Sys/SetResponseCount") + 1);
 
@@ -101,6 +103,29 @@ namespace WeChat.Core.Messages.Middlewares
                 return items.Item2;
             }
             return this.Output.Response;
+        }
+
+        /// <summary>
+        /// 获取输出模型
+        /// </summary>
+        /// <returns></returns>
+        public ResponseBase GetResponseModel()
+        {
+            if (this.Output.ResponseModel != null)
+            {
+                this.Output.ResponseModel.ToUserName = this.Input.RequestBaseModel.FromUserName;
+                this.Output.ResponseModel.FromUserName = this.Input.RequestBaseModel.ToUserName;
+            }
+            return this.Output.ResponseModel;
+        }
+
+        /// <summary>
+        /// 获取一个NullResponseBase实例
+        /// </summary>
+        /// <returns></returns>
+        public NullResponseBase GetNullResponseModel()
+        {
+            return ResponseBase.GetNullResponseModel();
         }
     }
 }

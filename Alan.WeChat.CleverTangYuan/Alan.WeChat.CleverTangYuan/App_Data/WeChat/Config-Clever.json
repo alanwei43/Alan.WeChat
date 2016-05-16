@@ -1,0 +1,7 @@
+﻿{
+  "Token": "fishlove",
+  "AESKey": "xtsnuH8JtdiZHu4PNgJHtGNxiI7PUVh1rWByQQ6w7Wb",
+  "AppId": "wx40a4bfda4be2bee7",
+  "AppSecret": "c6571b98015530bbca4d895fd08a4656",
+  "SqlConnection": "server=219.143.6.74;uid=sa;pwd=huao@888;database=WeChatDevelop;"
+}
